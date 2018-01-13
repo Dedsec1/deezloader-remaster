@@ -1,0 +1,73 @@
+Version 3.0.0
+- Added Vorbis comments(To support FLAC tagging)
+- Added HIFI(FLAC) quality (Opt-IN in settings)
+- Updated http to https
+- Updated all libraries to their latest version
+- Fixed random crash when searching
+- Fixed the track info grabber(Downloading was not possible)
+- Fixed artist duplicate in tagging
+- Changed the default artwork size to 1200p
+- Changed config location to UserData folder(Appdata)
+Version 2.3.1
+- Fixed the %number% variable to only list the current track
+- Fixed the resolution for users with a screensize less than 1400x900p
+- Fixed folder/file creation name for windows (...again...)
+- Fixed explicit tooltip
+- Added more logging
+- Added progress bar support for artists
+- Added a checkbox to select everything in album/playlist-modal
+- Added tooltip for supported naming patterns
+- Added an option to select a different artwork size. (500p, 800p(default), 1000p, 1200p)
+- Enhanced tagging, now all artists are written to the 'artist'-field
+
+Version 2.3.0
+- Fixed app refusing to start when some folders are missing
+- Fixed playlist file not containing the correct file names
+- Fixed folders with a dot at the end resulting in undeletable file
+- Fixed the progress bar for albums and playlists
+- Relocated explicit icon to the front of the filename
+- Added more explicit icons in album-/playlist- and artist-modal
+- Added a new feature which allow the user to only download selected song from an album or playlist
+
+Version 2.2.1
+- Fixed settings module (sigh ... again)
+- Fixed issue related to folders that have special chars
+
+Version 2.2.0
+- Fixed settings panel, all settings should work as expected now
+- Fixed writing location of config.json
+- Fixed crashing when searching for cyrillic characters, it should work fine now
+- Moved the folder for cover arts to the temp folder of the system
+- Added icon for explicit songs
+- The window size and position are now remembered
+- The "Scroll to top" button works again
+- Fixed problem with folders that contain dots and other symbols
+- A bunch of refactoring thanks to Blind-Mute
+- Fixed cover art not embedding on OSX
+- Minor performance improvements
+
+Version 2.1.2
+- Fixed Deezer API connection
+- Fixed tracks metadata naming for diacritics text
+- Added custom location for downloads settings
+
+Version 2.1.1
+- Added context menu
+- Corrected some spelling mistakes
+- Fixed crash when searching with special characters like Æ, Ø and Å.
+
+Version 2.1.0
+- Updated all libraries to their latest version (this should fix issues with newer node versions)
+- Updated the design of the app, checked spelling and added responsive so it can be better used on a mobile browser.
+- Fixed small bug with overlapping texts in settings modal
+- Fixed clear button in the downloads section not working
+- Added error logging
+
+Version 2.0.3
+- Removed the updater to stop spamming the domain of the original author
+- Removed character fixing in metadata that would result in AC/DC being turned to AC_DC.
+- Fixed the Artist's album list not being loaded. Now it loads and has the option to download the album.
+- Changed the default country in top charts to UK instead of Germany (not a feature, just a thing I did when I was
+tinkering with the code and forgot to change)
+- Fixed compatibility issues with Node v6 (works on older versions too, but there might be problems with downloading
+the cover art, so please update to v6 if you can)

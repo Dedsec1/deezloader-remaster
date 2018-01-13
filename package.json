@@ -1,0 +1,26 @@
+{
+	"license": "CC-BY-NC-SA-4.0",
+	"devDependencies": {
+		"electron": "latest",
+		"electron-builder": "latest"
+	},
+	"scripts": {
+		"dist": "electron-builder",
+		"pack": "electron-builder --dir",
+		"postinstall": "electron-builder install-app-deps"
+	},
+	"build": {
+		"appId": "extlrd.DeezLoader",
+		"productName": "DeezLoader",
+		"copyright": "Copyright © 2017 ExtendLord",
+		"asar": false,
+		"win": {
+			"icon": "res/icon.ico"
+		},
+		"nsis": {
+			"oneClick": false,
+			"allowToChangeInstallationDirectory": true,
+			"installerLanguages": "en_US"
+		}
+	}
+}
