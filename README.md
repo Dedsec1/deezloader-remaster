@@ -21,7 +21,7 @@ With this software you can download high-qualiy music and enjoy.
 
 # How to compile
 - Clone the repository
-- Run compile.sh/bat
+- Run compile.sh/bat or run the command 'npm install && npm run dist'
 - Go to dist and you will see the installer and the software folder
 - Have fun(Easy Peasy)
 
