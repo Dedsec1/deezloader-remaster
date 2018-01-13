@@ -3,7 +3,8 @@ DeezLoader Reborn is here to replace the old DeezLoader V2.3.1.<br/>
 With this software you can download high-qualiy music and enjoy.
 
 **Warning: Linux users are required to install 'flac' package in order to download FLAC files(For Tagging)**<br/>
-**Warning: In order to download FLAC quality you need to turn on HIFI in settings.**
+**Warning: In order to download FLAC quality you need to turn on HIFI in settings.**<br/>
+**Please post problems in issues, do not PM me or comment in the reddit post**
 
 # Features
 - Download FLAC/MP3-320 music content from Deezer(FLAC needs to be turned on in the settings 'turn on HIFI')
