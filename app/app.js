@@ -846,9 +846,8 @@ function fixName (input, file) {
 }
 
 function antiDot(str){
-    if(str[str.length-1] == "."){
+    if(str[str.length-1] == "." || str[str.length-1] == " " || str[str.length-1] == "\n"){
         str = str.substring(0,str.length-1);
-        console.log(str);
     }
     return str;
 }

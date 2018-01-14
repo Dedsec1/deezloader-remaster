@@ -167,11 +167,14 @@ Deezer.prototype.getChartsTopCountry = function(callback) {
 Deezer.prototype.getTrack = function(id, callback) {
 	request.get({url: "https://www.deezer.com/us/track/"+id, headers: this.httpHeaders, jar: true}, (function(err, res, body) {
 		var regex = new RegExp(/track: (.*),\n\tindex: 0,/g);
-		if(regex.exec(body) == null){
+		var rexec = regex.exec(body);
+		var _data;
+		try{
+			_data = rexec[1];
+		}catch(e){
 			callback(null, new Error("Unable to get Track"));
 			return;
 		}
-		var _data = regex.exec(body)[1];
 		if(!err && res.statusCode == 200 && typeof JSON.parse(_data).data != 'undefined') {
 			var json = JSON.parse(_data).data[0];
 			var id = json["SNG_ID"];
