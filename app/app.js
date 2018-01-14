@@ -697,8 +697,11 @@ io.sockets.on('connection', function (socket) {
                             });
                             return;
                         }
-
-                        fs.writeFile(writePath+".temp", buffer, function (err) {
+                        var tempPath = writePath;
+                        if(configFile.userDefined.hifi){
+                        	tempPath = writePath+".temp";
+                        }
+                        fs.writeFile(tempPath, buffer, function (err) {
                             if (err) {
                                 console.log("Failed to download: " + metadata.artist + " - " + metadata.title);
                                 callback(err);
@@ -744,7 +747,7 @@ io.sockets.on('connection', function (socket) {
                                 if (0 < parseInt(metadata.year)) {
                                     flacComments.push('DATE=' + metadata.year);
                                 }
-                                const reader = fs.createReadStream(writePath+".temp");
+                                const reader = fs.createReadStream(tempPath);
                                 const writer = fs.createWriteStream(writePath);
                                 let processor = new mflac.Processor({parseMetaDataBlocks: true});
                                 

@@ -1,3 +1,7 @@
+Version 3.0.1
+- Added a couple of tags
+- Fixed minor bugs
+- Removed tag libs, a moudle is used instead
 Version 3.0.0
 - Added Vorbis comments(To support FLAC tagging)
 - Added HIFI(FLAC) quality (Opt-IN in settings)
