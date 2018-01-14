@@ -623,7 +623,6 @@ io.sockets.on('connection', function (socket) {
                     if (track["PHYSICAL_RELEASE_DATE"]) {
                         metadata.year = track["PHYSICAL_RELEASE_DATE"].slice(0, 4);
                     }
-                    console.log(metadata);
                     let filename = `${metadata.artist} - ${metadata.title}`;
                     if (settings.filename) {
                         filename = settingsRegex(metadata, settings.filename, settings.playlist);
