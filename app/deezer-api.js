@@ -63,6 +63,16 @@ Deezer.prototype.getAlbum = function(id, callback) {
 	});
 }
 
+Deezer.prototype.getATrack = function(id, callback) {
+    getJSON("https://api.deezer.com/track/" + id, function(res){
+        if (!(res instanceof Error)){
+            callback(res);
+        } else {
+            callback(null, res)
+        }
+	});
+}
+
 Deezer.prototype.getArtist = function(id, callback) {
     getJSON("https://api.deezer.com/artist/" + id, function(res){
         if (!(res instanceof Error)){
