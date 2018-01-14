@@ -193,7 +193,7 @@ io.sockets.on('connection', function (socket) {
                 downloading.playlistContent = tracks.data.map((t) => {
                     return t.id
                 });
-                downloading.settings.addToPath = downloading.name;
+                downloading.settings.addToPath = antiDot(downloading.name);
                 async.eachSeries(downloading.playlistContent, function (id, callback) {
                     if (downloading.cancelFlag) {
                         callback("stop");
@@ -233,7 +233,7 @@ io.sockets.on('connection', function (socket) {
                     return t.id
                 });
                 downloading.settings.tagPosition = true;
-                downloading.settings.addToPath = downloading.artist + " - " + downloading.name;
+                downloading.settings.addToPath = downloading.artist + " - " + antiDot(downloading.name);
                 async.eachSeries(downloading.playlistContent, function (id, callback) {
                     if (downloading.cancelFlag) {
                         callback("stop");
@@ -846,6 +846,14 @@ function fixName (input, file) {
   return removeDiacritics(input.replace(regEx, '_'));
 }
 
+function antiDot(str){
+    if(str[str.length-1] == "."){
+        str = str.substring(0,str.length-1);
+        console.log(str);
+    }
+    return str;
+}
+
 /**
  * Removes diacritics, obviously
  * @param str
@@ -1070,6 +1078,7 @@ function settingsRegex(metadata, filename, playlist) {
     filename = filename.replace(/%title%/g, metadata.title);
     filename = filename.replace(/%album%/g, metadata.album);
     filename = filename.replace(/%artist%/g, metadata.artist);
+    filename = filename.replace(/%year%/g, metadata.year);
     if(typeof metadata.trackNumber != 'undefined'){
         filename = filename.replace(/%number%/g, splitNumber(metadata.trackNumber));
     } else {
