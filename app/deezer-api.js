@@ -232,7 +232,7 @@ Deezer.prototype.hasTrackAlternative = function(id, callback) {
 				return;
 			}
 			if(!json.alternative) {
-				callback(false, null);
+				callback(null, new Error("Issues when downloading: " + id), false);
 				return;
 			}
 			callback(json.alternative);
