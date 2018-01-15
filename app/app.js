@@ -732,7 +732,6 @@ io.sockets.on('connection', function (socket) {
                                 let flacComments = [
                                     'TITLE=' + metadata.title,
                                     'ALBUM=' + metadata.album,
-                                    'GENRE=' + metadata.genre,
                                     'PERFORMER=' + metadata.performerInfo,
                                     'ALBUMARTIST=' + metadata.performerInfo,
                                     'ARTIST=' + metadata.artist,
@@ -743,6 +742,9 @@ io.sockets.on('connection', function (socket) {
                                     'ISRC=' + metadata.ISRC,
                                     'ITUNESADVISORY=' + metadata.explicit
                                 ];
+                                if(metadata.genre){
+                                    flacComments.push('GENRE=' + metadata.genre);
+                                }
                                 if (0 < parseInt(metadata.year)) {
                                     flacComments.push('DATE=' + metadata.year);
                                 }
@@ -846,8 +848,11 @@ function fixName (input, file) {
 }
 
 function antiDot(str){
-    if(str[str.length-1] == "." || str[str.length-1] == " " || str[str.length-1] == "\n"){
+    while(str[str.length-1] == "." || str[str.length-1] == " " || str[str.length-1] == "\n"){
         str = str.substring(0,str.length-1);
+    }
+    if(str.length < 1){
+        str = "dot";
     }
     return str;
 }
