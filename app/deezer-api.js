@@ -308,31 +308,30 @@ function decryptDownload(source, track) {
 	var chunk_size = 2048;
 	var part_size = 0x1800;
 	var blowFishKey = getBlowFishKey(track["SNG_ID"]);
-	var readTotal = 0;
 	var i = 0;
-	var read = 0;
 	var position = 0;
-	var first = true;
 
 	var destBuffer = new Buffer(source.length);
 	destBuffer.fill(0);
 
-	while(position <= source.length) {
-		var chunk = new Buffer(chunk_size)
+	while(position < source.length) {
+		var chunk;
+		if ((source.length - position) >= 2048) {
+			chunk_size = 2048;
+		} else {
+			chunk_size = source.length - position;
+		}
+		chunk = new Buffer(chunk_size);
 		chunk.fill(0);
 		source.copy(chunk, 0, position, position + chunk_size);
-		if(i % interval_chunk == 0) {
+		if (i % interval_chunk == 0 && chunk_size == 2048) {
 			var cipher = crypto.createDecipheriv('bf-cbc', blowFishKey, new Buffer([0, 1, 2, 3, 4, 5, 6, 7]));
 			cipher.setAutoPadding(false);
 			chunk = cipher.update(chunk, 'binary', 'binary') + cipher.final();
 		}
-		if(first) {
-			first = false;
-		}
 		destBuffer.write(chunk.toString("binary"), position, 'binary');
 		position += chunk_size
 		i++;
-		readTotal += position;
 	}
 	return destBuffer;
 }
