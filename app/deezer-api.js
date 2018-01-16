@@ -10,6 +10,12 @@ module.exports = new Deezer();
 let configFile = require(app.getPath("userData")+path.sep+"config.json");
 
 function Deezer() {
+	this.apiUrl = "http://www.deezer.com/ajax/gw-light.php";
+	this.apiQueries = {
+		api_version: "1.0",
+		api_token: "null",
+		input: "3"
+	};
 	this.httpHeaders = {
 		"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.75 Safari/537.36",
 		"Content-Language": "en-US",
@@ -27,17 +33,31 @@ function Deezer() {
 		big: "/1200x1200.jpg"
 	}
 	this.reqStream = null;
+	this.login = {
+    	type:     'login',
+    	mail:     'dipeduhowi@mail4-us.org',
+    	password: 'dipeduhowi@mail4-us.org'
+	};
 }
 
 Deezer.prototype.init = function(callback) {
 	var self = this;
-	request.get({url: "https://www.deezer.com/", headers: this.httpHeaders, jar: true}, (function(err, res, body) {
-		if(!err && res.statusCode == 200) {
-			callback(null, null);
-		} else {
-			callback(null, new Error("Unable to connect to deezer"));
-		}
-	}).bind(this));
+	request.post({url: "https://www.deezer.com/ajax/action.php", headers: this.httpHeaders, form: this.login, jar: true}, (function(err, res, body) {
+		request.get({url: "https://www.deezer.com/", headers: this.httpHeaders, jar: true}, (function(err, res, body) {
+			if(!err && res.statusCode == 200) {
+				var regex = new RegExp(/checkForm\s*=\s*[\"|'](.*)[\"|']/g);
+				var _token = regex.exec(body);
+				if(_token instanceof Array && _token[1]) {
+					self.apiQueries.api_token = _token[1];
+					callback(null, null);
+				} else {
+					callback(null, new Error("Unable to initialize Deezer API"));
+				}
+			} else {
+				callback(null, new Error("Unable to load deezer.com"));
+			}
+		}).bind(self));
+	}));
 }
 
 
@@ -165,18 +185,13 @@ Deezer.prototype.getChartsTopCountry = function(callback) {
 }
 
 Deezer.prototype.getTrack = function(id, callback) {
-	request.get({url: "https://www.deezer.com/us/track/"+id, headers: this.httpHeaders, jar: true}, (function(err, res, body) {
-		var regex = new RegExp(/track: (.*),\n\tindex: 0,/g);
-		var rexec = regex.exec(body);
-		var _data;
-		try{
-			_data = rexec[1];
-		}catch(e){
-			callback(null, new Error("Unable to get Track"));
-			return;
-		}
-		if(!err && res.statusCode == 200 && typeof JSON.parse(_data).data != 'undefined') {
-			var json = JSON.parse(_data).data[0];
+	request.post({url: this.apiUrl, headers: this.httpHeaders, qs: this.apiQueries, body: "[{\"method\":\"song.getListData\",\"params\":{\"sng_ids\":[" + id + "]}}]", jar: true}, (function(err, res, body) {
+		if(!err && res.statusCode == 200) {
+			var json = JSON.parse(body)[0].results.data[0];
+			if(json["TOKEN"]) {
+				callback(new Error("Uploaded Files are currently not supported"));
+				return;
+			}
 			var id = json["SNG_ID"];
 			var md5Origin = json["MD5_ORIGIN"];
 			var format;

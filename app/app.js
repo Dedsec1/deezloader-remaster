@@ -592,6 +592,10 @@ io.sockets.on('connection', function (socket) {
             }
 
             Deezer.getAlbum(track["ALB_ID"], function(res){
+                if(!res){
+                    callback(new Error("Album does not exists."));
+                    return;
+                }
                 Deezer.getATrack(res.tracks.data[res.tracks.data.length - 1].id, function(tres){
                     track.trackSocket = socket;
 
