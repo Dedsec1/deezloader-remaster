@@ -72,30 +72,20 @@ app.use('/', express.static(__dirname + '/public/'));
 server.listen(configFile.serverPort);
 console.log('Server is running @ localhost:' + configFile.serverPort);
 
-// Deezer API init START
-let DeezerAPIconnected = false; // The magic let
-
-magicInterval(function (interval) {
-    console.log('Attempting connection to API');
-    Deezer.init(function (err) {
-        if (!err) {
-            DeezerAPIconnected = true;
-            clearInterval(interval);
-        } else {
-            winston.log('error', 'error', err);
-        }
-    });
-}, 1000, triesToConnect);
-// END
-
 // START sockets clusterfuck
 io.sockets.on('connection', function (socket) {
     socket.downloadQueue = [];
     socket.currentItem = null;
     socket.lastQueueId = null;
 
-    socket.on("checkInit", function () {
-        socket.emit("checkInit", {status: DeezerAPIconnected});
+    socket.on("checkInit", function (username, password) {
+        Deezer.init(username, password, function (err) {
+            if(err){
+                socket.emit("checkInit", err.message);
+            }else{
+                socket.emit("checkInit", "");
+            }
+        });
     });
 
     Deezer.onDownloadProgress = function (track, progress) {
@@ -616,6 +606,9 @@ io.sockets.on('connection', function (socket) {
                         duration: track["DURATION"],
                         explicit: track["EXPLICIT_LYRICS"]
                     };
+                    if (0 < parseInt(track["BPM"])) {
+                        metadata.bpm = track["BPM"];
+                    }
                     if(ajson.genres && ajson.genres.data[0] && ajson.genres.data[0].name){
                         metadata.genre = ajson.genres.data[0].name;
                     }
@@ -751,6 +744,9 @@ io.sockets.on('connection', function (socket) {
                                 }
                                 if (0 < parseInt(metadata.year)) {
                                     flacComments.push('DATE=' + metadata.year);
+                                }
+                                if (0 < parseInt(metadata.bpm)) {
+                                    flacComments.push('BPM=' + metadata.bpm);
                                 }
                                 const reader = fs.createReadStream(tempPath);
                                 const writer = fs.createWriteStream(writePath);

@@ -33,30 +33,29 @@ function Deezer() {
 		big: "/1200x1200.jpg"
 	}
 	this.reqStream = null;
-	this.login = {
-    	type:     'login',
-    	mail:     'dipeduhowi@mail4-us.org',
-    	password: 'dipeduhowi@mail4-us.org'
-	};
 }
 
-Deezer.prototype.init = function(callback) {
+Deezer.prototype.init = function(username, password, callback) {
 	var self = this;
-	request.post({url: "https://www.deezer.com/ajax/action.php", headers: this.httpHeaders, form: this.login, jar: true}, (function(err, res, body) {
-		request.get({url: "https://www.deezer.com/", headers: this.httpHeaders, jar: true}, (function(err, res, body) {
-			if(!err && res.statusCode == 200) {
-				var regex = new RegExp(/checkForm\s*=\s*[\"|'](.*)[\"|']/g);
-				var _token = regex.exec(body);
-				if(_token instanceof Array && _token[1]) {
-					self.apiQueries.api_token = _token[1];
-					callback(null, null);
+	request.post({url: "https://www.deezer.com/ajax/action.php", headers: this.httpHeaders, form: {type:'login',mail:username,password:password}, jar: true}, (function(err, res, body) {
+		if(body != "error") {
+			request.get({url: "https://www.deezer.com/", headers: this.httpHeaders, jar: true}, (function(err, res, body) {
+				if(!err && res.statusCode == 200) {
+					var regex = new RegExp(/checkForm\s*=\s*[\"|'](.*)[\"|']/g);
+					var _token = regex.exec(body);
+					if(_token instanceof Array && _token[1]) {
+						self.apiQueries.api_token = _token[1];
+						callback(null, null);
+					} else {
+						callback(new Error("Unable to initialize Deezer API"));
+					}
 				} else {
-					callback(null, new Error("Unable to initialize Deezer API"));
+					callback(new Error("Unable to load deezer.com"));
 				}
-			} else {
-				callback(null, new Error("Unable to load deezer.com"));
-			}
-		}).bind(self));
+			}).bind(self));
+		}else{
+			callback(new Error("Incorrect username or password."));
+		}
 	}));
 }
 

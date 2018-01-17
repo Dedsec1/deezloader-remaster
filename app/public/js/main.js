@@ -8,33 +8,26 @@ const defaultDownloadLocation = mainApp.defaultDownloadDir;
 const triesToConnect = mainApp.triesToConnect;
 let userSettings = [];
 
-// Ping the server to check on the API each second
-let initInterval = setInterval(function () {
-  socket.emit("checkInit");
-}, 1000);
+//Login button
+$('#modal_login_btn_login').click(function () {
+  $('#modal_login_btn_login').attr("disabled", true);
+  var username = $('#modal_login_input_username').val();
+  var password = $('#modal_login_input_password').val();
+  //Send to the software
+  socket.emit('checkInit', username, password);
+});
 
-// Check the connection
-let initConnectionFails = 0;
-socket.on("checkInit", function (data) {
-  // if all is good proceed on the next screen
-  if (data.status === true) {
+socket.on("checkInit", function (errmsg) {
+  if (errmsg == "") {
     $('#initializing').addClass('animated fadeOut').on('webkitAnimationEnd', function () {
       $(this).css('display', 'none');
     });
-    clearInterval(initInterval);
   }
-
-  // If not ... show a message and a quit button
-  if (data.status === false) {
-    initConnectionFails++;
-    if (initConnectionFails >= triesToConnect){
-      $('#init-text').text('Connection to Deezer API failed! Please try again.');
-      $('#init-preloader').hide();
-
-      $('#initializing .buttons').css('display','inline');
-      clearInterval(initInterval);
-    }
+  else{
+      $('#init-text').text(errmsg);
+      setTimeout(function(){$('#init-text').text("");},1000);
   }
+  $('#modal_login_btn_login').attr("disabled", false);
 });
 
 // Open downloads folder

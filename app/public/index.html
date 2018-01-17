@@ -26,25 +26,35 @@
 <!--*****************************************INITIALIZING-SCREEN****************************************-->
 <!--****************************************************************************************************-->
 <div id="initializing" class="center indigo valign-wrapper">
-  <div class="center-align">
-    <h1 class="white-text" id="init-text">Initializing...</h1>
-    <div class="buttons" style="display: none">
-      <button class="btn btn-large btn-flat red white-text" id="init-quit-btn">Close</button>
+  <div class="modal-content">
+    <div class="row">
+      <h4 class="white-text">Login page</h4>
+      <h5 class="white-text">Please login to your deezer account.</h5>
+      <h6 class="red-text" id="init-text"></h6> 
     </div>
-
-    <div class="preloader-wrapper big active" id="init-preloader">
-      <div class="spinner-layer">
-        <div class="circle-clipper left">
-          <div class="circle"></div>
+    <div class="row">
+        <div class="input-field col s12">
+          <input class="white-text" type="text" id="modal_login_input_username"/>
+          <label for="modal_login_input_username">Username</label>
         </div>
-        <div class="gap-patch">
-          <div class="circle"></div>
+    </div>
+    <div class="row">
+        <div class="input-field col s12">
+          <input class="white-text" type="password" id="modal_login_input_password"/>
+          <label for="modal_login_input_password">Password</label>
         </div>
-        <div class="circle-clipper right">
-          <div class="circle"></div>
-        </div>
+    </div>
+    <div class="row">
+      <a href="#" class="modal-close waves-effect waves-light btn" id="modal_login_btn_login">Log in</a>
+    </div>
+  <footer class="page-footer hide-on-small-and-down" style="width: 100%;bottom:0;position: fixed;left: 0;height: 50px;">
+    <div class="footer-copyright">
+      <div class="container">
+        &copy; Deezloader original code by <a class="white-text" href="https://boerse.to/members/zzmtv.3378614/">ZzMTV</a>.
+        Currently maintained by <a class="white-text" href="https://www.reddit.com/user/ExtendLord/">ExtendLord</a>.
       </div>
     </div>
+  </footer>
   </div>
 </div>
 
