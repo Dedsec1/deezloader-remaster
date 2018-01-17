@@ -14,7 +14,15 @@
 		"productName": "DeezLoader",
 		"copyright": "Copyright © 2017 ExtendLord",
 		"asar": false,
-		"icon": "res/icon.ico",
+		"win":{
+			"icon": "res/icon.ico"
+		},
+		"linux":{
+			"icon": "res/icon.icns"
+		},
+		"mac":{
+			"icon": "res/icon.icns"
+		},
 		"nsis": {
 			"oneClick": false,
 			"allowToChangeInstallationDirectory": true,

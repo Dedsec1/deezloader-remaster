@@ -1,8 +1,9 @@
-# DeezLoader Reborn V3.0.1[Tag Update!!]
+# DeezLoader Reborn V3.0.2[New Update!!]
 DeezLoader Reborn is here to replace the old DeezLoader V2.3.1.<br/>
 With this software you can download high-qualiy music and enjoy.
 
-**News: Mac is supported now!!!**<br/>
+**News: Added login system to fix US problem(Same song downloaded) and fix some songs being unavailable.**<br/>
+**News: Fixed Crashes when downloading unavailable songs.**<br/>
 **In order to download FLAC quality you need to turn on HIFI in settings.**<br/>
 **Please post problems in issues, do not PM me or comment in the reddit post**
 
@@ -10,7 +11,7 @@ With this software you can download high-qualiy music and enjoy.
 - Download FLAC/MP3-320 music content from Deezer(FLAC needs to be turned on in the settings 'turn on HIFI')
 - Search musics
 - Use Deezer links as an alternative for Searching and downloading inside the software
-- Does not requires an account at all
+- Does not requires a premium account(Requires a deezer account)
 - Download multiple musics at a time
 - Download Albums and artists
 - Tagging system on MP3-320 and FLAC
@@ -27,20 +28,18 @@ With this software you can download high-qualiy music and enjoy.
 - Have fun(Easy Peasy)
 
 # Download Links
-- Windows x64: [link](https://mega.nz/#!RAtjUZTR!9QETNF7cw8zDyV_FK-TB2BItNf5SfYXADroNsBSAixA)
-- Windows x86: [link](https://mega.nz/#!gQ1wCKKb!9j2bZiftSl-bwk2kCNFQH_hLlJeQTatOClSik4GOGys)
-- Linux x64: [link](https://mega.nz/#!UdEWRSgI!HOsnhdkkpFT7dqlOh16hgbECmFEXSpeBRVLuIWqQGHo)
-- Linux x86: [link](https://mega.nz/#!8Jl3WYoY!gl8YtSHhRVqgASQBjpU3TpueO9k4vKDyUEnco8lNpx8)
-- Mac x64: [link](https://mega.nz/#!FA9xBJpQ!HdCRQ0Vmrt7gZSUVXpopOWMvxCEPPOiUrHgwW_Tro24)
-- Mac x86: [link](https://mega.nz/#!1ANxAKxR!plHhbh-pVwtI-yAsXe0Z98jYY51BAuFJ5d3jHYwvLHU)
+- Windows x64: [link](https://mega.nz/#!kcli2SJa!4jufk7E9tUhez5vA2ODOdjg2rjt_UMDyc5pTvkFAOvI)
+- Windows x86: [link](https://mega.nz/#!JUlwwIqI!kZLxht5LYKWRhfGjYu6X0j4BOXD8_ILZ8bkulAqcZUw)
+- Linux x64: [link](https://mega.nz/#!RUtWHbyR!_yKyzGPT9VJioL3uy0RrXp2Nl_qI6treX3nDGJXX0Pk)
+- Linux x86: [link](https://mega.nz/#!AZlhUYYT!rtk7_-wAJY-LydZ8NI8TSN7QTNbybmetjI5e6DLM6Es)
+- Mac x64: [link](https://mega.nz/#!gMcGHLCB!JYJWZ-vCkQtLbN21K4vNMMQAHQnCD9dcdfdrUA8Zjl4)
 
 # Virus total
-- Windows x64: [link](https://www.virustotal.com/#/file/7aeaa85c64811f84f66d038fea3a1eb972e22dcd17764ef73c641a1db4a26ad7)
-- Windows x86: [link](https://www.virustotal.com/#/file/f8fe0560f275c4779206a402e5b3351d2b4737a63a72f49474f28b8d915720a3)
-- Linux x64: [link](https://www.virustotal.com/#/file/a80d4c90429d1dc5e339f105b2300f969071f68723be42d33236106a7522744c)
-- Linux x86: [link](https://www.virustotal.com/#/file/96696ff47eb7e017cda5d88585a18d68141edee70fad03f5b6455740bc7bf656)
-- Mac x64: [link](https://www.virustotal.com/#/file/c4c525236ff0b87b5ac5b46cd4114c2d73d3e2ef7e9a42d18336a9a1f2708dff)
-- Mac x86: [link](https://www.virustotal.com/#/file/e8c203fc33dcff60528c27cd7b7ff2df78fd99cde71d25f1ac3564ff453cc773)
+- Windows x64: [link](https://www.virustotal.com/#/file/bec355ca2416f61b34396ab11560b55c9621b3cee4cca8188a2e95d356e8e5e8)
+- Windows x86: [link](https://www.virustotal.com/#/file/57bb8494aef85f0fc0c437ee5c42235084efd99f5d4d5aa6d459f8fb70408bcc)
+- Linux x64: [link](https://www.virustotal.com/#/file/0f4ad87e7a6858b8cd608ebe39bf6f78f9360829e9a73a1e3c17997bf329df34)
+- Linux x86: [link](https://www.virustotal.com/#/file/aacc1c106373a9d86a44d9a3d4b56c01ebd42e9c13e7df1ab3fdfe1933083348)
+- Mac x64: [link](https://www.virustotal.com/#/file/06b2b60aca818d28899dd3fcde1fe4776f0327e2a0fcf4dff7094ad62f92a707)
 
 # Credits
 ## Original Developer

@@ -1,3 +1,11 @@
+Version 3.0.2
+- Fixed crashes when songs could not be downloaded
+- Added bpm tag
+- Added logging system(Fixed same song downloading and some songs not being available)
+- Fixed corruped FLAC's
+- Added %year%
+- Fixed dots at end
+- Fixed undefined genre
 Version 3.0.1
 - Added a couple of tags
 - Fixed minor bugs
