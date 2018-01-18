@@ -29,10 +29,12 @@ const nodeID3 = require('node-id3');
 const Deezer = require('./deezer-api');
 const mkdirp = require('mkdirp');
 const path = require('path');
+const crypto = require('crypto');
 let configFile = require(electronApp.getPath("userData")+path.sep+"config.json");
 
 // Main Constants
 const configFileLocation = electronApp.getPath("userData")+path.sep+"config.json";
+const autologinLocation = electronApp.getPath("userData")+path.sep+"autologin";
 const coverArtFolder = electronApp.getPath('temp') + path.sep + 'deezloader-imgs' + path.sep;
 const defaultDownloadDir = electronApp.getPath('music') + path.sep + 'Deezloader' + path.sep;
 const triesToConnect = 30;
@@ -72,19 +74,82 @@ app.use('/', express.static(__dirname + '/public/'));
 server.listen(configFile.serverPort);
 console.log('Server is running @ localhost:' + configFile.serverPort);
 
+//Autologin encryption/decryption
+
+var ekey = "DeezLadRebExtLrdDeezLadRebExtLrd";
+
+function alencrypt(input) {
+    var iv = crypto.randomBytes(16);
+
+    var data = new Buffer(input).toString('binary');
+        
+    key = new Buffer(ekey, "utf8");
+    var cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
+
+    var encrypted;
+
+    encrypted =  cipher.update(data, 'utf8', 'binary') +  cipher.final('binary');
+    var encoded = new Buffer(iv, 'binary').toString('hex') + new Buffer(encrypted, 'binary').toString('hex');
+
+    return encoded;
+}
+
+function aldecrypt(encoded) {  
+    var combined = new Buffer(encoded, 'hex');      
+
+    key = new Buffer(ekey, "utf8");
+    
+    // Create iv
+    var iv = new Buffer(16);
+    
+    combined.copy(iv, 0, 0, 16);
+    edata = combined.slice(16).toString('binary');
+    // Decipher encrypted data
+    var decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
+
+    var decrypted, plaintext;
+    
+    plaintext = (decipher.update(edata, 'binary', 'utf8') + decipher.final('utf8'));
+
+    return plaintext;
+}
+
 // START sockets clusterfuck
 io.sockets.on('connection', function (socket) {
     socket.downloadQueue = [];
     socket.currentItem = null;
     socket.lastQueueId = null;
 
-    socket.on("checkInit", function (username, password) {
+    socket.on("checkInit", function (username, password, autologin) {
         Deezer.init(username, password, function (err) {
             if(err){
                 socket.emit("checkInit", err.message);
             }else{
-                socket.emit("checkInit", "");
+                if(autologin){
+                    var data = username + "\n" + password;
+                    fs.writeFile(autologinLocation, alencrypt(data) , function(){
+                    });
+                }
+                socket.emit("checkInit", "none");
             }
+        });
+    });
+
+    socket.on("autologin", function(){
+        fs.readFile(autologinLocation, function(err, data){
+            if(err){
+                return;
+            }
+            try{
+                var fdata = aldecrypt(data.toString('utf8'));
+            }catch(e){
+                console.log("Failed to decrypt autologin, deleting");
+                fs.unlink(autologinLocation,function(){
+                });
+                return;
+            }
+            fdata = fdata.split('\n');
+            socket.emit("autologin",fdata[0],fdata[1]);
         });
     });
 

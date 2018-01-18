@@ -11,14 +11,23 @@ let userSettings = [];
 //Login button
 $('#modal_login_btn_login').click(function () {
   $('#modal_login_btn_login').attr("disabled", true);
+  $('#modal_login_btn_login').html("Logging in...");
   var username = $('#modal_login_input_username').val();
   var password = $('#modal_login_input_password').val();
+  var autologin = $('#modal_login_input_autologin').prop("checked");
   //Send to the software
-  socket.emit('checkInit', username, password);
+  socket.emit('checkInit', username, password,autologin);
 });
-
+socket.emit("autologin");
+socket.on("autologin",function(username,password){
+  $('#modal_login_btn_login').attr("disabled", true);
+  $('#modal_login_btn_login').html("Logging in...");
+  $('#modal_login_input_username').val(username);
+  $('#modal_login_input_password').val(password);
+  socket.emit('checkInit', username, password,false);
+});
 socket.on("checkInit", function (errmsg) {
-  if (errmsg == "") {
+  if (errmsg == "none") {
     $('#initializing').addClass('animated fadeOut').on('webkitAnimationEnd', function () {
       $(this).css('display', 'none');
     });
@@ -28,6 +37,7 @@ socket.on("checkInit", function (errmsg) {
       setTimeout(function(){$('#init-text').text("");},1000);
   }
   $('#modal_login_btn_login').attr("disabled", false);
+  $('#modal_login_btn_login').html("Login");
 });
 
 // Open downloads folder
