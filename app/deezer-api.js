@@ -194,7 +194,7 @@ Deezer.prototype.getTrack = function(id, callback) {
 			var id = json["SNG_ID"];
 			var md5Origin = json["MD5_ORIGIN"];
 			var format;
-			if(configFile.userDefined.hifi){
+			if(configFile.userDefined.hifi && json["FILESIZE_FLAC"] > 0){
 				format = 9;
 			}else{
 				format = 3;
@@ -206,6 +206,7 @@ Deezer.prototype.getTrack = function(id, callback) {
 					}
 				}
 			}
+			json.format = format;
 			var mediaVersion = parseInt(json["MEDIA_VERSION"]);
 			json.downloadUrl = this.getDownloadUrl(md5Origin, id, format, mediaVersion);
 			callback(json);

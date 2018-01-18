@@ -648,7 +648,7 @@ io.sockets.on('connection', function (socket) {
                     fs.ensureDirSync(filepath);
 
                     let writePath;
-                    if(configFile.userDefined.hifi){
+                    if(track.format == 9){
                         writePath = filepath + fixName(filename, true) + '.flac';
                     }else{
                         writePath = filepath + fixName(filename, true) + '.mp3';
@@ -694,7 +694,7 @@ io.sockets.on('connection', function (socket) {
                             return;
                         }
                         var tempPath = writePath;
-                        if(configFile.userDefined.hifi){
+                        if(track.format == 9){
                         	tempPath = writePath+".temp";
                         }
                         fs.writeFile(tempPath, buffer, function (err) {
@@ -705,7 +705,7 @@ io.sockets.on('connection', function (socket) {
                             }
 
                             if (settings.createM3UFile && settings.playlist) {
-                                if(configFile.userDefined.hifi){
+                                if(track.format == 9){
                                     fs.appendFileSync(filepath + "playlist.m3u", fixName(filename,true) + ".flac\r\n");
                                 }else{
                                     fs.appendFileSync(filepath + "playlist.m3u", fixName(filename,true) + ".mp3\r\n");
@@ -725,7 +725,7 @@ io.sockets.on('connection', function (socket) {
                                 }
                             });
 
-                            if(settings.hifi){
+                            if(track.format == 9){
                                 let flacComments = [
                                     'TITLE=' + metadata.title,
                                     'ALBUM=' + metadata.album,
