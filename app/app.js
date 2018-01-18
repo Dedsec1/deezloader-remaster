@@ -27,6 +27,7 @@ const request = require('request');
 const os = require('os');
 const nodeID3 = require('node-id3');
 const Deezer = require('./deezer-api');
+const packagejson = require('./package.json');
 const mkdirp = require('mkdirp');
 const path = require('path');
 const crypto = require('crypto');
@@ -119,7 +120,15 @@ io.sockets.on('connection', function (socket) {
     socket.downloadQueue = [];
     socket.currentItem = null;
     socket.lastQueueId = null;
-
+    request.get("https://raw.githubusercontent.com/ExtendLord/DeezLoader-Reborn/master/VERSION.md", function (error, response, body) {
+        if(!error && response.statusCode == 200){
+            if(body.split("\n")[0] != packagejson.version){
+                socket.emit("newupdate");
+            }
+        }else{
+            console.log(error);
+        }
+    });
     socket.on("checkInit", function (username, password, autologin) {
         Deezer.init(username, password, function (err) {
             if(err){

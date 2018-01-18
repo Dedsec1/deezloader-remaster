@@ -8,6 +8,11 @@ const defaultDownloadLocation = mainApp.defaultDownloadDir;
 const triesToConnect = mainApp.triesToConnect;
 let userSettings = [];
 
+//Update alert
+socket.on("newupdate", function(){
+  alert("New version is available.");
+});
+
 //Login button
 $('#modal_login_btn_login').click(function () {
   $('#modal_login_btn_login').attr("disabled", true);
