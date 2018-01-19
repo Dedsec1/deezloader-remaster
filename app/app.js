@@ -673,10 +673,11 @@ io.sockets.on('connection', function (socket) {
                         artist: removeDiacritics(track["ART_NAME"]),
                         album: removeDiacritics(track["ALB_TITLE"]),
                         performerInfo: ajson.artist.name,
-                        trackNumber: track["TRACK_NUMBER"],
-                        partOfSet: track["DISK_NUMBER"],
+                        trackNumber: track["TRACK_NUMBER"] + "/" + ajson.nb_tracks,
+                        partOfSet: track["DISK_NUMBER"] + "/" + tjson.disk_number,
                         label: ajson.label,
                         ISRC: track["ISRC"],
+                        composer: track["COMPOSER"],
                         duration: track["DURATION"],
                         explicit: track["EXPLICIT_LYRICS"]
                     };
@@ -806,13 +807,14 @@ io.sockets.on('connection', function (socket) {
                                     'PERFORMER=' + metadata.performerInfo,
                                     'ALBUMARTIST=' + metadata.performerInfo,
                                     'ARTIST=' + metadata.artist,
-                                    'TRACKNUMBER=' + metadata.trackNumber,
-                                    'DISCNUMBER=' + metadata.partOfSet,
+                                    'TRACKNUMBER=' + track["TRACK_NUMBER"],
+                                    'DISCNUMBER=' + track["DISK_NUMBER"],
                                     'TRACKTOTAL=' + ajson.nb_tracks,
                                     'DISCTOTAL=' + tjson.disk_number,
                                     'PUBLISHER=' + metadata.label,
                                     'LENGTH=' + metadata.duration,
                                     'ISRC=' + metadata.ISRC,
+                                    'COMPOSER=' + metadata.composer,
                                     'ITUNESADVISORY=' + metadata.explicit
                                 ];
                                 if(metadata.genre){
