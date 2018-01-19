@@ -36,6 +36,10 @@ socket.on("checkInit", function (errmsg) {
     $('#initializing').addClass('animated fadeOut').on('webkitAnimationEnd', function () {
       $(this).css('display', 'none');
     });
+    
+	// Load top charts list for countries
+	socket.emit("getChartsCountryList", {selected: startingChartCountry});
+	socket.emit("getChartsTrackListByCountry", {country: startingChartCountry});
   }
   else{
       $('#init-text').text(errmsg);
@@ -67,10 +71,6 @@ $(document).ready(function () {
     return false;
   });
 });
-
-// Load top charts list for countries
-socket.emit("getChartsCountryList", {selected: startingChartCountry});
-socket.emit("getChartsTrackListByCountry", {country: startingChartCountry});
 
 // Load settings
 socket.emit("getUserSettings");
