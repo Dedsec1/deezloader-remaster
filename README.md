@@ -2,8 +2,8 @@
 DeezLoader Reborn is here to replace the old DeezLoader V2.3.1.<br/>
 With this software you can download high-qualiy music and enjoy.
 
-**News: Added MP3 fallback and auto login**
-**News: Added update alert**
+**News: Added MP3 fallback and auto login**<br/>
+**News: Added update alert**<br/>
 **In order to download FLAC quality you need to turn on HIFI in settings.**<br/>
 **Please post problems in issues, do not PM me or comment in the reddit post**
 
