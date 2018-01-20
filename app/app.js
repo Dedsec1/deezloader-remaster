@@ -694,6 +694,7 @@ io.sockets.on('connection', function (socket) {
 
                     if (track["PHYSICAL_RELEASE_DATE"]) {
                         metadata.year = track["PHYSICAL_RELEASE_DATE"].slice(0, 4);
+                        metadata.date = track["PHYSICAL_RELEASE_DATE"];
                     }
                     let filename = `${metadata.artist} - ${metadata.title}`;
                     if (settings.filename) {
@@ -821,7 +822,8 @@ io.sockets.on('connection', function (socket) {
                                     flacComments.push('GENRE=' + metadata.genre);
                                 }
                                 if (0 < parseInt(metadata.year)) {
-                                    flacComments.push('DATE=' + metadata.year);
+                                    flacComments.push('DATE=' + metadata.date);
+                                    flacComments.push('YEAR=' + metadata.year);
                                 }
                                 if (0 < parseInt(metadata.bpm)) {
                                     flacComments.push('BPM=' + metadata.bpm);
