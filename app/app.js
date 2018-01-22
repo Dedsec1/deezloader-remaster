@@ -729,13 +729,13 @@ io.sockets.on('connection', function (socket) {
 
                     let writePath;
                     if(track.format == 9){
-                        if(parseInt(tjson.disk_number) > 1){
+                        if(parseInt(tjson.disk_number) > 1 && settings.tagPosition){
                             writePath = filepath + track["DISK_NUMBER"] + path.sep + fixName(filename, true) + '.flac';
                         }else{
                             writePath = filepath + fixName(filename, true) + '.flac';
                         }
                     }else{
-                        if(parseInt(tjson.disk_number) > 1){
+                        if(parseInt(tjson.disk_number) > 1 && settings.tagPosition){
                             writePath = filepath + track["DISK_NUMBER"] + path.sep + fixName(filename, true) + '.mp3';
                         }else{
                             writePath = filepath + fixName(filename, true) + '.mp3';
