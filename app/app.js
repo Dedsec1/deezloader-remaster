@@ -136,7 +136,7 @@ io.sockets.on('connection', function (socket) {
             }else{
                 if(autologin){
                     var data = username + "\n" + password;
-                    fs.writeFile(autologinLocation, alencrypt(data) , function(){
+                    fs.outputFile(autologinLocation, alencrypt(data) , function(){
                     });
                 }
                 socket.emit("checkInit", "none");
@@ -641,7 +641,7 @@ io.sockets.on('connection', function (socket) {
         }
 
         configFile.userDefined = settings.userDefined;
-        fs.writeFile(configFileLocation, JSON.stringify(configFile, null, 2), function (err) {
+        fs.outputFile(configFileLocation, JSON.stringify(configFile, null, 2), function (err) {
             if (err) return winston.log('error', 'error', err);
             console.log('Settings Updated');
             initFolders();
@@ -681,6 +681,10 @@ io.sockets.on('connection', function (socket) {
                         duration: track["DURATION"],
                         explicit: track["EXPLICIT_LYRICS"]
                     };
+                    if(!settings.tagPosition && !(settings.createArtistFolder || settings.createAlbumFolder)){
+                        metadata.trackNumber = (parseInt(settings.playlist.position)+1).toString() + "/" + settings.playlist.fullSize;
+                        metadata.partOfSet = "1/1";
+                    }
                     if (0 < parseInt(track["BPM"])) {
                         metadata.bpm = track["BPM"];
                     }
@@ -725,9 +729,17 @@ io.sockets.on('connection', function (socket) {
 
                     let writePath;
                     if(track.format == 9){
-                        writePath = filepath + fixName(filename, true) + '.flac';
+                        if(parseInt(tjson.disk_number) > 1){
+                            writePath = filepath + track["DISK_NUMBER"] + path.sep + fixName(filename, true) + '.flac';
+                        }else{
+                            writePath = filepath + fixName(filename, true) + '.flac';
+                        }
                     }else{
-                        writePath = filepath + fixName(filename, true) + '.mp3';
+                        if(parseInt(tjson.disk_number) > 1){
+                            writePath = filepath + track["DISK_NUMBER"] + path.sep + fixName(filename, true) + '.mp3';
+                        }else{
+                            writePath = filepath + fixName(filename, true) + '.mp3';
+                        }
                     }
 
                     console.log('Downloading file to ' + writePath);
@@ -741,7 +753,8 @@ io.sockets.on('connection', function (socket) {
                     //Get image
                     if (metadata.image) {
                     	let imgPath;
-                    	if(!settings.tagPosition){
+                        //If its not from an album but a playlist.
+                    	if(!settings.tagPosition && !(settings.createArtistFolder || settings.createAlbumFolder)){
                         	imgPath = coverArtFolder + fixName(metadata.title, true) + ".jpg";
                     	}else{
                     		imgPath = filepath + "folder.jpg";
@@ -752,7 +765,7 @@ io.sockets.on('connection', function (socket) {
 	                        		metadata.image = undefined;
 	                        		return;
 	                        	}
-	                        	fs.writeFile(imgPath,body,'binary',function(err){
+	                        	fs.outputFile(imgPath,body,'binary',function(err){
 	                        		if(err){
 	                        			metadata.image = undefined;
 	                        			return;
@@ -791,7 +804,7 @@ io.sockets.on('connection', function (socket) {
 	                        if(track.format == 9){
 	                        	tempPath = writePath+".temp";
 	                        }
-	                        fs.writeFile(tempPath, buffer, function (err) {
+	                        fs.outputFile(tempPath, buffer, function (err) {
 	                            if (err) {
 	                                console.log("Failed to download: " + metadata.artist + " - " + metadata.title);
 	                                callback(err);
@@ -836,6 +849,13 @@ io.sockets.on('connection', function (socket) {
 	                                    'COMPOSER=' + metadata.composer,
 	                                    'ITUNESADVISORY=' + metadata.explicit
 	                                ];
+                                    if(!settings.tagPosition && !(settings.createArtistFolder || settings.createAlbumFolder)){
+                                        flacComments[5] = 'TRACKNUMBER=' + (parseInt(settings.playlist.position)+1).toString();
+                                        flacComments[6] = 'DISCNUMBER=1';
+                                        flacComments[7] = 'TRACKTOTAL=' + settings.playlist.fullSize;
+                                        flacComments[8] = 'DISCTOTAL=1';
+
+                                    }
 	                                if(metadata.genre){
 	                                    flacComments.push('GENRE=' + metadata.genre);
 	                                }
@@ -926,7 +946,7 @@ io.sockets.on('connection', function (socket) {
 function updateSettingsFile(config, value) {
     configFile.userDefined[config] = value;
 
-    fs.writeFile(configFileLocation, JSON.stringify(configFile, null, 2), function (err) {
+    fs.outputFile(configFileLocation, JSON.stringify(configFile, null, 2), function (err) {
         if (err) return winston.log('error', 'error', err);
         console.log('Settings Updated');
 
