@@ -681,7 +681,7 @@ io.sockets.on('connection', function (socket) {
                         duration: track["DURATION"],
                         explicit: track["EXPLICIT_LYRICS"]
                     };
-                    if(!settings.tagPosition && !(settings.createArtistFolder || settings.createAlbumFolder)){
+                    if(!settings.tagPosition && !(settings.createArtistFolder || settings.createAlbumFolder) && settings.playlist){
                         metadata.trackNumber = (parseInt(settings.playlist.position)+1).toString() + "/" + settings.playlist.fullSize;
                         metadata.partOfSet = "1/1";
                     }
@@ -849,7 +849,7 @@ io.sockets.on('connection', function (socket) {
 	                                    'COMPOSER=' + metadata.composer,
 	                                    'ITUNESADVISORY=' + metadata.explicit
 	                                ];
-                                    if(!settings.tagPosition && !(settings.createArtistFolder || settings.createAlbumFolder)){
+                                    if(!settings.tagPosition && !(settings.createArtistFolder || settings.createAlbumFolder) && settings.playlist){
                                         flacComments[5] = 'TRACKNUMBER=' + (parseInt(settings.playlist.position)+1).toString();
                                         flacComments[6] = 'DISCNUMBER=1';
                                         flacComments[7] = 'TRACKTOTAL=' + settings.playlist.fullSize;
