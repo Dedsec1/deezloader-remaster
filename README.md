@@ -1,9 +1,9 @@
-# DeezLoader Reborn V3.0.3[Auto Update!!]
+# DeezLoader Reborn V3.0.4[Antibug Update!!]
 DeezLoader Reborn is here to replace the old DeezLoader V2.3.1.<br/>
 With this software you can download high-qualiy music and enjoy.
 
-**News: Added MP3 fallback and auto login**<br/>
-**News: Added update alert**<br/>
+**News: Fixed song errors when downloading albums or playlists**<br/>
+**News: Fixed albums with more than one disc**<br/>
 **In order to download FLAC quality you need to turn on HIFI in settings.**<br/>
 **Please post problems in issues, do not PM me or comment in the reddit post**
 
@@ -16,29 +16,34 @@ With this software you can download high-qualiy music and enjoy.
 - Tagging system on MP3-320 and FLAC
 - Simple and user friendly
 
+# Donations
+- **BTC/BCH:** 1A25gu2vMXLfQBYArYLMBcTpnuwPiKW6vL
+- **LTC:** LbrVLYkmJ3k2woXACMKshg8KqbMqt1yhAz
+
 # How to run
 - Download the installer and run it.
 - Run DeezLoader.
 
 # How to compile
-- Clone the repository
+- Download Node JS latest version
+- Clone the repository(Download the zip file or clone using git)
 - Run compile.sh/bat or run the command 'npm install && npm run dist'
 - Go to dist and you will see the installer and the software folder
 - Have fun(Easy Peasy)
 
 # Download Links
-- Windows x64: [link](https://mega.nz/#!8NcTwBBD!Bpqy5XPMZLkkGRzoaEN3EhkwhhQZuDrCPecz7PG_Szg)
-- Windows x86: [link](https://mega.nz/#!cQdyAZoB!LuFJBdYR0s79ec8BAADpl_b58aPG-xBreipmWWtHpD0)
-- Linux x64: [link](https://mega.nz/#!1AFRRZ5K!ZeY_ykhvK0ry2cQUKiBbSPpxCdXFkfhLyqkFkF8z98g)
-- Linux x86: [link](https://mega.nz/#!xIM1HaKT!8L2rexPCKCITXv1tkKzm0Tg63LzcLTn-V2V5srudKPA)
-- Mac x64: [link](https://mega.nz/#!Jc80hbQQ!8T85qvIGfhFXl2iKChSCoX5SfsMIpPcBPPUEvkaoPOk)
+- Windows x64: [link](https://mega.nz/#!1J8RUIaB!XuD5wd1LYsVJsKKR5CYttKpJ0BjeSdNcIwNRfj6rEq8)
+- Windows x86: [link](https://mega.nz/#!FUFTED7S!mvad3_2VrpgJaoPQGYapormrhM71ewQVMl7yHj48tYM)
+- Linux x64: [link](https://mega.nz/#!UUFjBJzb!kQuplRRXv0WWHUX0sTdtL2079iyXSJrjcfRy9ehaGD0)
+- Linux x86: [link](https://mega.nz/#!kAtXgAjB!1FDta5kSllps9yE-bhWq2XC7RDf35VctHFDL5xcd1Z8)
+- Mac x64: [link](https://mega.nz/#!oc8jHbzL!Q-DAhzDxHWLtzoES0dcr2ZU4TzGbpEmtSILHc9eTV84)
 
 # Virus total
-- Windows x64: [link](https://www.virustotal.com/#/file/cb8989df5e13952bb142d8193e485b3e17d03148d1898cbdd8a6219e23acc01e)
-- Windows x86: [link](https://www.virustotal.com/#/file/4cdcc1e1e453fefe1de279c3a7f1a5c21e518269964c23ac2512680c60e7e1da)
-- Linux x64: [link](https://www.virustotal.com/#/file/671171440ab27e906ca73ab8ccb7d6d629cf9820dbab5b7109921a9ccf357791)
-- Linux x86: [link](https://www.virustotal.com/#/file/e06cad3cbd18839dae78ef30a67e40174d154660e7296374656fae44b66614fb)
-- Mac x64: [link](https://www.virustotal.com/#/file/ed2539a7834df51e4d816b09e65e3ab8022e836d9212bf900f91c054fa6daffa)
+- Windows x64: [link](https://www.virustotal.com/#/file/f75afe11a9418c6806370405436be6ee553c5eaa359362070ee1e46bc8c78dd2)
+- Windows x86: [link](https://www.virustotal.com/#/file/b14a2ddfb924c83f6eb0d1c588f4b232c8f4916913acd55c2c99c40b07974b2a)
+- Linux x64: [link](https://www.virustotal.com/#/file/b65d7edd57a01ec44db28a57cd3ab41606331408d8b49b14b2b9bc8be0a29f36)
+- Linux x86: [link](https://www.virustotal.com/#/file/d1b67e7b277bf0e040160d8a4996fcd70c4d48c4ac443d428b51cca680d9cac3)
+- Mac x64: [link](https://www.virustotal.com/#/file/5327fbd40d847e99212c48b759fdf89911e5e4e7098e7adbe4ec0228dcb52241)
 
 # Credits
 ## Original Developer

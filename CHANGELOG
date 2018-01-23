@@ -1,3 +1,11 @@
+Version 3.0.4
+- Fixed download crashes
+- Fixed failed tracks when downloading some albums and playlists
+- Fixed folder does not exists crash
+- Improved tags
+- Changed album cover dir to the albums folder
+- Changed settings style
+- Fixed login crash when there is no connection 
 Version 3.0.3
 - Added auto login
 - Added MP3 Fallback
