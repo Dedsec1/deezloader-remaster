@@ -255,7 +255,10 @@ io.sockets.on('connection', function (socket) {
         } else if (downloading.type == "playlist") {
             Deezer.getPlaylistTracks(downloading.id, function (tracks, err) {
                 downloading.playlistContent = tracks.data.map((t) => {
-                    return t.id
+                    if(!t.readable && t.alternative){
+                        return t.alternative.id;
+                    }
+                    return t.id;
                 });
                 downloading.settings.addToPath = antiDot(downloading.name);
                 async.eachSeries(downloading.playlistContent, function (id, callback) {
@@ -294,7 +297,10 @@ io.sockets.on('connection', function (socket) {
         } else if (downloading.type == "album") {
             Deezer.getAlbumTracks(downloading.id, function (tracks, err) {
                 downloading.playlistContent = tracks.data.map((t) => {
-                    return t.id
+                    if(!t.readable && t.alternative){
+                        return t.alternative.id;
+                    }
+                    return t.id;
                 });
                 downloading.settings.tagPosition = true;
                 downloading.settings.addToPath = downloading.artist + " - " + antiDot(downloading.name);
