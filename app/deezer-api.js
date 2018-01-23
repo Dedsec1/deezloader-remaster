@@ -188,7 +188,12 @@ Deezer.prototype.getChartsTopCountry = function(callback) {
 Deezer.prototype.getTrack = function(id, callback) {
 	request.post({url: this.apiUrl, headers: this.httpHeaders, qs: this.apiQueries, body: "[{\"method\":\"song.getListData\",\"params\":{\"sng_ids\":[" + id + "]}}]", jar: true}, (function(err, res, body) {
 		if(!err && res.statusCode == 200) {
-			var json = JSON.parse(body)[0].results.data[0];
+			try{
+				var json = JSON.parse(body)[0].results.data[0];
+			}catch(e){
+				callback(new Error("Unable to get Track"));
+				return;
+			}
 			if(json["TOKEN"]) {
 				callback(new Error("Uploaded Files are currently not supported"));
 				return;
