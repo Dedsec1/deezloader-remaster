@@ -120,7 +120,7 @@ io.sockets.on('connection', function (socket) {
     socket.downloadQueue = [];
     socket.currentItem = null;
     socket.lastQueueId = null;
-    request.get("https://raw.githubusercontent.com/ExtendLord/DeezLoader-Reborn/master/VERSION.md", function (error, response, body) {
+    request.get("https://gitlab.com/ExtendLord/DeezLoader-Reborn/raw/master/VERSION.md", function (error, response, body) {
         if(!error && response.statusCode == 200){
             if(body.split("\n")[0] != packagejson.version){
                 socket.emit("newupdate");
