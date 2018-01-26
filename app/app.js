@@ -852,7 +852,6 @@ io.sockets.on('connection', function (socket) {
 	                                    'PUBLISHER=' + metadata.label,
 	                                    'LENGTH=' + metadata.duration,
 	                                    'ISRC=' + metadata.ISRC,
-	                                    'COMPOSER=' + metadata.composer,
 	                                    'ITUNESADVISORY=' + metadata.explicit
 	                                ];
                                     if(!settings.tagPosition && !(settings.createArtistFolder || settings.createAlbumFolder) && settings.playlist){
@@ -872,6 +871,9 @@ io.sockets.on('connection', function (socket) {
 	                                if (0 < parseInt(metadata.bpm)) {
 	                                    flacComments.push('BPM=' + metadata.bpm);
 	                                }
+	                                if(metadata.composer != "" && metadata.composer != null){
+	                                	flacComments.push('COMPOSER=' + metadata.composer);
+	                                } 
 	                                const reader = fs.createReadStream(tempPath);
 	                                const writer = fs.createWriteStream(writePath);
 	                                let processor = new mflac.Processor({parseMetaDataBlocks: true});
