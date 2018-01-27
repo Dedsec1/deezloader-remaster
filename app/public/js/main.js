@@ -12,7 +12,24 @@ let userSettings = [];
 socket.on("newupdate", function(){
   alert("New version is available.");
 });
-
+socket.emit("checkInit");
+socket.on("checkInit", function(errmsg){
+  if(errmsg == "Requires an Account"){
+    $('#login-page').css('display','block');
+    $('#loading-page').css('display','none');
+    socket.emit("autologin");
+  }else if(errmsg != ""){
+    socket.emit("checkInit");
+  }else{
+    $('#initializing').addClass('animated fadeOut').on('webkitAnimationEnd', function () {
+      $(this).css('display', 'none');
+    });
+    
+    // Load top charts list for countries
+    socket.emit("getChartsCountryList", {selected: startingChartCountry});
+    socket.emit("getChartsTrackListByCountry", {country: startingChartCountry});
+  }
+});
 //Login button
 $('#modal_login_btn_login').click(function () {
   $('#modal_login_btn_login').attr("disabled", true);
@@ -21,17 +38,17 @@ $('#modal_login_btn_login').click(function () {
   var password = $('#modal_login_input_password').val();
   var autologin = $('#modal_login_input_autologin').prop("checked");
   //Send to the software
-  socket.emit('checkInit', username, password,autologin);
+  socket.emit('login', username, password,autologin);
 });
-socket.emit("autologin");
+
 socket.on("autologin",function(username,password){
   $('#modal_login_btn_login').attr("disabled", true);
   $('#modal_login_btn_login').html("Logging in...");
   $('#modal_login_input_username').val(username);
   $('#modal_login_input_password').val(password);
-  socket.emit('checkInit', username, password,false);
+  socket.emit('login', username, password,false);
 });
-socket.on("checkInit", function (errmsg) {
+socket.on("login", function (errmsg) {
   if (errmsg == "none") {
     $('#initializing').addClass('animated fadeOut').on('webkitAnimationEnd', function () {
       $(this).css('display', 'none');

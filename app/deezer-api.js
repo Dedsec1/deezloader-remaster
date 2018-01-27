@@ -186,41 +186,65 @@ Deezer.prototype.getChartsTopCountry = function(callback) {
 }
 
 Deezer.prototype.getTrack = function(id, callback) {
-	request.post({url: this.apiUrl, headers: this.httpHeaders, qs: this.apiQueries, body: "[{\"method\":\"song.getListData\",\"params\":{\"sng_ids\":[" + id + "]}}]", jar: true}, (function(err, res, body) {
-		if(!err && res.statusCode == 200) {
+	var self = this;
+	if(self.apiQueries.api_token != "null"){
+		request.post({url: this.apiUrl, headers: this.httpHeaders, qs: this.apiQueries, body: "[{\"method\":\"song.getListData\",\"params\":{\"sng_ids\":[" + id + "]}}]", jar: true}, (function(err, res, body) {
+			if(!err && res.statusCode == 200) {
+				try{
+					var json = JSON.parse(body)[0].results.data[0];
+					get(json);
+				}catch(e){
+					callback(new Error("Unable to get Track"));
+					return;
+				}
+			} else {
+				callback(null, new Error("Unable to get Track " + id));
+			}
+		}).bind(self));
+	}else{
+		request.get({url: "https://www.deezer.com/us/track/"+id, headers: this.httpHeaders, jar: true}, (function(err, res, body) {
+			var regex = new RegExp(/track: (.*),\n\tindex: 0,/g);
+			var rexec = regex.exec(body);
+			var _data;
 			try{
-				var json = JSON.parse(body)[0].results.data[0];
+				_data = rexec[1];
 			}catch(e){
-				callback(new Error("Unable to get Track"));
+				callback(null, new Error("Unable to get Track"));
 				return;
 			}
-			if(json["TOKEN"]) {
-				callback(new Error("Uploaded Files are currently not supported"));
-				return;
+			if(!err && res.statusCode == 200 && typeof JSON.parse(_data).data != 'undefined') {
+				var json = JSON.parse(_data).data[0];
+				get(json);
+			} else {
+				callback(null, new Error("Unable to get Track " + id));
 			}
-			var id = json["SNG_ID"];
-			var md5Origin = json["MD5_ORIGIN"];
-			var format;
-			if(configFile.userDefined.hifi && json["FILESIZE_FLAC"] > 0){
-				format = 9;
-			}else{
-				format = 3;
-				if(json["FILESIZE_MP3_320"] <= 0) {
-					if(json["FILESIZE_MP3_256"] > 0) {
-						format = 5;
-					} else {
-						format = 1;
-					}
+		}).bind(self));
+	}
+	function get(json){
+		if(json["TOKEN"]) {
+			callback(new Error("Uploaded Files are currently not supported"));
+			return;
+		}
+		var id = json["SNG_ID"];
+		var md5Origin = json["MD5_ORIGIN"];
+		var format;
+		if(configFile.userDefined.hifi && json["FILESIZE_FLAC"] > 0){
+			format = 9;
+		}else{
+			format = 3;
+			if(json["FILESIZE_MP3_320"] <= 0) {
+				if(json["FILESIZE_MP3_256"] > 0) {
+					format = 5;
+				} else {
+					format = 1;
 				}
 			}
-			json.format = format;
-			var mediaVersion = parseInt(json["MEDIA_VERSION"]);
-			json.downloadUrl = this.getDownloadUrl(md5Origin, id, format, mediaVersion);
-			callback(json);
-		} else {
-			callback(null, new Error("Unable to get Track " + id));
 		}
-	}).bind(this));
+		json.format = format;
+		var mediaVersion = parseInt(json["MEDIA_VERSION"]);
+		json.downloadUrl = self.getDownloadUrl(md5Origin, id, format, mediaVersion);
+		callback(json);
+	}
 }
 
 Deezer.prototype.search = function(text, type, callback) {

@@ -129,21 +129,31 @@ io.sockets.on('connection', function (socket) {
             console.log(error);
         }
     });
-    socket.on("checkInit", function (username, password, autologin) {
+    socket.on("login", function (username, password, autologin) {
         Deezer.init(username, password, function (err) {
             if(err){
-                socket.emit("checkInit", err.message);
+                socket.emit("login", err.message);
             }else{
                 if(autologin){
                     var data = username + "\n" + password;
                     fs.outputFile(autologinLocation, alencrypt(data) , function(){
                     });
                 }
-                socket.emit("checkInit", "none");
+                socket.emit("login", "none");
             }
         });
     });
-
+    socket.on("checkInit", function () {
+	    var r = request.get("https://www.deezer.com/track/99976952", function (error, response, body) {
+	        if(error || response.statusCode != 200){
+	        	socket.emit("checkInit", "Conncetion error");
+	        }else if(response.request.uri.href.includes("track")){
+	        	socket.emit("checkInit","");
+	        }else if(!error && response.statusCode == 200){
+	            socket.emit("checkInit","Requires an Account");
+	        }
+	    });
+    });
     socket.on("autologin", function(){
         fs.readFile(autologinLocation, function(err, data){
             if(err){

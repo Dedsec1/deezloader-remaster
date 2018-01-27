@@ -26,7 +26,7 @@
 <!--*****************************************INITIALIZING-SCREEN****************************************-->
 <!--****************************************************************************************************-->
 <div id="initializing" class="center indigo valign-wrapper">
-  <div class="modal-content">
+  <div class="modal-content" id="login-page" style="display:none;">
     <div class="row">
       <h4 class="white-text">Login page</h4>
       <h5 class="white-text">Please login to your deezer account.</h5>
@@ -60,6 +60,26 @@
       </div>
     </div>
   </footer>
+  </div>
+  <div class="center-align" id="loading-page">
+    <h1 class="white-text" id="init-text">Initializing...</h1>
+    <div class="buttons" style="display: none">
+      <button class="btn btn-large btn-flat red white-text" id="init-quit-btn">Close</button>
+    </div>
+
+    <div class="preloader-wrapper big active" id="init-preloader">
+      <div class="spinner-layer">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div>
+        <div class="gap-patch">
+          <div class="circle"></div>
+        </div>
+        <div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
