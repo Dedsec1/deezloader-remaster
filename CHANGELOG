@@ -1,3 +1,8 @@
+Version 3.0.6
+- Login page will only appear for those who need it
+- Added composer, publisher and copyright tag
+- Fixed the issue that only the first album would be clickable from an artist
+- Fixed crash when no internet in the login page
 Version 3.0.5
 - Changed repo from github to gitlab
 - Fixed Login error for Deezer Family Accounts

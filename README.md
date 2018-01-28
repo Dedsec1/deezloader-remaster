@@ -1,8 +1,7 @@
-# DeezLoader Reborn V3.0.5[Gitlab Update!!]
+# DeezLoader Reborn V3.0.6
 DeezLoader Reborn is here to replace the old DeezLoader V2.3.1.<br/>
 With this software you can download high-qualiy music and enjoy.
 
-**News: DeezLoader is back to live.**<br/>
 **In order to download FLAC quality you need to turn on HIFI in settings.**<br/>
 **Please post problems in issues, do not PM me or comment in the reddit post**
 
@@ -31,18 +30,18 @@ With this software you can download high-qualiy music and enjoy.
 - Have fun(Easy Peasy)
 
 # Download Links
-- Windows x64: [link](https://mega.nz/#!JYlknZha!7WmmvqqzARfWl0tOo74YFsOCHzSraee8UBwNiWeifas)
-- Windows x86: [link](https://mega.nz/#!QBVT0IYK!_Pn3FLH8ap6kxG-KQNNZ7f1u-XNG_m_6xGi5F2RdV7U)
-- Linux x64: [link](https://mega.nz/#!8J1TyYyD!_QkSr56Gak47MvB2SXiRdH9QsdauF_66hRchSIxkNi0)
-- Linux x86: [link](https://mega.nz/#!QI8SVCSQ!pCmWR3Mh6zqI-swbMj4LT2dN4Gg85Qmd2yIU00JtO8E)
-- Mac x64: [link](https://mega.nz/#!FMcQkYoL!__8ifz3MiIm4QdizvFlmtndZJI5pc4ALSFYxbmPztzU)
+- Windows x64: [link](https://mega.nz/#!YFFjkSJb!eWHzWkfDDVL4jv91hcvjpm-Ln4UtlkOIEYBdXJ20Tfw)
+- Windows x86: [link](https://mega.nz/#!dRURmTrA!i38NEbkZgHIoe5Fxk9km30ED6ZRdeYmBrFVMiXdaCog)
+- Linux x64: [link](https://mega.nz/#!QNUAhZ4S!RBkBKBpEjrVERh0cIMEUdVnydN2eeRrBxA_bTCYVY_k)
+- Linux x86: [link](https://mega.nz/#!VF0xATqL!ymeFdCf9fbT3_U2O8mOYn0Zn4woMYHJXmTIehFTPFTs)
+- Mac x64: [link](https://mega.nz/#!UN9wmRpJ!E_B5daWuReUDjty0VEuRbuNBGaGSa7H7TGtQQG-4qjY)
 
 # Virus total
-- Windows x64: [link](https://www.virustotal.com/#/file/baf8bb01f693bab8ebb61088ea95012c29b4cd51a7bd7a29e3fe21ca036af497)
-- Windows x86: [link](https://www.virustotal.com/#/file/aacda88154b2a924fd167a4ea66fe5ad69c2672a6dbda6ffa8c3595317e97766)
-- Linux x64: [link](https://www.virustotal.com/#/file/d770c97c56639bd14ee91d4ea533a8e23d93aa805ea036db1f6a51ea0ae0f1ba)
-- Linux x86: [link](https://www.virustotal.com/#/file/dd5bee9c3901e822e389b46c5ad8880ba7733625cdbb3f5af5c78a8e53998956)
-- Mac x64: [link](https://www.virustotal.com/#/file/b96756bc3fdde56b90ec1dcc57dfbeaeaa9d7055979125ded0be38d93e744961)
+- Windows x64: [link](https://www.virustotal.com/#/file/32b6050b15fba53aba2fed66cd944b1dc2273f8257aaa1a9ea80182008130190)
+- Windows x86: [link](https://www.virustotal.com/#/file/2ba1179673abdee0a30d9da0fb2c1b5aa1182a1658c927814127c8ffbd37f4f8)
+- Linux x64: [link](https://www.virustotal.com/#/file/b55bb35d9fe0ec77e8566296e71f819dd838fee570f7fe5640112d128a85b434)
+- Linux x86: [link](https://www.virustotal.com/#/file/58430e9851c9ceeefd09e3ebfc4c8005d71ac0dc5c9df9a78547b4c44ae36597)
+- Mac x64: [link](https://www.virustotal.com/#/file/2f7fc2dc13f0c01e5b2c01c91101f393cb199e7fcaca083129bd358b74fba2db)
 
 # Credits
 ## Original Developer
