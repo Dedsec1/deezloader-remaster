@@ -684,18 +684,22 @@ io.sockets.on('connection', function (socket) {
                     if (track["VERSION"]) track["SNG_TITLE"] += " " + track["VERSION"];
                     var ajson = res;
                     var tjson = tres;
-                    var composertag = "";
-                    for (var i = 0; i < track["SNG_CONTRIBUTORS"].composer.length; i++) {
-                    	composertag += track["SNG_CONTRIBUTORS"].composer[i] + ", ";
-                    }
-                    composertag = composertag.substring(0,composertag.length-2);
-
-                    var publishertag = "";
-                    for (var i = 0; i < track["SNG_CONTRIBUTORS"].musicpublisher.length; i++) {
-                    	publishertag += track["SNG_CONTRIBUTORS"].musicpublisher[i] + ", ";
-                    }
-                    publishertag = publishertag.substring(0,publishertag.length-2);
-
+                    if(track["SNG_CONTRIBUTORS"]){
+                    	if(track["SNG_CONTRIBUTORS"].composer){
+		                    var composertag = "";
+		                    for (var i = 0; i < track["SNG_CONTRIBUTORS"].composer.length; i++) {
+		                    	composertag += track["SNG_CONTRIBUTORS"].composer[i] + ", ";
+		                    }
+		                    composertag = composertag.substring(0,composertag.length-2);
+	                	}
+	                	if(track["SNG_CONTRIBUTORS"].musicpublisher){
+		                    var publishertag = "";
+		                    for (var i = 0; i < track["SNG_CONTRIBUTORS"].musicpublisher.length; i++) {
+		                    	publishertag += track["SNG_CONTRIBUTORS"].musicpublisher[i] + ", ";
+		                    }
+		                    publishertag = publishertag.substring(0,publishertag.length-2);
+	                	}
+                	}
                     let metadata = {
                         title: removeDiacritics(track["SNG_TITLE"]),
                         artist: removeDiacritics(track["ART_NAME"]),
@@ -706,11 +710,15 @@ io.sockets.on('connection', function (socket) {
                         label: ajson.label,
                         ISRC: track["ISRC"],
                         copyright: track["COPYRIGHT"],
-                        composer: composertag,
-                        publisher: publishertag,
                         duration: track["DURATION"],
                         explicit: track["EXPLICIT_LYRICS"]
                     };
+                    if(composertag){
+                        metadata.composer = composertag;
+                    }
+                    if(publishertag){
+                    	metadata.publisher = publishertag;
+                    }
                     if(!settings.tagPosition && !(settings.createArtistFolder || settings.createAlbumFolder) && settings.playlist){
                         metadata.trackNumber = (parseInt(settings.playlist.position)+1).toString() + "/" + settings.playlist.fullSize;
                         metadata.partOfSet = "1/1";
@@ -873,7 +881,6 @@ io.sockets.on('connection', function (socket) {
 	                                    'DISCNUMBER=' + track["DISK_NUMBER"],
 	                                    'TRACKTOTAL=' + ajson.nb_tracks,
 	                                    'DISCTOTAL=' + tjson.disk_number,
-	                                    'ORGANIZATION=' + metadata.publisher,
                                         'COPYRIGHT=' + metadata.copyright,
 	                                    'LENGTH=' + metadata.duration,
 	                                    'ISRC=' + metadata.ISRC,
@@ -896,9 +903,12 @@ io.sockets.on('connection', function (socket) {
 	                                if (0 < parseInt(metadata.bpm)) {
 	                                    flacComments.push('BPM=' + metadata.bpm);
 	                                }
-	                                if(metadata.composer != "" && metadata.composer != null){
+	                                if(metadata.composer){
 	                                	flacComments.push('COMPOSER=' + metadata.composer);
-	                                } 
+	                                }
+	                                if(metadata.publisher){
+	                                	flacComments.push('ORGANIZATION=' + metadata.publisher);
+	                                }
 	                                const reader = fs.createReadStream(tempPath);
 	                                const writer = fs.createWriteStream(writePath);
 	                                let processor = new mflac.Processor({parseMetaDataBlocks: true});
