@@ -38,7 +38,9 @@ function Deezer() {
 Deezer.prototype.init = function(username, password, callback) {
 	var self = this;
 	request.post({url: "https://www.deezer.com/ajax/action.php", headers: this.httpHeaders, form: {type:'login',mail:username,password:password}, jar: true}, (function(err, res, body) {
-		if(body.indexOf("success") > -1) {
+		if(err || res.statusCode != 200) {
+			callback(new Error("Unable to load deezer.com"));
+		}else if(body.indexOf("success") > -1){
 			request.get({url: "https://www.deezer.com/", headers: this.httpHeaders, jar: true}, (function(err, res, body) {
 				if(!err && res.statusCode == 200) {
 					var regex = new RegExp(/checkForm\s*=\s*[\"|'](.*)[\"|']/g);
@@ -53,8 +55,6 @@ Deezer.prototype.init = function(username, password, callback) {
 					callback(new Error("Unable to load deezer.com"));
 				}
 			}).bind(self));
-		}else if(err || res.statusCode != 200){
-			callback(new Error("Unable to load deezer.com"));
 		}else{
 			callback(new Error("Incorrect email or password."));
 		}
