@@ -684,6 +684,18 @@ io.sockets.on('connection', function (socket) {
                     if (track["VERSION"]) track["SNG_TITLE"] += " " + track["VERSION"];
                     var ajson = res;
                     var tjson = tres;
+                    var composertag = "";
+                    for (var i = 0; i < track["SNG_CONTRIBUTORS"].composer.length; i++) {
+                    	composertag += track["SNG_CONTRIBUTORS"].composer[i] + ", ";
+                    }
+                    composertag = composertag.substring(0,composertag.length-2);
+
+                    var publishertag = "";
+                    for (var i = 0; i < track["SNG_CONTRIBUTORS"].musicpublisher.length; i++) {
+                    	publishertag += track["SNG_CONTRIBUTORS"].musicpublisher[i] + ", ";
+                    }
+                    publishertag = publishertag.substring(0,publishertag.length-2);
+
                     let metadata = {
                         title: removeDiacritics(track["SNG_TITLE"]),
                         artist: removeDiacritics(track["ART_NAME"]),
@@ -693,7 +705,9 @@ io.sockets.on('connection', function (socket) {
                         partOfSet: track["DISK_NUMBER"] + "/" + tjson.disk_number,
                         label: ajson.label,
                         ISRC: track["ISRC"],
-                        composer: track["COMPOSER"],
+                        copyright: track["COPYRIGHT"],
+                        composer: composertag,
+                        publisher: publishertag,
                         duration: track["DURATION"],
                         explicit: track["EXPLICIT_LYRICS"]
                     };
@@ -859,7 +873,8 @@ io.sockets.on('connection', function (socket) {
 	                                    'DISCNUMBER=' + track["DISK_NUMBER"],
 	                                    'TRACKTOTAL=' + ajson.nb_tracks,
 	                                    'DISCTOTAL=' + tjson.disk_number,
-	                                    'PUBLISHER=' + metadata.label,
+	                                    'ORGANIZATION=' + metadata.publisher,
+                                        'COPYRIGHT=' + metadata.copyright,
 	                                    'LENGTH=' + metadata.duration,
 	                                    'ISRC=' + metadata.ISRC,
 	                                    'ITUNESADVISORY=' + metadata.explicit
