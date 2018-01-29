@@ -1,4 +1,4 @@
-# DeezLoader Reborn V3.0.6
+# DeezLoader Reborn V3.0.7
 DeezLoader Reborn is here to replace the old DeezLoader V2.3.1.<br/>
 With this software you can download high-qualiy music and enjoy.
 
@@ -30,18 +30,18 @@ With this software you can download high-qualiy music and enjoy.
 - Have fun(Easy Peasy)
 
 # Download Links
-- Windows x64: [link](https://mega.nz/#!YFFjkSJb!eWHzWkfDDVL4jv91hcvjpm-Ln4UtlkOIEYBdXJ20Tfw)
-- Windows x86: [link](https://mega.nz/#!dRURmTrA!i38NEbkZgHIoe5Fxk9km30ED6ZRdeYmBrFVMiXdaCog)
-- Linux x64: [link](https://mega.nz/#!QNUAhZ4S!RBkBKBpEjrVERh0cIMEUdVnydN2eeRrBxA_bTCYVY_k)
-- Linux x86: [link](https://mega.nz/#!VF0xATqL!ymeFdCf9fbT3_U2O8mOYn0Zn4woMYHJXmTIehFTPFTs)
-- Mac x64: [link](https://mega.nz/#!UN9wmRpJ!E_B5daWuReUDjty0VEuRbuNBGaGSa7H7TGtQQG-4qjY)
+- Windows x64: [DeezLoader-3.0.7-win-64.exe](https://mega.nz/#!oEERkDjb!t70_FoLfEuI7eZoVdJIE09fg415GHO_-eNiAzuv0agw)
+- Windows x86: [DeezLoader-3.0.7-win-32.exe](https://mega.nz/#!tJEATbiK!Iolk893lN8YDq7ON-tcRNFBNQkkPxiJnSLeIUQTmnPA)
+- Linux x64: [DeezLoader-3.0.7-linux-64.AppImage](https://mega.nz/#!cB1TAD7J!qbHfREdYI0IDn2jVpwhiYJwFDEEvf6jzEpZSgIwgg78)
+- Linux x86: [DeezLoader-3.0.7-linux-32.AppImage](https://mega.nz/#!8BUUTCLR!1E9_ngOxV6fDSvPC7R6KX852bAzaY0dxEw2caC4472U)
+- Mac x64: [DeezLoader-3.0.7-mac-64.dmg](https://mega.nz/#!5cE3XQwS!-Qoa1iLxshSf0reh8_DKtf9yNboHKcK89VePkz2pS9E)
 
 # Virus total
-- Windows x64: [link](https://www.virustotal.com/#/file/32b6050b15fba53aba2fed66cd944b1dc2273f8257aaa1a9ea80182008130190)
-- Windows x86: [link](https://www.virustotal.com/#/file/2ba1179673abdee0a30d9da0fb2c1b5aa1182a1658c927814127c8ffbd37f4f8)
-- Linux x64: [link](https://www.virustotal.com/#/file/b55bb35d9fe0ec77e8566296e71f819dd838fee570f7fe5640112d128a85b434)
-- Linux x86: [link](https://www.virustotal.com/#/file/58430e9851c9ceeefd09e3ebfc4c8005d71ac0dc5c9df9a78547b4c44ae36597)
-- Mac x64: [link](https://www.virustotal.com/#/file/2f7fc2dc13f0c01e5b2c01c91101f393cb199e7fcaca083129bd358b74fba2db)
+- Windows x64: [DeezLoader-3.0.7-win-64.exe](https://www.virustotal.com/#/file/4b4e234d216aba0468b2dad0bdf1d94b1a13db0f0c6fb6a62d635718fc27f1f6)
+- Windows x86: [DeezLoader-3.0.7-win-32.exe](https://www.virustotal.com/#/file/c874f461722ee8f67534c1b1e5bc9aacfce0bcfbba09616265e929b1f374a13c)
+- Linux x64: [DeezLoader-3.0.7-linux-64.AppImage](https://www.virustotal.com/#/file/61e8f6677b644df148d072698f4ccbe7454ac60ea23d567a85ea857a509cf7a7)
+- Linux x86: [DeezLoader-3.0.7-linux-32.AppImage](https://www.virustotal.com/#/file/e301db4c5dd47060fa970b7051f6de06a2295942ecbe5a2e173e8fb80d064c19)
+- Mac x64: [DeezLoader-3.0.7-mac-64.dmg](https://www.virustotal.com/#/file/58dc42086b65b677f069810bc0162f02f3f8097e93396bc4f3b7f2496a9f6196)
 
 # Credits
 ## Original Developer

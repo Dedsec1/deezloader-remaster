@@ -1,3 +1,6 @@
+Version 3.0.7
+- Fixed crash when composer or publisher tag is not available
+- Added version to the update notifier
 Version 3.0.6
 - Login page will only appear for those who need it
 - Added composer, publisher and copyright tag

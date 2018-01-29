@@ -123,7 +123,7 @@ io.sockets.on('connection', function (socket) {
     request.get("https://gitlab.com/ExtendLord/DeezLoader-Reborn/raw/master/VERSION.md", function (error, response, body) {
         if(!error && response.statusCode == 200){
             if(body.split("\n")[0] != packagejson.version){
-                socket.emit("newupdate");
+                socket.emit("newupdate",body.split("\n")[0]);
             }
         }else{
             console.log(error);

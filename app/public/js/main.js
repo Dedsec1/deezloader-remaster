@@ -9,8 +9,8 @@ const triesToConnect = mainApp.triesToConnect;
 let userSettings = [];
 
 //Update alert
-socket.on("newupdate", function(){
-  alert("New version is available.");
+socket.on("newupdate", function(ver){
+  alert("You are using an outdated version, the newest is "+ver);
 });
 socket.emit("checkInit");
 socket.on("checkInit", function(errmsg){
