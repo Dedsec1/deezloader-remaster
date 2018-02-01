@@ -1,10 +1,12 @@
+try{
 const shell = require('electron').shell;
 const remote = require('electron').remote;
 const dialog = remote.dialog;
 const packageFile = remote.require('./package.json');
 const mainApp = remote.require('./app');
 const path = remote.require('path');
-
+}catch(e){}
+const version = (typeof packageFile === 'undefined') ? $("sup").html() : packageFile.version;
 (function () {
   //open links externally by default
   $(document).on('click', 'a[href^="http"]', function (event) {
@@ -23,7 +25,9 @@ const path = remote.require('path');
   // Open DevTools when F12 is pressed
   document.addEventListener("keydown", function (e) {
     if (e.which === 123) {
-      remote.getCurrentWindow().toggleDevTools();
+      if(remote){
+        remote.getCurrentWindow().toggleDevTools();
+      }
     }
   });
 
@@ -32,9 +36,11 @@ const path = remote.require('path');
   // Function to make title-bar work
   function initTitleBar() {
     let $mainEl = $('#title-bar');
+    try{
     const window = remote.getCurrentWindow();
+    }catch(e){}
 
-    $mainEl.find('#application_version').text(packageFile.version);
+    $mainEl.find('#application_version').text(version);
 
     $mainEl.find('#min-btn').on('click', function () {
       window.minimize();

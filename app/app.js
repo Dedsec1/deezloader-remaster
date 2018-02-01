@@ -313,7 +313,7 @@ io.sockets.on('connection', function (socket) {
                     return t.id;
                 });
                 downloading.settings.tagPosition = true;
-                downloading.settings.addToPath = downloading.artist + " - " + antiDot(downloading.name);
+                downloading.settings.addToPath = fixName(downloading.artist) + " - " + antiDot(downloading.name);
                 async.eachSeries(downloading.playlistContent, function (id, callback) {
                     if (downloading.cancelFlag) {
                         callback("stop");
@@ -479,9 +479,13 @@ io.sockets.on('connection', function (socket) {
 
     socket.on("getChartsTopCountry", function () {
         Deezer.getChartsTopCountry(function (charts, err) {
-            charts = charts || {};
-            if (err) {
-                charts.data = [];
+            if(err){
+                return;
+            }
+            if(charts){
+                charts = charts.data || [];
+            }else{
+                charts = [];
             }
             socket.emit("getChartsTopCountry", {charts: charts.data, err: err});
         });
@@ -489,7 +493,14 @@ io.sockets.on('connection', function (socket) {
 
     socket.on("getChartsCountryList", function (data) {
         Deezer.getChartsTopCountry(function (charts, err) {
-            charts = charts.data || [];
+            if(err){
+                return;
+            }
+            if(charts){
+                charts = charts.data || [];
+            }else{
+                charts = [];
+            }
             let countries = [];
             for (let i = 0; i < charts.length; i++) {
                 let obj = {
@@ -511,7 +522,14 @@ io.sockets.on('connection', function (socket) {
         }
 
         Deezer.getChartsTopCountry(function (charts, err) {
-            charts = charts.data || [];
+            if(err){
+                return;
+            }
+            if(charts){
+                charts = charts.data || [];
+            }else{
+                charts = [];
+            }
             let countries = [];
             for (let i = 0; i < charts.length; i++) {
                 countries.push(charts[i].title.replace("Top ", ""));
@@ -738,22 +756,22 @@ io.sockets.on('connection', function (socket) {
                         metadata.year = track["PHYSICAL_RELEASE_DATE"].slice(0, 4);
                         metadata.date = track["PHYSICAL_RELEASE_DATE"];
                     }
-                    let filename = `${metadata.artist} - ${metadata.title}`;
+                    let filename = fixName(`${metadata.artist} - ${metadata.title}`);
                     if (settings.filename) {
-                        filename = settingsRegex(metadata, settings.filename, settings.playlist);
+                        filename = fixName(settingsRegex(metadata, settings.filename, settings.playlist));
                     }
 
                     let filepath = mainFolder;
                     if (settings.createArtistFolder || settings.createAlbumFolder) {
                         if (settings.createArtistFolder) {
-                            filepath += metadata.artist + path.sep;
+                            filepath += fixName(metadata.artist) + path.sep;
                             if (!fs.existsSync(filepath)) {
                                 fs.mkdirSync(filepath);
                             }
                         }
 
                         if (settings.createAlbumFolder) {
-                            filepath += settings.createArtistFolder ? metadata.album : `${metadata.artist} - ${metadata.album}` + path.sep;
+                            filepath += fixName(settings.createArtistFolder ? metadata.album : `${metadata.artist} - ${metadata.album}`) + path.sep;
                             if (!fs.existsSync(filepath)) {
                                 fs.mkdirSync(filepath);
                             }
@@ -767,13 +785,13 @@ io.sockets.on('connection', function (socket) {
 
                     let writePath;
                     if(track.format == 9){
-                        if(parseInt(tjson.disk_number) > 1 && settings.tagPosition){
+                        if(parseInt(tjson.disk_number) > 1 && (settings.tagPosition || settings.createAlbumFolder)){
                             writePath = filepath + track["DISK_NUMBER"] + path.sep + filename + '.flac';
                         }else{
                             writePath = filepath + filename + '.flac';
                         }
                     }else{
-                        if(parseInt(tjson.disk_number) > 1 && settings.tagPosition){
+                        if(parseInt(tjson.disk_number) > 1 && (settings.tagPosition || settings.createAlbumFolder)){
                             writePath = filepath + track["DISK_NUMBER"] + path.sep + filename + '.mp3';
                         }else{
                             writePath = filepath + filename + '.mp3';
@@ -998,6 +1016,12 @@ function updateSettingsFile(config, value) {
     });
 }
 
+
+function fixName (txt) {
+  const regEx = /[\0\/\\:*?"<>|]/g;
+  return txt.replace(regEx, '_');
+}
+
 function antiDot(str){
     while(str[str.length-1] == "." || str[str.length-1] == " " || str[str.length-1] == "\n"){
         str = str.substring(0,str.length-1);
@@ -1005,7 +1029,7 @@ function antiDot(str){
     if(str.length < 1){
         str = "dot";
     }
-    return str;
+    return fixName(str);
 }
 
 /**

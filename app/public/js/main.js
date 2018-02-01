@@ -3,9 +3,11 @@
 // Variables & constants
 const socket = io.connect(window.location.href);
 const startingChartCountry = 'UK';
-const defaultUserSettings = mainApp.defaultSettings;
-const defaultDownloadLocation = mainApp.defaultDownloadDir;
-const triesToConnect = mainApp.triesToConnect;
+try{
+  const defaultUserSettings = mainApp.defaultSettings;
+  const defaultDownloadLocation = mainApp.defaultDownloadDir;
+  const triesToConnect = mainApp.triesToConnect;
+}catch(e){}
 let userSettings = [];
 
 //Update alert
