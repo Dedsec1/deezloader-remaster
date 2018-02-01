@@ -21,7 +21,11 @@ socket.on("checkInit", function(errmsg){
     $('#loading-page').css('display','none');
     socket.emit("autologin");
   }else if(errmsg != ""){
-    socket.emit("checkInit");
+    $('#init-text').text(errmsg);
+    setTimeout(function(){
+      socket.emit("checkInit");
+      $('#init-text').text("Initializing...");
+    },1000);
   }else{
     $('#initializing').addClass('animated fadeOut').on('webkitAnimationEnd', function () {
       $(this).css('display', 'none');
@@ -61,8 +65,8 @@ socket.on("login", function (errmsg) {
 	socket.emit("getChartsTrackListByCountry", {country: startingChartCountry});
   }
   else{
-      $('#init-text').text(errmsg);
-      setTimeout(function(){$('#init-text').text("");},1000);
+      $('#login-res-text').text(errmsg);
+      setTimeout(function(){$('#login-res-text').text("");},1000);
   }
   $('#modal_login_btn_login').attr("disabled", false);
   $('#modal_login_btn_login').html("Login");

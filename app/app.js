@@ -144,12 +144,12 @@ io.sockets.on('connection', function (socket) {
         });
     });
     socket.on("checkInit", function () {
-	    var r = request.get("https://www.deezer.com/track/99976952", function (error, response, body) {
-	        if(error || response.statusCode != 200){
-	        	socket.emit("checkInit", "Conncetion error");
+	    var r = request.get({url:"https://www.deezer.com/track/99976952",timeout:8000}, function (error, response, body) {
+	        if(error){
+	        	socket.emit("checkInit", "Conncetion error, trying again.");
 	        }else if(response.request.uri.href.includes("track")){
 	        	socket.emit("checkInit","");
-	        }else if(!error && response.statusCode == 200){
+	        }else{
 	            socket.emit("checkInit","Requires an Account");
 	        }
 	    });

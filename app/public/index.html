@@ -5,7 +5,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.min.js"></script>
+  <script type="text/javascript" src="js/socket.io.min.js"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/materialize.min.css"/>
   <link rel="stylesheet" type="text/css" href="css/animate.css">
@@ -30,7 +30,7 @@
     <div class="row">
       <h4 class="white-text">Login page</h4>
       <h5 class="white-text">Please login to your deezer account.</h5>
-      <h6 class="red-text" id="init-text"></h6> 
+      <h6 class="red-text" id="login-res-text"></h6> 
     </div>
     <div class="row">
         <div class="input-field col s12">
@@ -63,9 +63,6 @@
   </div>
   <div class="center-align" id="loading-page">
     <h1 class="white-text" id="init-text">Initializing...</h1>
-    <div class="buttons" style="display: none">
-      <button class="btn btn-large btn-flat red white-text" id="init-quit-btn">Close</button>
-    </div>
 
     <div class="preloader-wrapper big active" id="init-preloader">
       <div class="spinner-layer">
