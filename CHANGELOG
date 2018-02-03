@@ -1,3 +1,11 @@
+Version 3.0.8
+- Fixed initializing stuck
+- Removed Diacritics remover
+- Changed name fixer
+- Added barcode for FLAC
+- Added support for Android
+- Added web server http://localhost:1730
+- Updated libraries
 Version 3.0.7
 - Fixed crash when composer or publisher tag is not available
 - Added version to the update notifier

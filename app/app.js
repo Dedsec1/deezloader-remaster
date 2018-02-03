@@ -13,8 +13,6 @@
  * */
 
 const winston = require('winston');
-const electron = require('electron');
-const electronApp = electron.app;
 const express = require('express');
 const app = express();
 const server = require('http').createServer(app);
@@ -31,13 +29,33 @@ const packagejson = require('./package.json');
 const mkdirp = require('mkdirp');
 const path = require('path');
 const crypto = require('crypto');
-let configFile = require(electronApp.getPath("userData")+path.sep+"config.json");
+var userdata = "";
+var homedata = "";
+if(process.env.APPDATA){
+	userdata = process.env.APPDATA + path.sep + "Deezloader\\";
+	homedata = os.homedir();
+}else if(process.platform == "darwin"){
+	homedata = os.homedir();
+	userdata = homedata + '/Library/Application Support/Deezloader/';
+}else if(process.platform == "android"){
+	homedata = os.homedir() + "/storage/shared/";
+	userdata = homedata + "/Deezloader/";
+}else{
+	homedata = os.homedir();
+	userdata = homedata + '/.config/Deezloader/';
+}
+
+if(!fs.existsSync(userdata+"config.json")){
+	fs.outputFileSync(userdata+"config.json",fs.readFileSync(__dirname+path.sep+"default.json",'utf8'));
+}
+
+let configFile = require(userdata+path.sep+"config.json");
 
 // Main Constants
-const configFileLocation = electronApp.getPath("userData")+path.sep+"config.json";
-const autologinLocation = electronApp.getPath("userData")+path.sep+"autologin";
-const coverArtFolder = electronApp.getPath('temp') + path.sep + 'deezloader-imgs' + path.sep;
-const defaultDownloadDir = electronApp.getPath('music') + path.sep + 'Deezloader' + path.sep;
+const configFileLocation = userdata+"config.json";
+const autologinLocation = userdata+"autologin";
+const coverArtFolder = os.tmpdir() + path.sep + 'deezloader-imgs' + path.sep;
+const defaultDownloadDir = homedata + path.sep + "Music" + path.sep + 'Deezloader' + path.sep;
 const triesToConnect = 30;
 const defaultSettings = {
     "trackNameTemplate": "%artist% - %title%",

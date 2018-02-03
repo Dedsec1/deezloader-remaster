@@ -17,9 +17,6 @@
 		"win":{
 			"icon": "res/icon.ico"
 		},
-		"linux":{
-			"icon": "res/icon.icns"
-		},
 		"mac":{
 			"icon": "res/icon.icns"
 		},

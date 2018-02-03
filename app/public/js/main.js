@@ -3,11 +3,10 @@
 // Variables & constants
 const socket = io.connect(window.location.href);
 const startingChartCountry = 'UK';
-try{
-  const defaultUserSettings = mainApp.defaultSettings;
-  const defaultDownloadLocation = mainApp.defaultDownloadDir;
-  const triesToConnect = mainApp.triesToConnect;
-}catch(e){}
+if(typeof mainApp !== "undefined"){
+  var defaultUserSettings = mainApp.defaultSettings;
+  var defaultDownloadLocation = mainApp.defaultDownloadDir;
+}
 let userSettings = [];
 
 //Update alert
@@ -74,7 +73,11 @@ socket.on("login", function (errmsg) {
 
 // Open downloads folder
 $('#openDownloadsFolder').on('click', function () {
-  shell.showItemInFolder(userSettings.downloadLocation + path.sep + '.');
+  if(typeof shell !== "undefined"){
+    shell.showItemInFolder(userSettings.downloadLocation + path.sep + '.');
+  }else{
+  	alert("For security reasons, this button will do nothing.");
+  }
 });
 
 // Do misc stuff on page load
@@ -143,8 +146,10 @@ $('#modal_settings_btn_saveSettings').click(function () {
 
 // Reset defaults button
 $('#modal_settings_btn_defaultSettings').click(function () {
-  defaultUserSettings.downloadLocation = defaultDownloadLocation;
-  fillSettingsModal(defaultUserSettings);
+  if(typeof defaultDownloadLocation !== "undefined"){
+    defaultUserSettings.downloadLocation = defaultDownloadLocation;
+    fillSettingsModal(defaultUserSettings);
+  }
 });
 
 // Populate settings fields

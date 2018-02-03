@@ -1,4 +1,4 @@
-# DeezLoader Reborn V3.0.7
+# DeezLoader Reborn V3.0.8
 DeezLoader Reborn is here to replace the old DeezLoader V2.3.1.<br/>
 With this software you can download high-qualiy music and enjoy.
 
@@ -22,26 +22,100 @@ With this software you can download high-qualiy music and enjoy.
 - Download the installer and run it.
 - Run DeezLoader.
 
+## How to run on Android
+
+Installing DeezLoader on Android is a little bit complicated but easy.<br/>
+If you did installed DeezLoader and would like to just run it, go to the last step.
+
+### 1. Install Termux
+In order to have DeezLoader on Android you must install `termux`.
+- Play Store: [link](https://play.google.com/store/apps/details?id=com.termux)
+- Apk Mirror: [link](https://www.apkmirror.com/apk/fredrik-fornwall/termux)
+
+### 2. Install dependencies
+Run `Termux` and enter those lines in order:
+```
+pkg update
+pkg upgrade
+pkg install git
+pkg install nodejs
+```
+If it asks you if you want to continue, enter `y`.
+
+### 3. Download
+
+To download the latest(experimental) version:
+```
+git clone https://gitlab.com/ExtendLord/DeezLoader-Reborn
+```
+To download the release version:
+```
+git clone --branch v3.0.8 https://gitlab.com/ExtendLord/DeezLoader-Reborn
+```
+Then navigate to the app folder using this command
+```
+cd DeezLoader-Reborn/app
+```
+
+### 4. Install
+
+Now lets install what we have downloaded
+```
+npm install
+```
+In order for DeezLoader to work we need to setup storage for termux
+```
+termux-setup-storage
+```
+
+### 5. Run
+
+In order to run make sure that you are in DeezLoader-Reborn/app folder run
+```
+cd DeezLoader-Reborn/app
+```
+
+Run the server side script
+```
+node app.js
+```
+
+And then go to your browser and enter to this site
+
+[http://localhost:1730](http://localhost:1730)
+
 # How to compile
 - Download Node JS latest version
 - Clone the repository(Download the zip file or clone using git)
-- Run compile.sh/bat or run the command 'npm install && npm run dist'
+- Run compile.sh/bat or run the command `npm install && npm run dist` or `yarn install && yarn run dist` if you have `yarn` installed
 - Go to dist and you will see the installer and the software folder
 - Have fun(Easy Peasy)
 
+**If you are a linux user and it returns an error or stucks at creating AppImage then go to `package.json` and delete this**
+
+```
+"win":{
+	"icon": "res/icon.ico"
+},
+"mac":{
+	"icon": "res/icon.icns"
+},
+```
+
 # Download Links
-- Windows x64: [DeezLoader-3.0.7-win-64.exe](https://mega.nz/#!oEERkDjb!t70_FoLfEuI7eZoVdJIE09fg415GHO_-eNiAzuv0agw)
-- Windows x86: [DeezLoader-3.0.7-win-32.exe](https://mega.nz/#!tJEATbiK!Iolk893lN8YDq7ON-tcRNFBNQkkPxiJnSLeIUQTmnPA)
-- Linux x64: [DeezLoader-3.0.7-linux-64.AppImage](https://mega.nz/#!cB1TAD7J!qbHfREdYI0IDn2jVpwhiYJwFDEEvf6jzEpZSgIwgg78)
-- Linux x86: [DeezLoader-3.0.7-linux-32.AppImage](https://mega.nz/#!8BUUTCLR!1E9_ngOxV6fDSvPC7R6KX852bAzaY0dxEw2caC4472U)
-- Mac x64: [DeezLoader-3.0.7-mac-64.dmg](https://mega.nz/#!5cE3XQwS!-Qoa1iLxshSf0reh8_DKtf9yNboHKcK89VePkz2pS9E)
+- Windows x64: [DeezLoader-3.0.8-win-64.exe](https://mega.nz/#!8UEUSQAA!7zZAlF0KknCmcI8oObP7vXdUvUNgZ0ipZun0fRLvanY)
+- Windows x86: [DeezLoader-3.0.8-win-32.exe](https://mega.nz/#!Yd81jRbR!AocFUIRAP0ku86S-RmomLW3CDXB8c0eSNX_P94Ndfog)
+- Linux x64: [DeezLoader-3.0.8-linux-64.AppImage](https://mega.nz/#!pZFmEDyY!qVtoe1iTdxam0IsEKsTMj7VluomqEvlLFROzW7jDtZk)
+- Linux x86: [DeezLoader-3.0.8-linux-32.AppImage](https://mega.nz/#!IQdQiT6D!16cTW9_DwP1kGn07NAcS_i9rNwIRVF70JcnR3RhA9Sg)
+- Mac x64: [DeezLoader-3.0.8-mac-64.dmg](https://mega.nz/#!dNsjRIaL!QG58pReDTubPyHVp9LQyvOtNcL4owr5HZxpN_deQnRU)
+- Android: [Android installation guide](https://gitlab.com/ExtendLord/DeezLoader-Reborn#how-to-run-on-android)
 
 # Virus total
-- Windows x64: [DeezLoader-3.0.7-win-64.exe](https://www.virustotal.com/#/file/4b4e234d216aba0468b2dad0bdf1d94b1a13db0f0c6fb6a62d635718fc27f1f6)
-- Windows x86: [DeezLoader-3.0.7-win-32.exe](https://www.virustotal.com/#/file/c874f461722ee8f67534c1b1e5bc9aacfce0bcfbba09616265e929b1f374a13c)
-- Linux x64: [DeezLoader-3.0.7-linux-64.AppImage](https://www.virustotal.com/#/file/61e8f6677b644df148d072698f4ccbe7454ac60ea23d567a85ea857a509cf7a7)
-- Linux x86: [DeezLoader-3.0.7-linux-32.AppImage](https://www.virustotal.com/#/file/e301db4c5dd47060fa970b7051f6de06a2295942ecbe5a2e173e8fb80d064c19)
-- Mac x64: [DeezLoader-3.0.7-mac-64.dmg](https://www.virustotal.com/#/file/58dc42086b65b677f069810bc0162f02f3f8097e93396bc4f3b7f2496a9f6196)
+- Windows x64: [DeezLoader-3.0.8-win-64.exe](https://www.virustotal.com/#/file/4ef1f5f22b81f5b7296fd2c1ec31ff7ee17e5de9ffce86863c57f78cb4c19316)
+- Windows x86: [DeezLoader-3.0.8-win-32.exe](https://www.virustotal.com/#/file/9b4112b448b49299c954919d2930a7eaae9e8548f42a59ecc0819b8b3aecfc0b)
+- Linux x64: [DeezLoader-3.0.8-linux-64.AppImage](https://www.virustotal.com/#/file/aa380339085720869b524b55f81958b1aa69867886fe24cd0081c4f771929c09)
+- Linux x86: [DeezLoader-3.0.8-linux-32.AppImage](https://www.virustotal.com/#/file/c0446499b93ae09aa0aa23cde4f3e092e35144bc813047171e5d439ac9c2f7dc)
+- Mac x64: [DeezLoader-3.0.8-mac-64.dmg](https://www.virustotal.com/#/file/3898f1db1b0e7a750d73c33528967f56ae763baa550af7076832f62d1d840f82)
 
 # Credits
 ## Original Developer

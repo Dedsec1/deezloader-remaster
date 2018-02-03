@@ -1,13 +1,31 @@
 var request = require('request');
 var crypto = require('crypto');
 var fs = require("fs-extra");
-const electron = require('electron');
-const app = electron.app;
 const path = require('path');
+const os = require('os');
+var userdata = "";
+var homedata = "";
+if(process.env.APPDATA){
+	userdata = process.env.APPDATA + path.sep + "Deezloader\\";
+	homedata = os.homedir();
+}else if(process.platform == "darwin"){
+	homedata = os.homedir();
+	userdata = homedata + '/Library/Application Support/Deezloader/';
+}else if(process.platform == "android"){
+	homedata = os.homedir() + "/storage/shared/";
+	userdata = homedata + "/Deezloader/";
+}else{
+	homedata = os.homedir();
+	userdata = homedata + '/.config/Deezloader/';
+}
+
+if(!fs.existsSync(userdata+"config.json")){
+	fs.outputFileSync(userdata+"config.json",fs.readFileSync(__dirname+path.sep+"default.json",'utf8'));
+}
+
+let configFile = require(userdata+path.sep+"config.json");
+
 module.exports = new Deezer();
-
-
-let configFile = require(app.getPath("userData")+path.sep+"config.json");
 
 function Deezer() {
 	this.apiUrl = "http://www.deezer.com/ajax/gw-light.php";

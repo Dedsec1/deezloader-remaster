@@ -3,8 +3,8 @@ let appConfig;
 const fs = require("fs-extra");
 const path = require('path');
 const electron = require('electron');
+const os = require('os');
 const app = electron.app;
-const configpath = app.getPath("userData")+path.sep+"config.json";
 loadSettings();
 
 const theApp = require('./app');
@@ -27,33 +27,27 @@ require('electron-context-menu')({
 });
 
 function loadSettings(){
-	//Check if the parent folder doesn't exists
-	if(!fs.existsSync(app.getPath("userData"))){
-		//Creates a folder
-		fs.mkdirSync(app.getPath("userData"));
-	}
-	//Checks if there is a config
-	if(fs.existsSync(configpath)){
-		//Tries to check if the config is real
-		try{
-			appConfig = require(configpath);
-			if(appConfig.userDefined.trackNameTemplate && appConfig.userDefined.playlistTrackNameTemplate && appConfig.serverPort){
-								
-			}else{
-				//Creates a config
-				fs.writeFileSync(configpath,fs.readFileSync(__dirname+path.sep+"default.json",'utf8'));
-				appConfig = require(configpath);
-			}
-		}catch(err){
-			//Creates a config
-			fs.writeFileSync(configpath,fs.readFileSync(__dirname+path.sep+"default.json",'utf8'));
-			appConfig = require(configpath);
-		}
+	var userdata = "";
+	var homedata = "";
+	if(process.env.APPDATA){
+		userdata = process.env.APPDATA + path.sep + "Deezloader\\";
+		homedata = os.homedir();
+	}else if(process.platform == "darwin"){
+		homedata = os.homedir();
+		userdata = homedata + '/Library/Application Support/Deezloader/';
+	}else if(process.platform == "android"){
+		homedata = os.homedir() + "/storage/shared/";
+		userdata = homedata + "/Deezloader/";
 	}else{
-		//Creates a config
-		fs.writeFileSync(configpath,fs.readFileSync(__dirname+path.sep+"default.json",'utf8'));
-		appConfig = require(configpath);
+		homedata = os.homedir();
+		userdata = homedata + '/.config/Deezloader/';
 	}
+
+	if(!fs.existsSync(userdata+"config.json")){
+		fs.outputFileSync(userdata+"config.json",fs.readFileSync(__dirname+path.sep+"default.json",'utf8'));
+	}
+
+	appConfig = require(userdata+path.sep+"config.json");
 }
 
 function createWindow () {
