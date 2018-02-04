@@ -824,18 +824,8 @@ io.sockets.on('connection', function (socket) {
                         for(var i=0;i<track["LYRICS_SYNC_JSON"].length;i++){
                             if(track["LYRICS_SYNC_JSON"][i].lrc_timestamp){
                                 lyricsbuffer += track["LYRICS_SYNC_JSON"][i].lrc_timestamp+track["LYRICS_SYNC_JSON"][i].line+"\r\n";
-                            }else if(i > 0 && i < track["LYRICS_SYNC_JSON"].length){
-                                var date = new Date(parseInt(track["LYRICS_SYNC_JSON"][i-1].milliseconds)+(parseInt(track["LYRICS_SYNC_JSON"][i+1].milliseconds)-parseInt(track["LYRICS_SYNC_JSON"][i-1].milliseconds))/2);
-                                var m = date.getMinutes().toString();
-                                var s = date.getSeconds().toString();
-                                var ms = date.getMilliseconds().toString().substring(0,2);
-                                if(m.length == 1){
-                                    m = "0"+m;
-                                }
-                                if(s.length == 1){
-                                    s = "0"+s;
-                                }
-                                lyricsbuffer += "["+m+":"+s+"."+ms+"]"+"\r\n";
+                            }else if(i+1 < track["LYRICS_SYNC_JSON"].length){
+                                lyricsbuffer += track["LYRICS_SYNC_JSON"][i+1].lrc_timestamp+track["LYRICS_SYNC_JSON"][i].line+"\r\n";
                             }
                         }
                         if(track.format == 9){
