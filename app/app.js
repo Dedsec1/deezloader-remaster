@@ -744,13 +744,17 @@ io.sockets.on('connection', function (socket) {
                         trackNumber: track["TRACK_NUMBER"] + "/" + ajson.nb_tracks,
                         partOfSet: track["DISK_NUMBER"] + "/" + tjson.disk_number,
                         label: ajson.label,
-                        ISRC: track["ISRC"],
+                        isrc: track["ISRC"],
                         copyright: track["COPYRIGHT"],
                         duration: track["DURATION"],
+                        BARCODE: ajson.upc,
                         explicit: track["EXPLICIT_LYRICS"]
                     };
                     if(composertag){
                         metadata.composer = composertag;
+                    }
+                    if(track["LYRICS_TEXT"]){
+                        metadata.USLT = track["LYRICS_TEXT"];
                     }
                     if(publishertag){
                     	metadata.publisher = publishertag;
@@ -815,7 +819,31 @@ io.sockets.on('connection', function (socket) {
                             writePath = filepath + filename + '.mp3';
                         }
                     }
-
+                    if(track["LYRICS_SYNC_JSON"]){
+                        var lyricsbuffer = "";
+                        for(var i=0;i<track["LYRICS_SYNC_JSON"].length;i++){
+                            if(track["LYRICS_SYNC_JSON"][i].lrc_timestamp){
+                                lyricsbuffer += track["LYRICS_SYNC_JSON"][i].lrc_timestamp+track["LYRICS_SYNC_JSON"][i].line+"\r\n";
+                            }else if(i > 0 && i < track["LYRICS_SYNC_JSON"].length){
+                                var date = new Date(parseInt(track["LYRICS_SYNC_JSON"][i-1].milliseconds)+(parseInt(track["LYRICS_SYNC_JSON"][i+1].milliseconds)-parseInt(track["LYRICS_SYNC_JSON"][i-1].milliseconds))/2);
+                                var m = date.getMinutes().toString();
+                                var s = date.getSeconds().toString();
+                                var ms = date.getMilliseconds().toString().substring(0,2);
+                                if(m.length == 1){
+                                    m = "0"+m;
+                                }
+                                if(s.length == 1){
+                                    s = "0"+s;
+                                }
+                                lyricsbuffer += "["+m+":"+s+"."+ms+"]"+"\r\n";
+                            }
+                        }
+                        if(track.format == 9){
+                            fs.outputFile(writePath.substring(0,writePath.length-5)+".lrc",lyricsbuffer,function(){});
+                        }else{
+                            metadata.SYLT = lyricsbuffer;
+                        }
+                    }
                     console.log('Downloading file to ' + writePath);
 
                     if (fs.existsSync(writePath)) {
@@ -920,6 +948,7 @@ io.sockets.on('connection', function (socket) {
                                         'COPYRIGHT=' + metadata.copyright,
 	                                    'LENGTH=' + metadata.duration,
 	                                    'ISRC=' + metadata.ISRC,
+                                        'BARCODE=' + metadata.BARCODE,
 	                                    'ITUNESADVISORY=' + metadata.explicit
 	                                ];
                                     if(!settings.tagPosition && !(settings.createArtistFolder || settings.createAlbumFolder) && settings.playlist){
@@ -928,6 +957,9 @@ io.sockets.on('connection', function (socket) {
                                         flacComments[7] = 'TRACKTOTAL=' + settings.playlist.fullSize;
                                         flacComments[8] = 'DISCTOTAL=1';
 
+                                    }
+                                    if(metadata.USLT){
+                                        flacComments.push('LYRICS='+metadata.USLT);
                                     }
 	                                if(metadata.genre){
 	                                    flacComments.push('GENRE=' + metadata.genre);
