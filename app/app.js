@@ -901,7 +901,7 @@ io.sockets.on('connection', function (socket) {
 								return;
 							}
 							if (err) {
-								Deezer.hasTrackAlternative(id, function (alternative, err) {
+								Deezer.hasTrackAlternative(id[0], function (alternative, err) {
 									if (err || !alternative) {
 										console.log("Failed to download: " + metadata.artist + " - " + metadata.title);
 										callback(err);
