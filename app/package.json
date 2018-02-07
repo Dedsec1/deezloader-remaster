@@ -13,7 +13,6 @@
 		"express": "latest",
 		"fs-extra": "latest",
 		"flac-metadata": "latest",
-		"mkdirp": "latest",
 		"node-id3": "latest",
 		"package.json": "latest",
 		"request": "latest",

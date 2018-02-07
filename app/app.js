@@ -26,7 +26,6 @@ const os = require('os');
 const nodeID3 = require('node-id3');
 const Deezer = require('./deezer-api');
 const packagejson = require('./package.json');
-const mkdirp = require('mkdirp');
 const path = require('path');
 const crypto = require('crypto');
 var userdata = "";
@@ -806,16 +805,10 @@ io.sockets.on('connection', function (socket) {
 					if (settings.createArtistFolder || settings.createAlbumFolder) {
 						if (settings.createArtistFolder) {
 							filepath += fixName(metadata.artist) + path.sep;
-							if (!fs.existsSync(filepath)) {
-								fs.mkdirSync(filepath);
-							}
 						}
 
 						if (settings.createAlbumFolder) {
 							filepath += fixName(settings.createArtistFolder ? metadata.album : `${metadata.artist} - ${metadata.album}`) + path.sep;
-							if (!fs.existsSync(filepath)) {
-								fs.mkdirSync(filepath);
-							}
 						}
 					} else if (settings.addToPath) {
 						filepath += settings.addToPath + path.sep;
