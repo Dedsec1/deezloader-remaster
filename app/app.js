@@ -967,7 +967,7 @@ io.sockets.on('connection', function (socket) {
 										flacComments[8] = 'DISCTOTAL=1';
 
 									}
-									if(metadata.unsynchronisedLyrics.text){
+									if(metadata.unsynchronisedLyrics){
 										flacComments.push('LYRICS='+metadata.unsynchronisedLyrics.text);
 									}
 									if(metadata.genre){
