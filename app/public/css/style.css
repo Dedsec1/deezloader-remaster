@@ -1,15 +1,15 @@
 /*Overwrite material styles here*/
 
 table.responsive-table td:empty:before {
-    display: block;
-    min-height: 56px;
+	display: block;
+	min-height: 56px;
 }
 
 .valignicon {
-    position: relative;
-    transform: translateY(+8%);
+	position: relative;
+	transform: translateY(+8%);
 }
 
 td > img {
-    display: flex;
+	display: flex;
 }

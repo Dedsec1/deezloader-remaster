@@ -83,85 +83,85 @@ Deezer.prototype.init = function(username, password, callback) {
 
 Deezer.prototype.getPlaylist = function(id, callback) {
 	getJSON("https://api.deezer.com/playlist/" + id, function(res){
-        if (!(res instanceof Error)){
-            callback(res);
-        } else {
-            callback(null, res)
-        }
+		if (!(res instanceof Error)){
+			callback(res);
+		} else {
+			callback(null, res)
+		}
 	});
 
 }
 
 Deezer.prototype.getAlbum = function(id, callback) {
-    getJSON("https://api.deezer.com/album/" + id, function(res){
-        if (!(res instanceof Error)){
-            callback(res);
-        } else {
-            callback(null, res)
-        }
+	getJSON("https://api.deezer.com/album/" + id, function(res){
+		if (!(res instanceof Error)){
+			callback(res);
+		} else {
+			callback(null, res)
+		}
 	});
 }
 
 Deezer.prototype.getATrack = function(id, callback) {
-    getJSON("https://api.deezer.com/track/" + id, function(res){
-        if (!(res instanceof Error)){
-            callback(res);
-        } else {
-            callback(null, res)
-        }
+	getJSON("https://api.deezer.com/track/" + id, function(res){
+		if (!(res instanceof Error)){
+			callback(res);
+		} else {
+			callback(null, res)
+		}
 	});
 }
 
 Deezer.prototype.getArtist = function(id, callback) {
-    getJSON("https://api.deezer.com/artist/" + id, function(res){
-        if (!(res instanceof Error)){
-            callback(res);
-        } else {
-            callback(null, res)
-        }
+	getJSON("https://api.deezer.com/artist/" + id, function(res){
+		if (!(res instanceof Error)){
+			callback(res);
+		} else {
+			callback(null, res)
+		}
 	});
 
 }
 
 Deezer.prototype.getPlaylistSize = function(id, callback) {
 	getJSON("https://api.deezer.com/playlist/" + id + "/tracks?limit=1", function(res){
-        if (!(res instanceof Error)){
-            callback(res.total);
-        } else {
-            callback(null, res)
-        }
+		if (!(res instanceof Error)){
+			callback(res.total);
+		} else {
+			callback(null, res)
+		}
 	});
 
 }
 
 Deezer.prototype.getPlaylistTracks = function(id, callback) {
-    getJSON("https://api.deezer.com/playlist/" + id + "/tracks?limit=-1", function(res){
-        if (!(res instanceof Error)){
-        	callback(res)
-        } else {
-            callback(null, res)
-        }
+	getJSON("https://api.deezer.com/playlist/" + id + "/tracks?limit=-1", function(res){
+		if (!(res instanceof Error)){
+			callback(res)
+		} else {
+			callback(null, res)
+		}
 	});
 }
 
 Deezer.prototype.getAlbumSize = function(id, callback) {
-    getJSON("https://api.deezer.com/album/" + id + "/tracks?limit=1", function(res){
-        if (!(res instanceof Error)){
-            callback(res.total);
-        } else {
-            callback(null, res)
-        }
+	getJSON("https://api.deezer.com/album/" + id + "/tracks?limit=1", function(res){
+		if (!(res instanceof Error)){
+			callback(res.total);
+		} else {
+			callback(null, res)
+		}
 	});
 
 }
 
 Deezer.prototype.getAlbumTracks = function(id, callback) {
-    getJSON("https://api.deezer.com/album/" + id + "/tracks?limit=-1", function(res){
-        if (!(res instanceof Error)){
-            callback(res);
-        } else {
-            callback(null, res)
-        }
+	getJSON("https://api.deezer.com/album/" + id + "/tracks?limit=-1", function(res){
+		if (!(res instanceof Error)){
+			callback(res);
+		} else {
+			callback(null, res)
+		}
 
 	});
 
@@ -170,15 +170,15 @@ Deezer.prototype.getAlbumTracks = function(id, callback) {
 
 
 Deezer.prototype.getArtistAlbums = function(id, callback) {
-    getJSON("https://api.deezer.com/artist/" + id + "/albums?limit=-1", function(res){
-        if (!(res instanceof Error)){
-            if(!res.data) {
-                res.data = [];
-            }
-            callback(res);
-        } else {
-            callback(null, res)
-        }
+	getJSON("https://api.deezer.com/artist/" + id + "/albums?limit=-1", function(res){
+		if (!(res instanceof Error)){
+			if(!res.data) {
+				res.data = [];
+			}
+			callback(res);
+		} else {
+			callback(null, res)
+		}
 	});
 }
 
@@ -187,18 +187,18 @@ Deezer.prototype.getArtistAlbums = function(id, callback) {
 ** 	From user https://api.deezer.com/user/637006841/playlists?limit=-1
 */
 Deezer.prototype.getChartsTopCountry = function(callback) {
-    getJSON("https://api.deezer.com/user/637006841/playlists?limit=-1", function(res){
-        if (!(res instanceof Error)){
-            if(!res.data) {
-                res.data = [];
-            } else {
-                //Remove "Loved Tracks"
-                res.data.shift();
-            }
-            callback(res);
-        } else {
-            callback(null, res)
-        }
+	getJSON("https://api.deezer.com/user/637006841/playlists?limit=-1", function(res){
+		if (!(res instanceof Error)){
+			if(!res.data) {
+				res.data = [];
+			} else {
+				//Remove "Loved Tracks"
+				res.data.shift();
+			}
+			callback(res);
+		} else {
+			callback(null, res)
+		}
 	});
 
 }
@@ -339,20 +339,20 @@ Deezer.prototype.onDownloadProgress = function(track, progress) {
 }
 
 function getJSON(url, callback){
-    request.get({url: url, headers: this.httpHeaders, jar: true}, function(err, res, body) {
-        if(err || res.statusCode != 200 || !body) {
-            console.log("Unable to initialize Deezer API");
-            callback(new Error());
-        } else {
-            var json = JSON.parse(body);
-            if (json.error) {
-                console.log("Wrong id");
-                callback(new Error());
-                return;
-            }
-            callback(json);
-        }
-    });
+	request.get({url: url, headers: this.httpHeaders, jar: true}, function(err, res, body) {
+		if(err || res.statusCode != 200 || !body) {
+			console.log("Unable to initialize Deezer API");
+			callback(new Error());
+		} else {
+			var json = JSON.parse(body);
+			if (json.error) {
+				console.log("Wrong id");
+				callback(new Error());
+				return;
+			}
+			callback(json);
+		}
+	});
 }
 
 function decryptDownload(source, track) {
