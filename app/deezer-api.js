@@ -248,7 +248,7 @@ Deezer.prototype.getTrack = function(id, callback) {
 			json.downloadUrl = self.getDownloadUrl(md5Origin, id, format, mediaVersion);
 			callback(json);
 		} else {
-			callback(null, new Error("Unable to get Track " + id));
+			callback(new Error("Unable to get Track " + id));
 		}
 	}).bind(self));
 }
@@ -280,16 +280,16 @@ Deezer.prototype.hasTrackAlternative = function(id, callback) {
 		if(!err && res.statusCode == 200) {
 			var json = JSON.parse(body);
 			if(json.error) {
-				callback(null, new Error("Wrong track id: " + id), false);
+				callback(new Error("Wrong track id: " + id), false);
 				return;
 			}
 			if(!json.alternative) {
-				callback(null, new Error("Issues when downloading: " + id), false);
+				callback(new Error("Issues when downloading: " + id), false);
 				return;
 			}
 			callback(json.alternative);
 		} else {
-			callback(null, new Error("Unable to reach Deezer API"));
+			callback(new Error("Unable to reach Deezer API"));
 		}
 	});
 }

@@ -859,7 +859,7 @@ io.sockets.on('connection', function (socket) {
 						let imgPath;
 						//If its not from an album but a playlist.
 						if(!settings.tagPosition && !(settings.createArtistFolder || settings.createAlbumFolder)){
-							imgPath = coverArtFolder + metadata.title + ".jpg";
+							imgPath = coverArtFolder + fixName(metadata.title) + ".jpg";
 						}else{
 							imgPath = filepath + "folder.jpg";
 						}
