@@ -11,7 +11,17 @@ let userSettings = [];
 
 //Update alert
 socket.on("newupdate", function(ver){
-	alert("You are using an outdated version, the newest is "+ver);
+	if(typeof shell != 'undefined'){
+		if (window.confirm("You are using an outdated version, the newest is "+ver+".\nClick OK to redirect to the download page or Cancel to close.")) 
+		{
+			shell.openExternal('https://gitlab.com/ExtendLord/DeezLoader-Reborn#download-links');
+		};
+	}else{
+		if (window.confirm("You are using an outdated version, the newest is "+ver+".\nClick OK to redirect to the download page or Cancel to close.")) 
+		{
+			window.open('https://gitlab.com/ExtendLord/DeezLoader-Reborn#download-links');
+		};
+	}
 });
 socket.emit("checkInit");
 socket.on("checkInit", function(errmsg){
