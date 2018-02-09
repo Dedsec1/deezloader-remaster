@@ -131,12 +131,16 @@ $('#modal_settings_btn_saveSettings').click(function () {
 	settings.userDefined = {
 		trackNameTemplate: $('#modal_settings_input_trackNameTemplate').val(),
 		playlistTrackNameTemplate: $('#modal_settings_input_playlistTrackNameTemplate').val(),
+		albumNameTemplate: $('#modal_settings_input_albumNameTemplate').val(),
 		createM3UFile: $('#modal_settings_cbox_createM3UFile').is(':checked'),
 		createArtistFolder: $('#modal_settings_cbox_createArtistFolder').is(':checked'),
 		createAlbumFolder: $('#modal_settings_cbox_createAlbumFolder').is(':checked'),
 		downloadLocation: $('#modal_settings_input_downloadTracksLocation').val(),
 		artworkSize: $('#modal_settings_select_artworkSize').val(),
-		hifi: $('#modal_settings_cbox_hifi').is(':checked')
+		hifi: $('#modal_settings_cbox_hifi').is(':checked'),
+		padtrck: $('#modal_settings_cbox_padtrck').is(':checked'),
+		syncedlyrics: $('#modal_settings_cbox_syncedlyrics').is(':checked'),
+		numplaylistbyalbum: $('#modal_settings_cbox_numplaylistbyalbum').is(':checked')
 	};
 
 	// Send updated settings to be saved into config file
@@ -154,13 +158,16 @@ $('#modal_settings_btn_defaultSettings').click(function () {
 
 // Populate settings fields
 function fillSettingsModal(settings) {
-
 	$('#modal_settings_input_trackNameTemplate').val(settings.trackNameTemplate);
 	$('#modal_settings_input_playlistTrackNameTemplate').val(settings.playlistTrackNameTemplate);
+	$('#modal_settings_input_albumNameTemplate').val(settings.albumNameTemplate);
 	$('#modal_settings_cbox_createM3UFile').prop('checked', settings.createM3UFile);
 	$('#modal_settings_cbox_createArtistFolder').prop('checked', settings.createArtistFolder);
 	$('#modal_settings_cbox_createAlbumFolder').prop('checked', settings.createAlbumFolder);
 	$('#modal_settings_cbox_hifi').prop('checked', settings.hifi);
+	$('#modal_settings_cbox_padtrck').prop('checked', settings.padtrck);
+	$('#modal_settings_cbox_syncedlyrics').prop('checked', settings.syncedlyrics);
+	$('#modal_settings_cbox_numplaylistbyalbum').prop('checked', settings.numplaylistbyalbum);
 	$('#modal_settings_input_downloadTracksLocation').val(settings.downloadLocation);
 	$('#modal_settings_select_artworkSize').val(settings.artworkSize);
 
@@ -610,12 +617,9 @@ function addToQueue(url) {
 
 	if (type == 'track') {
 		userSettings.filename = userSettings.trackNameTemplate;
-	} else if (type == 'playlist') {
+	} else if (type == 'playlist' || type == 'album' || type == 'artist') {
 		userSettings.filename = userSettings.playlistTrackNameTemplate;
-	} else if (type == 'album') {
-		userSettings.filename = userSettings.playlistTrackNameTemplate;
-	} else if (type == 'artist') {
-		userSettings.filename = userSettings.playlistTrackNameTemplate;
+		userSettings.foldername = userSettings.albumNameTemplate;
 	} else {
 		$('#modal_wrongURL').modal('open');
 		return false;

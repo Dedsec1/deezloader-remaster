@@ -25,6 +25,11 @@ if(!fs.existsSync(userdata+"config.json")){
 
 let configFile = require(userdata+path.sep+"config.json");
 
+if(typeof configFile.userDefined.numplaylistbyalbum != "boolean" || typeof configFile.userDefined.syncedlyrics != "boolean" || typeof configFile.userDefined.padtrck != "boolean" || typeof configFile.userDefined.albumNameTemplate != "string"){
+	fs.outputFileSync(userdata+"config.json",fs.readFileSync(__dirname+path.sep+"default.json",'utf8'));
+	configFile = require(userdata+path.sep+"config.json");
+}
+
 module.exports = new Deezer();
 
 function Deezer() {

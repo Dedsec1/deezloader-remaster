@@ -49,6 +49,10 @@ if(!fs.existsSync(userdata+"config.json")){
 }
 
 let configFile = require(userdata+path.sep+"config.json");
+if(typeof configFile.userDefined.numplaylistbyalbum != "boolean" || typeof configFile.userDefined.syncedlyrics != "boolean" || typeof configFile.userDefined.padtrck != "boolean" || typeof configFile.userDefined.albumNameTemplate != "string"){
+	fs.outputFileSync(userdata+"config.json",fs.readFileSync(__dirname+path.sep+"default.json",'utf8'));
+	configFile = require(userdata+path.sep+"config.json");
+}
 
 // Main Constants
 const configFileLocation = userdata+"config.json";
@@ -59,12 +63,16 @@ const triesToConnect = 30;
 const defaultSettings = {
 	"trackNameTemplate": "%artist% - %title%",
 	"playlistTrackNameTemplate": "%number% - %artist% - %title%",
+	"albumNameTemplate": "%artist% - %album%",
 	"createM3UFile": false,
 	"createArtistFolder": false,
 	"createAlbumFolder": false,
 	"downloadLocation": null,
 	"artworkSize": "/1200x1200.jpg",
-	"hifi": false
+	"hifi": false,
+	"padtrck": false,
+	"syncedlyrics": false,
+	"numplaylistbyalbum": false
 };
 
 
@@ -289,7 +297,7 @@ io.sockets.on('connection', function (socket) {
 					}
 					return [t.id,0];
 				});
-				downloading.settings.addToPath = antiDot(downloading.name);
+				downloading.settings.addToPath = antiDot(fixName(downloading.name));
 				async.eachSeries(downloading.playlistContent, function (id, callback) {
 					if (downloading.cancelFlag) {
 						callback("stop");
@@ -777,7 +785,7 @@ io.sockets.on('connection', function (socket) {
 					if(publishertag){
 						metadata.publisher = publishertag;
 					}
-					if(!settings.tagPosition && !(settings.createArtistFolder || settings.createAlbumFolder) && settings.playlist){
+					if(!settings.tagPosition && !(settings.createArtistFolder || settings.createAlbumFolder) && settings.playlist && !configFile.userDefined.numplaylistbyalbum){
 						metadata.trackNumber = (parseInt(settings.playlist.position)+1).toString() + "/" + settings.playlist.fullSize;
 						metadata.partOfSet = "1/1";
 					}
@@ -803,15 +811,22 @@ io.sockets.on('connection', function (socket) {
 
 					let filepath = mainFolder;
 					if (settings.createArtistFolder || settings.createAlbumFolder) {
+						if(settings.addToPath && !settings.tagPosition && settings.playlist){
+							filepath += settings.addToPath + path.sep;
+						}
 						if (settings.createArtistFolder) {
-							filepath += fixName(metadata.artist) + path.sep;
+							filepath += antiDot(fixName(metadata.artist)) + path.sep;
 						}
 
 						if (settings.createAlbumFolder) {
-							filepath += fixName(settings.createArtistFolder ? metadata.album : `${metadata.artist} - ${metadata.album}`) + path.sep;
+							filepath += antiDot(fixName(settings.createArtistFolder ? metadata.album : settings.foldername ? settingsRegexAlbum(metadata,settings.foldername) : `${metadata.performerInfo} - ${metadata.album}`)) + path.sep;
 						}
 					} else if (settings.addToPath) {
-						filepath += settings.addToPath + path.sep;
+						if(settings.tagPosition && settings.foldername){
+							filepath += antiDot(fixName(settingsRegexAlbum(metadata,settings.foldername))) + path.sep;
+						}else{
+							filepath += settings.addToPath + path.sep;
+						}
 					}
 
 
@@ -831,7 +846,7 @@ io.sockets.on('connection', function (socket) {
 							writePath = filepath + filename + '.mp3';
 						}
 					}
-					if(track["LYRICS_SYNC_JSON"]){
+					if(track["LYRICS_SYNC_JSON"] && configFile.userDefined.syncedlyrics){
 						var lyricsbuffer = "";
 						for(var i=0;i<track["LYRICS_SYNC_JSON"].length;i++){
 							if(track["LYRICS_SYNC_JSON"][i].lrc_timestamp){
@@ -943,23 +958,16 @@ io.sockets.on('connection', function (socket) {
 										'PERFORMER=' + metadata.performerInfo,
 										'ALBUMARTIST=' + metadata.performerInfo,
 										'ARTIST=' + metadata.artist,
-										'TRACKNUMBER=' + track["TRACK_NUMBER"],
-										'DISCNUMBER=' + track["DISK_NUMBER"],
-										'TRACKTOTAL=' + ajson.nb_tracks,
-										'DISCTOTAL=' + tjson.disk_number,
+										'TRACKNUMBER=' + splitNumber(metadata.trackNumber,false),
+										'DISCNUMBER=' + splitNumber(metadata.partOfSet,false),
+										'TRACKTOTAL=' + splitNumber(metadata.trackNumber,true),
+										'DISCTOTAL=' + splitNumber(metadata.partOfSet,true),
 										'COPYRIGHT=' + metadata.copyright,
 										'LENGTH=' + metadata.length,
 										'ISRC=' + metadata.ISRC,
 										'BARCODE=' + metadata.BARCODE,
 										'ITUNESADVISORY=' + metadata.explicit
 									];
-									if(!settings.tagPosition && !(settings.createArtistFolder || settings.createAlbumFolder) && settings.playlist){
-										flacComments[5] = 'TRACKNUMBER=' + (parseInt(settings.playlist.position)+1).toString();
-										flacComments[6] = 'DISCNUMBER=1';
-										flacComments[7] = 'TRACKTOTAL=' + settings.playlist.fullSize;
-										flacComments[8] = 'DISCTOTAL=1';
-
-									}
 									if(metadata.unsynchronisedLyrics){
 										flacComments.push('LYRICS='+metadata.unsynchronisedLyrics.text);
 									}
@@ -1112,14 +1120,28 @@ function settingsRegex(metadata, filename, playlist) {
 	filename = filename.replace(/%artist%/g, metadata.artist);
 	filename = filename.replace(/%year%/g, metadata.year);
 	if(typeof metadata.trackNumber != 'undefined'){
-		filename = filename.replace(/%number%/g, splitNumber(metadata.trackNumber));
+		if(playlist && configFile.userDefined.padtrck){
+			 filename = filename.replace(/%number%/g, pad(splitNumber(metadata.trackNumber, false), splitNumber(metadata.trackNumber, true)));
+		}else{
+			filename = filename.replace(/%number%/g, splitNumber(metadata.trackNumber, false));
+		}
 	} else {
 		filename = filename.replace(/%number%/g, '');
 	}
-	if (playlist) {
-		filename = filename.replace(/%number%/g, pad(playlist.position + 1, playlist.fullSize.toString().length));
-	}
 	return filename;
+}
+
+/**
+ * Creates the name of the albums folder replacing wildcards to correct metadata
+ * @param metadata
+ * @param foldername
+ * @returns {XML|string|*}
+ */
+function settingsRegexAlbum(metadata, foldername) {
+	foldername = foldername.replace(/%album%/g, metadata.album);
+	foldername = foldername.replace(/%artist%/g, metadata.performerInfo);
+	foldername = foldername.replace(/%year%/g, metadata.year);
+	return foldername;
 }
 
 /**
@@ -1130,7 +1152,8 @@ function settingsRegex(metadata, filename, playlist) {
  */
 function pad(str, max) {
 	str = str.toString();
-	return str.length < max ? pad("0" + str, max) : str;
+	max = max.toString();
+	return str.length < max.length ? pad("0" + str, max) : str;
 }
 
 /**
@@ -1138,9 +1161,16 @@ function pad(str, max) {
  * @param string str
  * @return string
  */
-function splitNumber(str){
+function splitNumber(str,total){
 	str = str.toString();
 	var i = str.indexOf("/");
+	if(total && i > 0){
+		return str.slice(i+1, str.length);
+	}else if(i > 0){
+		return str.slice(0, i);
+	}else{
+		return str;
+	}
 	return i > 0 ? str.slice(0, i) : str;
 }
 

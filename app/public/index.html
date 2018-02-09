@@ -101,7 +101,14 @@
 			<div class="input-field col s12">
 				<i class="material-icons prefix">label</i>
 				<input type="text" id="modal_settings_input_playlistTrackNameTemplate"/>
-				<label for="modal_settings_input_playlistTrackNameTemplate">Playlist track names <i class="material-icons valignicon tiny tooltipped" data-position="right" data-delay="50" data-tooltip="Supported variables are: %number%, %year%, %artist%, %title% and %album%">info_outline</i></label>
+				<label for="modal_settings_input_playlistTrackNameTemplate">Playlist/Album track names <i class="material-icons valignicon tiny tooltipped" data-position="right" data-delay="50" data-tooltip="Supported variables are: %number%, %year%, %artist%, %title% and %album%">info_outline</i></label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s12">
+				<i class="material-icons prefix">label</i>
+				<input type="text" id="modal_settings_input_albumNameTemplate"/>
+				<label for="modal_settings_input_albumNameTemplate">Album names <i class="material-icons valignicon tiny tooltipped" data-position="right" data-delay="50" data-tooltip="Supported variables are: %year%, %artist% and %album%">info_outline</i></label>
 			</div>
 		</div>
 		<div class="row">
@@ -123,22 +130,34 @@
 				<label for="modal_settings_input_downloadTracksLocation">Download location</label>
 			</div>
 		</div>
-		<div class="row center">
-			<div class="col s3">
+		<div class="row">
+			<div class="col s4">
 				<input type="checkbox" id="modal_settings_cbox_createM3UFile" class="filled-in"/>
 				<label for="modal_settings_cbox_createM3UFile">Create M3U (Playlist) file</label>
 			</div>
-			<div class="col s3">
+			<div class="col s4">
 				<input type="checkbox" id="modal_settings_cbox_createArtistFolder" class="filled-in"/>
 				<label for="modal_settings_cbox_createArtistFolder">Create artist folder</label>
 			</div>
-			<div class="col s3">
+			<div class="col s4">
 				<input type="checkbox" id="modal_settings_cbox_createAlbumFolder" class="filled-in"/>
 				<label for="modal_settings_cbox_createAlbumFolder">Create album folder</label>
 			</div>
-			<div class="col s3">
+			<div class="col s4">
 				<input type="checkbox" id="modal_settings_cbox_hifi" class="filled-in"/>
 				<label for="modal_settings_cbox_hifi">Enable HIFI</label>
+			</div>
+			<div class="col s4">
+				<input type="checkbox" id="modal_settings_cbox_padtrck" class="filled-in"/>
+				<label for="modal_settings_cbox_padtrck">Pad track numbers</label>
+			</div>
+			<div class="col s4">
+				<input type="checkbox" id="modal_settings_cbox_syncedlyrics" class="filled-in"/>
+				<label for="modal_settings_cbox_syncedlyrics">Enable synced lyrics</label>
+			</div>
+			<div class="col s4">
+				<input type="checkbox" id="modal_settings_cbox_numplaylistbyalbum" class="filled-in"/>
+				<label for="modal_settings_cbox_numplaylistbyalbum">Number playlists by album</label>
 			</div>
 		</div>
 	</div>
