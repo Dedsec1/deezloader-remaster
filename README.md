@@ -14,6 +14,22 @@ With this software you can download high-qualiy music and enjoy.
 - Tagging system on MP3-320 and FLAC
 - Simple and user friendly
 
+# Download Links
+- Windows x64: [DeezLoader-3.0.9-win-64.exe](https://mega.nz/#!cJkiDSyS!FPFQPt5bHvcs89_tnMsTAe1f_YJJag8fRJO_v3uJEbw)
+- Windows x86: [DeezLoader-3.0.9-win-32.exe](https://mega.nz/#!UQ9AxDjS!9ekWn_XN9G6NsCD9w2RwQveFwzV7rvYQpKERvpp6cuU)
+- Linux x64: [DeezLoader-3.0.9-linux-64.AppImage](https://mega.nz/#!wBlmWaIC!56PKn6jcUe2NcHScvw-HlioezDpP_8xh9lm8tk9qtQM)
+- Linux x86: [DeezLoader-3.0.9-linux-32.AppImage](https://mega.nz/#!MMFQmLSZ!l4BK2Xuoz1s6YtwzhM7il_Y4Bp5Dkz2xX4r6mEiVJ6g)
+- Mac x64: [DeezLoader-3.0.9-mac-64.dmg](https://mega.nz/#!oZlz0IiZ!c07Ran7_zrrLaoNVyWQ-1Fbwb7Ow8r83zV25RP1gWQs)
+- Older versions: [Releases](https://gitlab.com/ExtendLord/DeezLoader-Reborn/tags)
+- Android: [Android installation guide](https://gitlab.com/ExtendLord/DeezLoader-Reborn#how-to-run-on-android)
+
+# Virus total
+- Windows x64: [DeezLoader-3.0.9-win-64.exe](https://www.virustotal.com/#/file/d92c42566fab232048da4d2daf070e3bf75c1ca1c16f78d0879dfc2e03db9e70)
+- Windows x86: [DeezLoader-3.0.9-win-32.exe](https://www.virustotal.com/#/file/08ee100113db294823f6a6b9163b170bbf7a5ed774f5702875a6da14c0597a86)
+- Linux x64: [DeezLoader-3.0.9-linux-64.AppImage](https://www.virustotal.com/#/file/b74de4d3f7897a29861a0c750ee739517767e0bda9be98f37751f9842022e9f0)
+- Linux x86: [DeezLoader-3.0.9-linux-32.AppImage](https://www.virustotal.com/#/file/bea91e9914f65ee29ff744da3469fb070a95116ef207a166f861ac000d39468c)
+- Mac x64: [DeezLoader-3.0.9-mac-64.dmg](https://www.virustotal.com/#/file/1717f5cb512d19ed138fa121b336f0ec980ac5fd173f094e1ff610b2e19835b3)
+
 # Donations
 - **BTC/BCH:** 1A25gu2vMXLfQBYArYLMBcTpnuwPiKW6vL
 - **LTC:** LbrVLYkmJ3k2woXACMKshg8KqbMqt1yhAz
@@ -102,21 +118,6 @@ And then go to your browser and enter to this site
 	"icon": "res/icon.icns"
 },
 ```
-
-# Download Links
-- Windows x64: [DeezLoader-3.0.9-win-64.exe](https://mega.nz/#!cJkiDSyS!FPFQPt5bHvcs89_tnMsTAe1f_YJJag8fRJO_v3uJEbw)
-- Windows x86: [DeezLoader-3.0.9-win-32.exe](https://mega.nz/#!UQ9AxDjS!9ekWn_XN9G6NsCD9w2RwQveFwzV7rvYQpKERvpp6cuU)
-- Linux x64: [DeezLoader-3.0.9-linux-64.AppImage](https://mega.nz/#!wBlmWaIC!56PKn6jcUe2NcHScvw-HlioezDpP_8xh9lm8tk9qtQM)
-- Linux x86: [DeezLoader-3.0.9-linux-32.AppImage](https://mega.nz/#!MMFQmLSZ!l4BK2Xuoz1s6YtwzhM7il_Y4Bp5Dkz2xX4r6mEiVJ6g)
-- Mac x64: [DeezLoader-3.0.9-mac-64.dmg](https://mega.nz/#!oZlz0IiZ!c07Ran7_zrrLaoNVyWQ-1Fbwb7Ow8r83zV25RP1gWQs)
-- Android: [Android installation guide](https://gitlab.com/ExtendLord/DeezLoader-Reborn#how-to-run-on-android)
-
-# Virus total
-- Windows x64: [DeezLoader-3.0.9-win-64.exe](https://www.virustotal.com/#/file/d92c42566fab232048da4d2daf070e3bf75c1ca1c16f78d0879dfc2e03db9e70)
-- Windows x86: [DeezLoader-3.0.9-win-32.exe](https://www.virustotal.com/#/file/08ee100113db294823f6a6b9163b170bbf7a5ed774f5702875a6da14c0597a86)
-- Linux x64: [DeezLoader-3.0.9-linux-64.AppImage](https://www.virustotal.com/#/file/b74de4d3f7897a29861a0c750ee739517767e0bda9be98f37751f9842022e9f0)
-- Linux x86: [DeezLoader-3.0.9-linux-32.AppImage](https://www.virustotal.com/#/file/bea91e9914f65ee29ff744da3469fb070a95116ef207a166f861ac000d39468c)
-- Mac x64: [DeezLoader-3.0.9-mac-64.dmg](https://www.virustotal.com/#/file/1717f5cb512d19ed138fa121b336f0ec980ac5fd173f094e1ff610b2e19835b3)
 
 # Credits
 ## Original Developer
