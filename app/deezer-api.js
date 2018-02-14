@@ -2,6 +2,7 @@ var request = require('request');
 var crypto = require('crypto');
 var fs = require("fs-extra");
 const path = require('path');
+const https = require('https');
 const os = require('os');
 var userdata = "";
 var homedata = "";
@@ -311,23 +312,72 @@ Deezer.prototype.getDownloadUrl = function(md5Origin, id, format, mediaVersion) 
 	return "https://e-cdns-proxy-" + md5Origin.substring(0, 1) + ".dzcdn.net/mobile/1/" + buffer.toString("hex").toLowerCase();
 }
 
-Deezer.prototype.decryptTrack = function(track, callback) {
+Deezer.prototype.decryptTrack = function(writePath, track, callback) {
 	var chunkLength = 0;
 	var self = this;
-	this.reqStream = request.get({url: track.downloadUrl, headers: this.httpHeaders, jar: true, encoding: null}, function(err, res, body) {
-		if(!err && res.statusCode == 200) {
-			var decryptedSource = decryptDownload(new Buffer(body, 'binary'), track);
-			callback(decryptedSource);
-		} else {
-			callback(null, err || new Error(res.statusCode));
-		}
-	}).on("data", function(data) {
-		chunkLength += data.length;
-		self.onDownloadProgress(track, chunkLength);
-	}).on("abort", function() {
-		callback(null, new Error("aborted"));
+	{
+		this.reqStream = https.get(track.downloadUrl, function (response) {
+			if (200 === response.statusCode) {
+				const fileStream = fs.createWriteStream(writePath);
+				let i = 0;
+				//let percent = 0;
+
+				response.on('readable', () => {
+					const bfKey = getBlowfishKey(track["SNG_ID"]);
+
+					let chunk;
+					while (chunk = response.read(2048)) {
+						chunkLength += 2048;
+						self.onDownloadProgress(track, chunkLength);
+						//if (100 * 2048 * i / response.headers['content-length'] >= percent + 1) {
+							//percent++;
+						//}
+
+						if (i % 3 > 0 || chunk.length < 2048) {
+							fileStream.write(chunk);
+						} else {
+							const bfDecrypt = crypto.createDecipheriv('bf-cbc', bfKey, '\x00\x01\x02\x03\x04\x05\x06\x07');
+							bfDecrypt.setAutoPadding(false);
+
+							let chunkDec = bfDecrypt.update(chunk.toString('hex'), 'hex', 'hex');
+							chunkDec += bfDecrypt.final('hex');
+							fileStream.write(chunkDec, 'hex');
+						}
+						i++;
+					}
+				});
+
+				response.on('end', () => {
+					fileStream.end();
+					callback(null, null);
+				});
+
+			} else {
+//				console.log("Failed!!!!: ");
+				callback(null, new Error("Unable to get Track!!!!!!"));
+			}
+
+		}).on("abort", function() {
+			fs.unlink(writePath);
+			console.log("Aborted!!!!: ");
+//			callback(null, new Error("aborted"));
 	});
+	};
 }
+
+function getBlowfishKey(trackInfos) {
+	const SECRET = 'g4el58wc0zvf9na1';
+
+	const idMd5 = crypto.createHash('md5').update(trackInfos.toString(), 'ascii').digest('hex');
+	let bfKey = '';
+
+	for (let i = 0; i < 16; i++) {
+		bfKey += String.fromCharCode(idMd5.charCodeAt(i) ^ idMd5.charCodeAt(i + 16) ^ SECRET.charCodeAt(i));
+	}
+
+	return bfKey;
+}
+
 
 Deezer.prototype.cancelDecryptTrack = function() {
 	if(this.reqStream) {
@@ -358,60 +408,4 @@ function getJSON(url, callback){
 			callback(json);
 		}
 	});
-}
-
-function decryptDownload(source, track) {
-	var interval_chunk = 3;
-	var chunk_size = 2048;
-	var part_size = 0x1800;
-	var blowFishKey = getBlowFishKey(track["SNG_ID"]);
-	var i = 0;
-	var position = 0;
-
-	var destBuffer = new Buffer(source.length);
-	destBuffer.fill(0);
-
-	while(position < source.length) {
-		var chunk;
-		if ((source.length - position) >= 2048) {
-			chunk_size = 2048;
-		} else {
-			chunk_size = source.length - position;
-		}
-		chunk = new Buffer(chunk_size);
-		chunk.fill(0);
-		source.copy(chunk, 0, position, position + chunk_size);
-		if (i % interval_chunk == 0 && chunk_size == 2048) {
-			var cipher = crypto.createDecipheriv('bf-cbc', blowFishKey, new Buffer([0, 1, 2, 3, 4, 5, 6, 7]));
-			cipher.setAutoPadding(false);
-			chunk = cipher.update(chunk, 'binary', 'binary') + cipher.final();
-		}
-		destBuffer.write(chunk.toString("binary"), position, 'binary');
-		position += chunk_size
-		i++;
-	}
-	return destBuffer;
-}
-
-function getBlowFishKey(encryptionKey) {
-	if(encryptionKey < 1) {
-		encryptionKey *= -1;
-	}
-	var hashcode = crypto.createHash('md5').update(encryptionKey.toString()).digest("hex");
-	var hPart = hashcode.substring(0, 16);
-	var lPart = hashcode.substring(16, 32);
-	var parts = [ "g4el58wc0zvf9na1", hPart, lPart ];
-	return new Buffer(xorHex(parts));
-}
-
-function xorHex(parts) {
-	var data = "";
-	for(var i = 0; i < 16; i++) {
-		var character = parts[0].charCodeAt(i);
-		for(var j = 1; j < parts.length; j++) {
-			character ^= parts[j].charCodeAt(i);
-		}
-		data += String.fromCharCode(character);
-	}
-	return data;
 }
