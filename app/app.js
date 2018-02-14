@@ -171,7 +171,7 @@ io.sockets.on('connection', function (socket) {
 	socket.on("checkInit", function () {
 		var r = request.get({url:"https://www.deezer.com/track/99976952",timeout:8000}, function (error, response, body) {
 			if(error){
-				socket.emit("checkInit", "Conncetion error, trying again.");
+				socket.emit("checkInit", "Connection error, trying again.");
 			}else if(response.request.uri.href.includes("track")){
 				socket.emit("checkInit","");
 			}else{
