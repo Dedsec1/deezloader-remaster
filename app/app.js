@@ -68,7 +68,7 @@ const defaultSettings = {
 	"createArtistFolder": false,
 	"createAlbumFolder": false,
 	"downloadLocation": null,
-	"artworkSize": "/1200x1200.jpg",
+	"artworkSize": "/1400x1400.jpg",
 	"hifi": false,
 	"padtrck": false,
 	"syncedlyrics": false,
@@ -784,6 +784,9 @@ io.sockets.on('connection', function (socket) {
 							BARCODE: ajson.upc,
 							explicit: track["EXPLICIT_LYRICS"]
 						};
+						if(ajson.release_date){
+							metadata.albumyear = ajson.release_date.slice(0,4);
+						}
 						if(composertag){
 							metadata.composer = composertag;
 						}
@@ -1009,7 +1012,19 @@ io.sockets.on('connection', function (socket) {
 									}
 									
 									if (mdb.isLast) {
-										mdbVorbisPicture = mflac.data.MetaDataBlockPicture.create(true, 3, 'image/jpeg', '', 1200, 1200, 24, 0, cover);
+										var res = 0;
+										if(configFile.userDefined.artworkSize.includes("1400")){
+											res = 1400;
+										}else if(configFile.userDefined.artworkSize.includes("1200")){
+											res = 1200;
+										}else if(configFile.userDefined.artworkSize.includes("1000")){
+											res = 1000;
+										}else if(configFile.userDefined.artworkSize.includes("800")){
+											res = 800;
+										}else if(configFile.userDefined.artworkSize.includes("500")){
+											res = 500;
+										}
+										mdbVorbisPicture = mflac.data.MetaDataBlockPicture.create(true, 3, 'image/jpeg', '', res, res, 24, 0, cover);
 										mdbVorbisComment = mflac.data.MetaDataBlockVorbisComment.create(false, vendor, flacComments);
 										mdb.isLast = false;
 									}
@@ -1143,7 +1158,11 @@ function settingsRegex(metadata, filename, playlist) {
 function settingsRegexAlbum(metadata, foldername, artist, album) {
 	foldername = foldername.replace(/%album%/g, album);
 	foldername = foldername.replace(/%artist%/g, artist);
-	foldername = foldername.replace(/%year%/g, metadata.year);
+	if(metadata.albumyear){
+		foldername = foldername.replace(/%year%/g, metadata.albumyear);
+	}else{
+		foldername = foldername.replace(/%year%/g, metadata.year);
+	}
 	return foldername;
 }
 

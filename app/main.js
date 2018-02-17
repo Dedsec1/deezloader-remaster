@@ -36,7 +36,7 @@ function loadSettings(){
 		homedata = os.homedir();
 		userdata = homedata + '/Library/Application Support/Deezloader/';
 	}else if(process.platform == "android"){
-		homedata = os.homedir() + "/storage/shared/";
+		homedata = os.homedir() + "/storage/shared";
 		userdata = homedata + "/Deezloader/";
 	}else{
 		homedata = os.homedir();

@@ -13,7 +13,7 @@ if(process.env.APPDATA){
 	homedata = os.homedir();
 	userdata = homedata + '/Library/Application Support/Deezloader/';
 }else if(process.platform == "android"){
-	homedata = os.homedir() + "/storage/shared/";
+	homedata = os.homedir() + "/storage/shared";
 	userdata = homedata + "/Deezloader/";
 }else{
 	homedata = os.homedir();
@@ -49,13 +49,6 @@ function Deezer() {
 		"Accept-Language": "de-DE,de;q=0.8,en-US;q=0.6,en;q=0.4"
 	}
 	this.albumPicturesHost = "https://e-cdns-images.dzcdn.net/images/cover/"
-	/**
-	 * Deprecated, use userSettings instead
-	 * @deprecated
-	 */
-	this.albumPictures = {
-		big: "/1200x1200.jpg"
-	}
 	this.reqStream = null;
 }
 
@@ -331,6 +324,7 @@ Deezer.prototype.decryptTrack = function(writePath, track, callback) {
 						self.onDownloadProgress(track, chunkLength);
 						//if (100 * 2048 * i / response.headers['content-length'] >= percent + 1) {
 							//percent++;
+							//console.log("%"+percent.toString()+"%");
 						//}
 
 						if (i % 3 > 0 || chunk.length < 2048) {
