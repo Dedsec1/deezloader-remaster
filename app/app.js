@@ -768,6 +768,41 @@ io.sockets.on('connection', function (socket) {
 							}
 							publishertag = publishertag.substring(0,publishertag.length-2);
 						}
+						if(track["SNG_CONTRIBUTORS"].producer){
+							var producertag = "";
+							for (var i = 0; i < track["SNG_CONTRIBUTORS"].producer.length; i++) {
+								producertag += track["SNG_CONTRIBUTORS"].producer[i] + ", ";
+							}
+							producertag = producertag.substring(0,producertag.length-2);
+						}
+						if(track["SNG_CONTRIBUTORS"].engineer){
+							var engineertag = "";
+							for (var i = 0; i < track["SNG_CONTRIBUTORS"].engineer.length; i++) {
+								engineertag += track["SNG_CONTRIBUTORS"].engineer[i] + ", ";
+							}
+							engineertag = engineertag.substring(0,engineertag.length-2);
+						}
+						if(track["SNG_CONTRIBUTORS"].writer){
+							var writertag = "";
+							for (var i = 0; i < track["SNG_CONTRIBUTORS"].writer.length; i++) {
+								writertag += track["SNG_CONTRIBUTORS"].writer[i] + ", ";
+							}
+							writertag = writertag.substring(0,writertag.length-2);
+						}
+						if(track["SNG_CONTRIBUTORS"].author){
+							var authortag = "";
+							for (var i = 0; i < track["SNG_CONTRIBUTORS"].author.length; i++) {
+								authortag += track["SNG_CONTRIBUTORS"].author[i] + ", ";
+							}
+							authortag = authortag.substring(0,authortag.length-2);
+						}
+						if(track["SNG_CONTRIBUTORS"].mixer){
+							var mixertag = "";
+							for (var i = 0; i < track["SNG_CONTRIBUTORS"].mixer.length; i++) {
+								mixertag += track["SNG_CONTRIBUTORS"].mixer[i] + ", ";
+							}
+							mixertag = mixertag.substring(0,mixertag.length-2);
+						}
 					}
 					let metadata;
 					if(altmetadata){
@@ -788,16 +823,33 @@ io.sockets.on('connection', function (socket) {
 							partOfSet: track["DISK_NUMBER"] + "/" + tjson.disk_number,
 							label: ajson.label,
 							ISRC: track["ISRC"],
-							copyright: track["COPYRIGHT"],
 							length: track["DURATION"],
 							BARCODE: ajson.upc,
 							explicit: track["EXPLICIT_LYRICS"]
 						};
+						if(track["COPYRIGHT"]){
+							metadata.copyright = track["COPYRIGHT"];
+						}
 						if(ajson.release_date){
 							metadata.albumyear = ajson.release_date.slice(0,4);
 						}
 						if(composertag){
 							metadata.composer = composertag;
+						}
+						if(mixertag){
+							metadata.mixer = mixertag;
+						}
+						if(authortag){
+							metadata.author = authortag;
+						}
+						if(writertag){
+							metadata.writer = writertag;
+						}
+						if(engineertag){
+							metadata.engineer = engineertag;
+						}
+						if(producertag){
+							metadata.producer = producertag;
 						}
 						if(track["LYRICS_TEXT"]){
 							metadata.unsynchronisedLyrics = {
@@ -808,7 +860,7 @@ io.sockets.on('connection', function (socket) {
 						if(publishertag){
 							metadata.publisher = publishertag;
 						}
-						if(settings.plName && !(settings.createArtistFolder || settings.createArtistFolder) && !configFile.userDefined.numplaylistbyalbum){
+						if(settings.plName && !(settings.createArtistFolder || settings.createAlbumFolder) && !configFile.userDefined.numplaylistbyalbum){
 							metadata.trackNumber = (parseInt(settings.playlist.position)+1).toString() + "/" + settings.playlist.fullSize;
 							metadata.partOfSet = "1/1";
 						}
@@ -895,12 +947,15 @@ io.sockets.on('connection', function (socket) {
 					if (metadata.image) {
 						let imgPath;
 						//If its not from an album but a playlist.
-						if(!settings.tagPosition && !(settings.createArtistFolder || settings.createAlbumFolder)){
-							imgPath = coverArtFolder + fixName(metadata.title) + ".jpg";
+						if(!settings.tagPosition && !settings.createAlbumFolder){
+							imgPath = coverArtFolder + fixName(metadata.ISRC) + ".jpg";
 						}else{
 							imgPath = filepath + "folder.jpg";
 						}
-						if(!fs.existsSync(imgPath)){
+						if(fs.existsSync(imgPath) && (settings.tagPosition || settings.createAlbumFolder)){
+							metadata.image = (imgPath).replace(/\\/g, "/");
+							condownload();
+						}else{
 							request.get(metadata.image, {encoding: 'binary'}, function(error,response,body){
 								if(error){
 									metadata.image = undefined;
@@ -915,9 +970,6 @@ io.sockets.on('connection', function (socket) {
 									condownload();
 								})
 							});
-						}else{
-							metadata.image = (imgPath).replace(/\\/g, "/");
-							condownload();
 						}
 					}else{
 						metadata.image = undefined;
@@ -971,14 +1023,12 @@ io.sockets.on('connection', function (socket) {
 								let flacComments = [
 									'TITLE=' + metadata.title,
 									'ALBUM=' + metadata.album,
-									'PERFORMER=' + metadata.performerInfo,
 									'ALBUMARTIST=' + metadata.performerInfo,
 									'ARTIST=' + metadata.artist,
 									'TRACKNUMBER=' + splitNumber(metadata.trackNumber,false),
 									'DISCNUMBER=' + splitNumber(metadata.partOfSet,false),
 									'TRACKTOTAL=' + splitNumber(metadata.trackNumber,true),
 									'DISCTOTAL=' + splitNumber(metadata.partOfSet,true),
-									'COPYRIGHT=' + metadata.copyright,
 									'LENGTH=' + metadata.length,
 									'ISRC=' + metadata.ISRC,
 									'BARCODE=' + metadata.BARCODE,
@@ -989,6 +1039,9 @@ io.sockets.on('connection', function (socket) {
 								}
 								if(metadata.genre){
 									flacComments.push('GENRE=' + metadata.genre);
+								}
+								if(metadata.copyright){
+									flacComments.push('COPYRIGHT=' + metadata.copyright);
 								}
 								if (0 < parseInt(metadata.year)) {
 									flacComments.push('DATE=' + metadata.date);
@@ -1002,6 +1055,21 @@ io.sockets.on('connection', function (socket) {
 								}
 								if(metadata.publisher){
 									flacComments.push('ORGANIZATION=' + metadata.publisher);
+								}
+								if(metadata.mixer){
+									flacComments.push('MIXER=' + metadata.mixer);
+								}
+								if(metadata.author){
+									flacComments.push('AUTHOR=' + metadata.author);
+								}
+								if(metadata.writer){
+									flacComments.push('WRITER=' + metadata.writer);
+								}
+								if(metadata.engineer){
+									flacComments.push('ENGINEER=' + metadata.engineer);
+								}
+								if(metadata.producer){
+									flacComments.push('PRODUCER=' + metadata.producer);
 								}
 								const reader = fs.createReadStream(tempPath);
 								const writer = fs.createWriteStream(writePath);
