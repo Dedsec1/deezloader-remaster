@@ -19,7 +19,7 @@ With this software you can download high-qualiy music and enjoy.
 - Windows x86: [DeezLoader-3.0.10-win-32.exe](https://mega.nz/#!FRVhyRbY!aWy_sEc8C8odJdxOruPw0qcVsdy7hvUyiQmdflONDjA)
 - Linux x64: [DeezLoader-3.0.10-linux-64.AppImage](https://mega.nz/#!JAFUzC4A!w6NpmsjB9sMiK5b5FQjTycwKhsCVTsbi5mqay2gK5MQ)
 - Linux x86: [DeezLoader-3.0.10-linux-32.AppImage](https://mega.nz/#!1Q1ShbTA!max8HLvo_abOsP4XQglROQJXc9BYNTTB7SfXnIzEbp8)
-- Mac x64: [DeezLoader-3.0.10-mac-64.dmg](https://mega.nz/#!0EMzUDBL!F3t53OWWnWRxtAWDC_6dflmGvln4TYYXl_NVs_O0QG8)
+- Mac x64: [DeezLoader-3.0.10-mac-64.dmg](https://mega.nz/#!5cFThQ5C!6K1-NkiLsRwirIBqzT0gM6mxlDI09iID2BGcwS2hpOA)
 - Older versions: [Releases](https://gitlab.com/ExtendLord/DeezLoader-Reborn/tags)
 - Android: [Android installation guide](https://gitlab.com/ExtendLord/DeezLoader-Reborn#how-to-run-on-android)
 
@@ -28,7 +28,7 @@ With this software you can download high-qualiy music and enjoy.
 - Windows x86: [DeezLoader-3.0.10-win-32.exe](https://www.virustotal.com/#/file/012f3fda4690f9e462771c0237f12463eebcaeec6beb845f067cc6c653a2a927)
 - Linux x64: [DeezLoader-3.0.10-linux-64.AppImage](https://www.virustotal.com/#/file/4834f0bb2b06f0fbb72417e4c1bdc214e493cd26ec3e454d896af5730585035c)
 - Linux x86: [DeezLoader-3.0.10-linux-32.AppImage](https://www.virustotal.com/#/file/d79d7d5ff0f628dd009fa5d5e52e88b834912789c5076614b68de3eb8894b8d8)
-- Mac x64: [DeezLoader-3.0.10-mac-64.dmg](https://www.virustotal.com/#/file/1d5c028db640d6e863c2989ed37f557c72b06d3f0cfe617230cf10a7eb18b7a6)
+- Mac x64: [DeezLoader-3.0.10-mac-64.dmg](https://www.virustotal.com/#/file/c1db955ce2c46a16b494dd240eaaae23c3ccc87dd6f4aea95e6e664d8122a68a)
 
 # Donations
 - **BTC/BCH:** 1A25gu2vMXLfQBYArYLMBcTpnuwPiKW6vL
