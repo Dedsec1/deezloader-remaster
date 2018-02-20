@@ -10,16 +10,16 @@ if(typeof mainApp !== "undefined"){
 let userSettings = [];
 
 //Update alert
-socket.on("newupdate", function(ver){
+socket.on("newupdate", function(ver, dllink){
 	if(typeof shell != 'undefined'){
 		if (window.confirm("You are using an outdated version, the newest is "+ver+".\nClick OK to redirect to the download page or Cancel to close.")) 
 		{
-			shell.openExternal('https://gitlab.com/ExtendLord/DeezLoader-Reborn#download-links');
+			shell.openExternal(dllink);
 		};
 	}else{
 		if (window.confirm("You are using an outdated version, the newest is "+ver+".\nClick OK to redirect to the download page or Cancel to close.")) 
 		{
-			window.open('https://gitlab.com/ExtendLord/DeezLoader-Reborn#download-links');
+			window.open(dllink);
 		};
 	}
 });

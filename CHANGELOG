@@ -1,3 +1,19 @@
+Version 3.0.10
+- Improved downloading and decrypting system
+- Improved update notifier
+- Added 1400p artworks
+- Alternative tracks will take the original tracks tag if possible
+- Removed Disc folders, tracks of albums with discs will be combined into one.
+- Removed 'dev' from the update notifier
+- Artist folders are now named by the artist of the albums
+- Fixed album name option when artist option is checked
+- Fixed android's home location(It had two slashes)
+- Fixed default android path
+- Fixed album's %year%
+- Fixed downloading issues for non supported countries
+- Fixed ENOENT crashes caused by queues
+- Fixed a minor bug in the alternative track code
+- Added a backup server for update notifier
 Version 3.0.9
 - Added synced and unsynced lyrics, album name option and number playlist by album option
 - Added pad track number(01,02)

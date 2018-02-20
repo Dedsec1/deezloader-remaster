@@ -148,10 +148,19 @@ io.sockets.on('connection', function (socket) {
 	request.get("https://gitlab.com/ExtendLord/DeezLoader-Reborn/raw/master/VERSION.md", function (error, response, body) {
 		if(!error && response.statusCode == 200){
 			if(body.split("\n")[0] != packagejson.version){
-				socket.emit("newupdate",body.split("\n")[0]);
+				socket.emit("newupdate",body.split("\n")[0], body.split("\n")[1]);
 			}
 		}else{
 			console.log(error);
+			request.get("https://pastebin.com/raw/NTxZh1V2", function (error, response, body) {
+				if(!error && response.statusCode == 200){
+					if(body.split("\n")[0] != packagejson.version){
+						socket.emit("newupdate",body.split("\n")[0], body.split("\n")[1]);
+					}
+				}else{
+					console.log(error);
+				}	
+			});
 		}
 	});
 	socket.on("login", function (username, password, autologin) {
