@@ -203,6 +203,7 @@ Deezer.prototype.getChartsTopCountry = function(callback) {
 }
 
 Deezer.prototype.getTrack = function(id, callback) {
+	var scopedid = id;
 	var self = this;
 	request.get({url: "https://www.deezer.com/track/"+id, headers: this.httpHeaders, jar: true}, (function(err, res, body) {
 		var regex = new RegExp(/<script>window\.__DZR_APP_STATE__ = (.*)<\/script>/g);
@@ -211,7 +212,45 @@ Deezer.prototype.getTrack = function(id, callback) {
 		try{
 			_data = rexec[1];
 		}catch(e){
-			callback(null, new Error("Unable to get Track"));
+			if(self.apiQueries.api_token != "null"){
+				request.post({url: self.apiUrl, headers: self.httpHeaders, qs: self.apiQueries, body: "[{\"method\":\"song.getListData\",\"params\":{\"sng_ids\":[" + scopedid + "]}}]", jar: true}, (function(err, res, body) {
+					if(!err && res.statusCode == 200) {
+						try{
+							var json = JSON.parse(body)[0].results.data[0];
+							if(json["TOKEN"]) {
+								callback(new Error("Uploaded Files are currently not supported"));
+								return;
+							}
+							var id = json["SNG_ID"];
+							var md5Origin = json["MD5_ORIGIN"];
+							var format;
+							if(configFile.userDefined.hifi && json["FILESIZE_FLAC"] > 0){
+								format = 9;
+							}else{
+								format = 3;
+								if(json["FILESIZE_MP3_320"] <= 0) {
+									if(json["FILESIZE_MP3_256"] > 0) {
+										format = 5;
+									} else {
+										format = 1;
+									}
+								}
+							}
+							json.format = format;
+							var mediaVersion = parseInt(json["MEDIA_VERSION"]);
+							json.downloadUrl = self.getDownloadUrl(md5Origin, id, format, mediaVersion);
+							callback(json);
+						}catch(e){
+							callback(new Error("Unable to get Track"));
+							return;
+						}
+					} else {
+						callback(new Error("Unable to get Track " + id));
+					}
+				}).bind(self));
+			}else{
+				callback(new Error("Unable to get Track"));
+			}
 			return;
 		}
 		if(!err && res.statusCode == 200 && typeof JSON.parse(_data)["DATA"] != 'undefined') {
@@ -279,16 +318,16 @@ Deezer.prototype.hasTrackAlternative = function(id, callback) {
 		if(!err && res.statusCode == 200) {
 			var json = JSON.parse(body);
 			if(json.error) {
-				callback(new Error("Wrong track id: " + id), false);
+				callback(null, new Error("Wrong track id: " + id));
 				return;
 			}
 			if(!json.alternative) {
-				callback(new Error("Issues when downloading: " + id), false);
+				callback(null, new Error("Issues when downloading: " + id));
 				return;
 			}
 			callback(json.alternative);
 		} else {
-			callback(new Error("Unable to reach Deezer API"));
+			callback(null, new Error("Unable to reach Deezer API"));
 		}
 	});
 }
@@ -354,8 +393,9 @@ Deezer.prototype.decryptTrack = function(writePath, track, callback) {
 		}).on("abort", function() {
 			fs.unlink(writePath);
 			console.log("Aborted!!!!: ");
-//			callback(null, new Error("aborted"));
-	});
+			callback(new Error("aborted"));
+			return;
+		});
 	};
 }
 
