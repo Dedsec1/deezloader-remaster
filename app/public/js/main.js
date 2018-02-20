@@ -627,6 +627,7 @@ function addToQueue(url) {
 
 	if (type == 'track') {
 		userSettings.filename = userSettings.trackNameTemplate;
+		userSettings.foldername = userSettings.albumNameTemplate;
 	} else if (type == 'playlist' || type == 'album' || type == 'artist') {
 		userSettings.filename = userSettings.playlistTrackNameTemplate;
 		userSettings.foldername = userSettings.albumNameTemplate;
