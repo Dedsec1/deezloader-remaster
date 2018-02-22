@@ -821,7 +821,6 @@ io.sockets.on('connection', function (socket) {
 							performerInfo: ajson.artist.name,
 							trackNumber: track["TRACK_NUMBER"] + "/" + ajson.nb_tracks,
 							partOfSet: track["DISK_NUMBER"] + "/" + tjson.disk_number,
-							label: ajson.label,
 							ISRC: track["ISRC"],
 							length: track["DURATION"],
 							BARCODE: ajson.upc,
@@ -829,9 +828,6 @@ io.sockets.on('connection', function (socket) {
 						};
 						if(track["COPYRIGHT"]){
 							metadata.copyright = track["COPYRIGHT"];
-						}
-						if(ajson.release_date){
-							metadata.albumyear = ajson.release_date.slice(0,4);
 						}
 						if(composertag){
 							metadata.composer = composertag;
@@ -878,7 +874,10 @@ io.sockets.on('connection', function (socket) {
 							metadata.image = Deezer.albumPicturesHost + track["ALB_PICTURE"] + settings.artworkSize;
 						}
 
-						if (track["PHYSICAL_RELEASE_DATE"]) {
+						if (ajson.release_date) {
+							metadata.year = ajson.release_date.slice(0, 4);
+							metadata.date = ajson.release_date;
+						}else if(track["PHYSICAL_RELEASE_DATE"]){
 							metadata.year = track["PHYSICAL_RELEASE_DATE"].slice(0, 4);
 							metadata.date = track["PHYSICAL_RELEASE_DATE"];
 						}
@@ -1243,11 +1242,7 @@ function settingsRegex(metadata, filename, playlist) {
 function settingsRegexAlbum(metadata, foldername, artist, album) {
 	foldername = foldername.replace(/%album%/g, album);
 	foldername = foldername.replace(/%artist%/g, artist);
-	if(metadata.albumyear){
-		foldername = foldername.replace(/%year%/g, metadata.albumyear);
-	}else{
-		foldername = foldername.replace(/%year%/g, metadata.year);
-	}
+	foldername = foldername.replace(/%year%/g, metadata.year);
 	return foldername;
 }
 
