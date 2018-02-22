@@ -1,3 +1,11 @@
+Version 3.0.11
+- Fixed artwork duplicate for two tracks with the same name
+- Added tags: mixer, author, writer, engineer and producer
+- Fixed copyright tag when it is not available
+- Removed performer tag from FLAC
+- Removed label tag and changed from track date to album/ep/single date tag
+- Restored decrypting system due to mp3 being corrupt
+- Fixed crash when downloading a track with album folder enabled
 Version 3.0.10
 - Improved downloading and decrypting system
 - Improved update notifier
