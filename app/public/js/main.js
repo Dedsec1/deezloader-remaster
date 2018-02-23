@@ -321,6 +321,7 @@ function showResults_table_album(albums) {
 				(currentResultAlbum.explicit_lyrics ? '<td><i class="material-icons valignicon tiny materialize-red-text tooltipped" data-tooltip="Explicit">error_outline</i> ' : '<td> ') + currentResultAlbum['title'] + '</td>' +
 				'<td>' + currentResultAlbum['artist']['name'] + '</td>' +
 				'<td>' + currentResultAlbum['nb_tracks'] + '</td>' +
+				'<td>' + currentResultAlbum['record_type'] + '</td>' +
 				'</tr>');
 
 		generateShowTracklistSelectiveButton(currentResultAlbum['link']).appendTo(tableBody.children('tr:last')).wrap('<td>');
@@ -493,6 +494,7 @@ socket.on("getTrackList", function (data) {
 			{title: ''},
 			{title: 'Album Title'},
 			{title: 'Release Date'},
+			{title: 'Record Type'},
 			{title: 'Download Album'}
 		];
 
@@ -501,7 +503,7 @@ socket.on("getTrackList", function (data) {
 			$(tableBody).append('<tr><td>' + (i + 1) + '</td>' +
 					(trackList[i].explicit_lyrics ? '<td><i class="material-icons valignicon tiny materialize-red-text tooltipped" data-tooltip="Explicit">error_outline</i></td>' : '<td></td>') +
 					'<td><a href="#" class="album_chip" data-link="' + trackList[i].link + '"><div class="chip"><img src="' + trackList[i].cover_small + '" />' + trackList[i].title + '</div></a></td>' +
-					'<td>' + trackList[i].release_date + '</td></tr>');
+					'<td>' + trackList[i].release_date + '</td><td>' + trackList[i].record_type + '</td></tr>');
 
 			generateDownloadLink(trackList[i].link).appendTo(tableBody.children('tr:last')).wrap('<td>');
 		}

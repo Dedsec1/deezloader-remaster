@@ -951,7 +951,7 @@ io.sockets.on('connection', function (socket) {
 						}else{
 							imgPath = filepath + "folder.jpg";
 						}
-						if(fs.existsSync(imgPath) && (settings.tagPosition || settings.createAlbumFolder)){
+						if(fs.existsSync(imgPath)){
 							metadata.image = (imgPath).replace(/\\/g, "/");
 							condownload();
 						}else{
