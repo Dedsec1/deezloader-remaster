@@ -908,7 +908,7 @@ io.sockets.on('connection', function (socket) {
 							}
 						}
 					} else if (settings.plName) {
-						filepath += fixName(settings.plName) + path.sep;
+						filepath += antiDot(fixName(settings.plName)) + path.sep;
 					} else if (settings.artName) {
 						filepath += antiDot(fixName(settingsRegexAlbum(metadata,settings.foldername,settings.artName,settings.albName))) + path.sep;
 					}
