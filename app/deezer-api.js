@@ -1,6 +1,7 @@
-var request = require('request');
-var crypto = require('crypto');
-var fs = require("fs-extra");
+const NRrequest = require('request');
+const request = require('requestretry').defaults({maxAttempts: 2147483647, retryDelay: 1000, timeout: 8000});
+const crypto = require('crypto');
+const fs = require("fs-extra");
 const path = require('path');
 const https = require('https');
 const os = require('os');
@@ -54,7 +55,7 @@ function Deezer() {
 
 Deezer.prototype.init = function(username, password, callback) {
 	var self = this;
-	request.post({url: "https://www.deezer.com/ajax/action.php", headers: this.httpHeaders, form: {type:'login',mail:username,password:password}, jar: true}, (function(err, res, body) {
+	NRrequest.post({url: "https://www.deezer.com/ajax/action.php", headers: this.httpHeaders, form: {type:'login',mail:username,password:password}, jar: true}, (function(err, res, body) {
 		if(err || res.statusCode != 200) {
 			callback(new Error("Unable to load deezer.com"));
 		}else if(body.indexOf("success") > -1){
@@ -393,10 +394,16 @@ Deezer.prototype.decryptTrack = function(writePath, track, callback) {
 			}
 
 		}).on("abort", function() {
-			try{fs.unlink(writePath);}catch(e){}
+			fs.unlink(writePath,function(err){});
 			aborted = true;
 			console.log("Aborted!!!!: ");
 			callback(new Error("aborted"));
+			return;
+		}).on("error", function(err) {
+			fs.unlink(writePath,function(err){});
+			aborted = true;
+			console.log("Connection error while downloading, trying again.");
+			setTimeout(function(){self.decryptTrack(writePath, track, callback);}, 1000);
 			return;
 		});
 	};

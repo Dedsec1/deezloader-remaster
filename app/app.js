@@ -21,7 +21,8 @@ const mflac = require('flac-metadata');
 const io = require('socket.io').listen(server, {log: false});
 const fs = require('fs-extra');
 const async = require('async');
-const request = require('request');
+const NRrequest = require('request');
+const request = require('requestretry').defaults({maxAttempts: 2147483647, retryDelay: 1000, timeout: 8000});
 const os = require('os');
 const nodeID3 = require('node-id3');
 const Deezer = require('./deezer-api');
@@ -178,7 +179,7 @@ io.sockets.on('connection', function (socket) {
 		});
 	});
 	socket.on("checkInit", function () {
-		var r = request.get({url:"https://www.deezer.com/track/99976952",timeout:8000}, function (error, response, body) {
+		var r = NRrequest.get({url:"https://www.deezer.com/track/99976952"}, function (error, response, body) {
 			if(error){
 				socket.emit("checkInit", "Connection error, trying again.");
 			}else if(response.request.uri.href.includes("track")){
