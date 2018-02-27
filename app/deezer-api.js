@@ -349,6 +349,7 @@ Deezer.prototype.decryptTrack = function(writePath, track, callback) {
 	var chunkLength = 0;
 	var self = this;
 	var aborted = false;
+	var timeout = false;
 	{
 		this.reqStream = https.get(track.downloadUrl, function (response) {
 			if (200 === response.statusCode) {
@@ -396,8 +397,13 @@ Deezer.prototype.decryptTrack = function(writePath, track, callback) {
 		}).on("abort", function() {
 			fs.unlink(writePath,function(err){});
 			aborted = true;
-			console.log("Aborted!!!!: ");
-			callback(new Error("aborted"));
+			if(!timeout){
+				console.log("Aborted!!!!: ");
+				callback(new Error("aborted"));
+			}else{
+				console.log("Connection error while downloading, trying again.");
+				setTimeout(function(){self.decryptTrack(writePath, track, callback);}, 1000);	
+			}
 			return;
 		}).on("error", function(err) {
 			fs.unlink(writePath,function(err){});
@@ -405,6 +411,11 @@ Deezer.prototype.decryptTrack = function(writePath, track, callback) {
 			console.log("Connection error while downloading, trying again.");
 			setTimeout(function(){self.decryptTrack(writePath, track, callback);}, 1000);
 			return;
+		});
+		this.reqStream.setTimeout(8000, function(){
+			console.log("timeout");
+			timeout = true;
+			self.reqStream.abort();
 		});
 	};
 }
