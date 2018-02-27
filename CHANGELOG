@@ -1,3 +1,10 @@
+Version 3.0.12
+- Added request retry, connections will retry if fail
+- Added record type to the search section(Results of Albums and Artists albums)
+- Fixed dots at end of playlists
+- Fixed download freezes (metadata image issues)
+- Removed the title bar from the web GUI
+- Improved download speed and decryption system
 Version 3.0.11
 - Fixed artwork duplicate for two tracks with the same name
 - Added tags: mixer, author, writer, engineer and producer

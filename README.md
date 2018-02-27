@@ -1,4 +1,4 @@
-# DeezLoader Reborn V3.0.11
+# DeezLoader Reborn V3.0.12
 DeezLoader Reborn is here to replace the old DeezLoader V2.3.1.<br/>
 With this software you can download high-qualiy music and enjoy.
 
@@ -15,20 +15,20 @@ With this software you can download high-qualiy music and enjoy.
 - Simple and user friendly
 
 # Download Links
-- Windows x64: [DeezLoader-3.0.11-win-64.exe](https://mega.nz/#!wMcVTCKQ!rhuWqwTRA27vvMKTaGF8rrG2mhs0OvpzEpgY94GiCMY)
-- Windows x86: [DeezLoader-3.0.11-win-32.exe](https://mega.nz/#!4E9XmDLJ!iNxzDA03w6X_eeuabBsHqxKRM-QB5IPhk8A3iNtX85s)
-- Linux x64: [DeezLoader-3.0.11-linux-64.AppImage](https://mega.nz/#!ZcFxCJgL!ONEb8ZlmHV1vOzJqT-79jEPYvhdljBJTCeM2BlrjcxE)
-- Linux x86: [DeezLoader-3.0.11-linux-32.AppImage](https://mega.nz/#!VU9URRDZ!eBPYcGC5kIwi0WZgnwYg7EtlBo2LHw7-SLjQzwOjYGk)
-- Mac x64: [DeezLoader-3.0.11-mac-64.dmg](https://mega.nz/#!QUt2ECxb!XPVICbYKeXavqGKvCtU13u39velCjALVKUngRU5jDLc)
+- Windows x64: [DeezLoader-3.0.12-win-64.exe](https://mega.nz/#!oM8wUShL!2Gq7H8B49n5x8DB7ho1vtdNJCevUtPbtX0dIFvUhvTY)
+- Windows x86: [DeezLoader-3.0.12-win-32.exe](https://mega.nz/#!hN9g0AIS!XlIEFMZ_yp_NZ9EFchKTmHcaoDJijtWbV3Qg0iXmusc)
+- Linux x64: [DeezLoader-3.0.12-linux-64.AppImage](https://mega.nz/#!4UdlkSRC!ZclrGftp_wdDVPtzdUhp1IdvldPrvGa-RKU7aJcmlM0)
+- Linux x86: [DeezLoader-3.0.12-linux-32.AppImage](https://mega.nz/#!Vc0igDAZ!-dJ8MVVPd1HM24r8Ez88tjk9l0GTMcvOtBA4AwsUTuw)
+- Mac x64: [DeezLoader-3.0.12-mac-64.dmg](https://mega.nz/#!FIFQWTBT!kUjJjaKuLNJP3eUY4OIQxX-bFr2Qp7q63LgNnJjwOTw)
 - Older versions: [Releases](https://gitlab.com/ExtendLord/DeezLoader-Reborn/tags)
 - Android: [Android installation guide](https://gitlab.com/ExtendLord/DeezLoader-Reborn#how-to-run-on-android)
 
 # Virus total
-- Windows x64: [DeezLoader-3.0.11-win-64.exe](https://www.virustotal.com/#/file/b2a2e6e43538915ce8409c1a75ed856006d6fa5df38385120ab3840f6b9c93c1)
-- Windows x86: [DeezLoader-3.0.11-win-32.exe](https://www.virustotal.com/#/file/23f0c0a644c735ffa4a2567b84fde8a4563aac2685c2c173b57eef4eae715baa)
-- Linux x64: [DeezLoader-3.0.11-linux-64.AppImage](https://www.virustotal.com/#/file/509a613a650c7d2d65e513c6a2869c9808ec908dcd3447048347b4c4826f4adc)
-- Linux x86: [DeezLoader-3.0.11-linux-32.AppImage](https://www.virustotal.com/#/file/e984ca14de6267e1e35a4989e57bbe449bc3eb3e6006d499cbc777d8fee9ba2b)
-- Mac x64: [DeezLoader-3.0.11-mac-64.dmg](https://www.virustotal.com/#/file/b3797588a87cdcef17973bf7f0226b71986fd0c31a626afb41e3534c44715c1c)
+- Windows x64: [DeezLoader-3.0.12-win-64.exe](https://www.virustotal.com/#/file/8e018fa7a00f2639d0409d18adab4cef4caacdd20d54309b62e3fa224659c715)
+- Windows x86: [DeezLoader-3.0.12-win-32.exe](https://www.virustotal.com/#/file/2e89ca5c9ba4e913bee2654bcb73518b0377fad1bf15eb1d5ca7637ee1ae0f2b)
+- Linux x64: [DeezLoader-3.0.12-linux-64.AppImage](https://www.virustotal.com/#/file/ed9596d22a29b6217c7f59b5ab2a0133a2244904dcb918f1445010d16f0a330d)
+- Linux x86: [DeezLoader-3.0.12-linux-32.AppImage](https://www.virustotal.com/#/file/7188b374590a4a8fc29f10d0c35f22972e0ad25c6b9f450cbac78d8e9623da06)
+- Mac x64: [DeezLoader-3.0.12-mac-64.dmg](https://www.virustotal.com/#/file/95c0ddad2dae34e52abc2df5b511cc6831eea70309818dc9d8e1d2a0fe6a128c)
 
 # Donations
 - **BTC/BCH:** 1A25gu2vMXLfQBYArYLMBcTpnuwPiKW6vL
@@ -67,7 +67,7 @@ git clone https://gitlab.com/ExtendLord/DeezLoader-Reborn
 ```
 To download the release version:
 ```
-git clone --branch v3.0.11 https://gitlab.com/ExtendLord/DeezLoader-Reborn
+git clone --branch v3.0.12 https://gitlab.com/ExtendLord/DeezLoader-Reborn
 ```
 Then navigate to the app folder using this command
 ```

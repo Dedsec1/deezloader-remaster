@@ -54,6 +54,10 @@ const version = (typeof packageFile === 'undefined') ? $("sup").html() : package
 			$mainEl.find('#close-btn').on('click', function () {
 				window.close();
 			});
+		}else{
+			$mainEl.css('display','none');
+			$('.jumbotron').css('top','0');
+			$('.jumbotron').css('margin-top','0');
 		}
 
 		$mainEl.find('#application_version').text(version);
