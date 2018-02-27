@@ -350,6 +350,7 @@ Deezer.prototype.decryptTrack = function(writePath, track, callback) {
 	var self = this;
 	var aborted = false;
 	var timeout = false;
+	var error = false;
 	{
 		this.reqStream = https.get(track.downloadUrl, function (response) {
 			if (200 === response.statusCode) {
@@ -385,8 +386,9 @@ Deezer.prototype.decryptTrack = function(writePath, track, callback) {
 
 				response.on('end', () => {
 					fileStream.end();
-					if(!aborted)
+					if(!aborted){
 						callback();
+					}
 				});
 
 			} else {
@@ -401,21 +403,26 @@ Deezer.prototype.decryptTrack = function(writePath, track, callback) {
 				console.log("Aborted!!!!: ");
 				callback(new Error("aborted"));
 			}else{
+				console.log("Connection timeout while downloading, trying again.");
+				setTimeout(function(){self.decryptTrack(writePath, track, callback);}, 1000);	
+			}
+			return;
+		}).on("error", function() {
+			fs.unlink(writePath,function(err){});
+			aborted = true;
+			error = true;
+			if(!timeout){
 				console.log("Connection error while downloading, trying again.");
 				setTimeout(function(){self.decryptTrack(writePath, track, callback);}, 1000);	
 			}
 			return;
-		}).on("error", function(err) {
-			fs.unlink(writePath,function(err){});
-			aborted = true;
-			console.log("Connection error while downloading, trying again.");
-			setTimeout(function(){self.decryptTrack(writePath, track, callback);}, 1000);
+		}).setTimeout(8000, function(){
+			if(!error){
+				console.log("timeout");
+				timeout = true;
+				self.reqStream.abort();
+			}
 			return;
-		});
-		this.reqStream.setTimeout(8000, function(){
-			console.log("timeout");
-			timeout = true;
-			self.reqStream.abort();
 		});
 	};
 }
