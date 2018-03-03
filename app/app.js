@@ -825,7 +825,8 @@ io.sockets.on('connection', function (socket) {
 							ISRC: track["ISRC"],
 							length: track["DURATION"],
 							BARCODE: ajson.upc,
-							explicit: track["EXPLICIT_LYRICS"]
+							explicit: track["EXPLICIT_LYRICS"],
+							rtype: ajson.record_type
 						};
 						if(track["COPYRIGHT"]){
 							metadata.copyright = track["COPYRIGHT"];
@@ -952,7 +953,7 @@ io.sockets.on('connection', function (socket) {
 						}else{
 							imgPath = filepath + "folder.jpg";
 						}
-						if(fs.existsSync(imgPath)){
+						if(fs.existsSync(imgPath) && !imgPath.includes(coverArtFolder)){
 							metadata.image = (imgPath).replace(/\\/g, "/");
 							condownload();
 						}else{
@@ -1239,6 +1240,7 @@ function settingsRegexAlbum(metadata, foldername, artist, album) {
 	foldername = foldername.replace(/%album%/g, album);
 	foldername = foldername.replace(/%artist%/g, artist);
 	foldername = foldername.replace(/%year%/g, metadata.year);
+	foldername = foldername.replace(/%type%/g, metadata.rtype);
 	return foldername;
 }
 
