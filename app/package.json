@@ -13,7 +13,7 @@
 		"express": "latest",
 		"fs-extra": "latest",
 		"flac-metadata": "latest",
-		"node-id3": "latest",
+		"browser-id3-writer": "latest",
 		"package.json": "latest",
 		"request": "latest",
 		"socket.io": "latest",

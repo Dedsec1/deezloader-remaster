@@ -24,7 +24,7 @@ const async = require('async');
 const NRrequest = require('request');
 const request = require('requestretry').defaults({maxAttempts: 2147483647, retryDelay: 1000, timeout: 8000});
 const os = require('os');
-const nodeID3 = require('node-id3');
+const ID3Writer = require('browser-id3-writer');
 const Deezer = require('./deezer-api');
 const packagejson = require('./package.json');
 const path = require('path');
@@ -810,8 +810,8 @@ io.sockets.on('connection', function (socket) {
 						metadata = altmetadata;
 						if(track["LYRICS_TEXT"] && !metadata.unsynchronisedLyrics){
 							metadata.unsynchronisedLyrics = {
-								language: "",
-								text: track["LYRICS_TEXT"]
+								description: "",
+								lyrics: track["LYRICS_TEXT"]
 							};
 						}
 					}else{
@@ -851,8 +851,8 @@ io.sockets.on('connection', function (socket) {
 						}
 						if(track["LYRICS_TEXT"]){
 							metadata.unsynchronisedLyrics = {
-								language: "",
-								text: track["LYRICS_TEXT"]
+								description: "",
+								lyrics: track["LYRICS_TEXT"]
 							};
 						}
 						if(publishertag){
@@ -930,11 +930,7 @@ io.sockets.on('connection', function (socket) {
 								lyricsbuffer += track["LYRICS_SYNC_JSON"][i+1].lrc_timestamp+track["LYRICS_SYNC_JSON"][i].line+"\r\n";
 							}
 						}
-						if(track.format == 9){
-							fs.outputFile(writePath.substring(0,writePath.length-5)+".lrc",lyricsbuffer,function(){});
-						}else{
-							metadata.SYLT = lyricsbuffer;
-						}
+						fs.outputFile(writePath.substring(0,writePath.length-5)+".lrc",lyricsbuffer,function(){});
 					}
 					console.log('Downloading file to ' + writePath);
 
@@ -1033,7 +1029,7 @@ io.sockets.on('connection', function (socket) {
 									'ITUNESADVISORY=' + metadata.explicit
 								];
 								if(metadata.unsynchronisedLyrics){
-									flacComments.push('LYRICS='+metadata.unsynchronisedLyrics.text);
+									flacComments.push('LYRICS='+metadata.unsynchronisedLyrics.lyrics);
 								}
 								if(metadata.genre){
 									flacComments.push('GENRE=' + metadata.genre);
@@ -1122,16 +1118,59 @@ io.sockets.on('connection', function (socket) {
 									
 								reader.pipe(processor).pipe(writer);
 							}else{
-								//Write ID3-Tags
-                                if (fs.existsSync(tempPath)) {
-                                    fs.copy(tempPath, writePath, (err) => {
-                                        if (err) callback(err);
-                                        if (!nodeID3.write(metadata, tempPath)) {
-                                            console.log("ID3 WRONG!!!!");
-                                        }
-                                        fs.renameSync(tempPath, writePath)
-                                    });
-                                }
+								if (fs.existsSync(tempPath)) {
+									fs.copy(tempPath, writePath, (err) => {
+										if (err) callback(err);
+										const songBuffer = fs.readFileSync(tempPath);
+										const coverBuffer = fs.readFileSync(metadata.image);
+
+										const writer = new ID3Writer(songBuffer);
+										writer.setFrame('TIT2', metadata.title)
+											.setFrame('TPE1', [metadata.artist])
+											.setFrame('TALB', metadata.album)
+											.setFrame('TPE2', metadata.performerInfo)
+											.setFrame('TRCK', metadata.trackNumber)
+											.setFrame('TPOS', metadata.partOfSet)
+											.setFrame('TLEN', metadata.length)
+											//.setFrame('TSRC', metadata.ISRC)
+											.setFrame('TXXX', {
+												description: 'BARCODE',
+												value: metadata.BARCODE
+											})
+											.setFrame('APIC', {
+												type: 3,
+												data: coverBuffer,
+												description: 'front cover'
+											});
+										if(metadata.unsynchronisedLyrics){
+											writer.setFrame('USLT', metadata.unsynchronisedLyrics);
+										}
+										if(metadata.publisher){
+											writer.setFrame('TPUB', metadata.publisher);
+										}
+										if(metadata.genre){
+											writer.setFrame('TCON', [metadata.genre]);
+										}
+										if(metadata.copyright){
+											writer.setFrame('WCOP', metadata.copyright);
+										}
+										if (0 < parseInt(metadata.year)) {
+											//writer.setFrame('TDAT', metadata.date);
+											writer.setFrame('TYER', metadata.year);
+										}
+										if (0 < parseInt(metadata.bpm)) {
+											writer.setFrame('TBPM', metadata.bpm);
+										}
+										if(metadata.composer){
+											writer.setFrame('TCOM', [metadata.composer]);
+										}
+										writer.addTag();
+
+										const taggedSongBuffer = Buffer.from(writer.arrayBuffer);
+										fs.writeFileSync(tempPath, taggedSongBuffer);
+										fs.renameSync(tempPath, writePath)
+									});
+								}
 							}
 
 							callback();
