@@ -24,7 +24,7 @@ const async = require('async');
 const NRrequest = require('request');
 const request = require('requestretry').defaults({maxAttempts: 2147483647, retryDelay: 1000, timeout: 8000});
 const os = require('os');
-const ID3Writer = require('browser-id3-writer');
+const ID3Writer = require('./lib/browser-id3-writer');
 const Deezer = require('./deezer-api');
 const packagejson = require('./package.json');
 const path = require('path');
@@ -1132,7 +1132,7 @@ io.sockets.on('connection', function (socket) {
 											.setFrame('TRCK', metadata.trackNumber)
 											.setFrame('TPOS', metadata.partOfSet)
 											.setFrame('TLEN', metadata.length)
-											//.setFrame('TSRC', metadata.ISRC)
+											.setFrame('TSRC', metadata.ISRC)
 											.setFrame('TXXX', {
 												description: 'BARCODE',
 												value: metadata.BARCODE
@@ -1152,10 +1152,10 @@ io.sockets.on('connection', function (socket) {
 											writer.setFrame('TCON', [metadata.genre]);
 										}
 										if(metadata.copyright){
-											writer.setFrame('WCOP', metadata.copyright);
+											writer.setFrame('TCOP', metadata.copyright);
 										}
 										if (0 < parseInt(metadata.year)) {
-											//writer.setFrame('TDAT', metadata.date);
+											writer.setFrame('TDAT', metadata.date);
 											writer.setFrame('TYER', metadata.year);
 										}
 										if (0 < parseInt(metadata.bpm)) {

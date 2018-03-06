@@ -17,6 +17,9 @@
 		"win":{
 			"icon": "res/icon.ico"
 		},
+		"linux":{
+			"target": "AppImage"
+		},
 		"mac":{
 			"icon": "res/icon.icns"
 		},

@@ -1,4 +1,4 @@
-# DeezLoader Reborn V3.0.12
+# DeezLoader Reborn V3.0.13
 DeezLoader Reborn is here to replace the old DeezLoader V2.3.1.<br/>
 With this software you can download high-qualiy music and enjoy.
 
@@ -15,20 +15,20 @@ With this software you can download high-qualiy music and enjoy.
 - Simple and user friendly
 
 # Download Links
-- Windows x64: [DeezLoader-3.0.12-win-64.exe](https://mega.nz/#!oM8wUShL!2Gq7H8B49n5x8DB7ho1vtdNJCevUtPbtX0dIFvUhvTY)
-- Windows x86: [DeezLoader-3.0.12-win-32.exe](https://mega.nz/#!hN9g0AIS!XlIEFMZ_yp_NZ9EFchKTmHcaoDJijtWbV3Qg0iXmusc)
-- Linux x64: [DeezLoader-3.0.12-linux-64.AppImage](https://mega.nz/#!4UdlkSRC!ZclrGftp_wdDVPtzdUhp1IdvldPrvGa-RKU7aJcmlM0)
-- Linux x86: [DeezLoader-3.0.12-linux-32.AppImage](https://mega.nz/#!Vc0igDAZ!-dJ8MVVPd1HM24r8Ez88tjk9l0GTMcvOtBA4AwsUTuw)
-- Mac x64: [DeezLoader-3.0.12-mac-64.dmg](https://mega.nz/#!FIFQWTBT!kUjJjaKuLNJP3eUY4OIQxX-bFr2Qp7q63LgNnJjwOTw)
+- Windows installer: [DeezLoader-3.0.13-win-64&32.exe](https://mega.nz/#!hNElAL5Y!uZtth0LxFLpTxVPx5QJSym4eFUP9dh-NQsG6gAIlKcU)
+- Windows x64 portable: [DeezLoader-3.0.13-win-64-portable.7z](https://mega.nz/#!QQN3QLKC!cZXN99rvICfGg_AdhEdibzPXmdFmlFvXnvX8L8RLHoA)
+- Windows x86 portable: [DeezLoader-3.0.13-win-32-portable.7z](https://mega.nz/#!5cVgmRab!cw0Mdt4BdxhSqKuiMm7xo1gRVLCAQBPFBg-oJwASqOE)
+- Linux x64: [DeezLoader-3.0.13-linux-64.AppImage](https://mega.nz/#!gVk03RyR!MHQOYCrnjFk-3Px6GYGG73IFRuuugL2RY059ie4meRE)
+- Linux x86: [DeezLoader-3.0.13-linux-32.AppImage](https://mega.nz/#!wJsiQYhA!sW5km8NldMavAa9i7zalVmcq_GitujJpV2kmInE4fEE)
+- Mac x64: [DeezLoader-3.0.13-mac-64.dmg](https://mega.nz/#!5NcnBSRK!OJxXMvJMuek5ildgj9gChfHyE-1ZJnOFDYUijslBs7A)
 - Older versions: [Releases](https://gitlab.com/ExtendLord/DeezLoader-Reborn/tags)
 - Android: [Android installation guide](https://gitlab.com/ExtendLord/DeezLoader-Reborn#how-to-run-on-android)
 
 # Virus total
-- Windows x64: [DeezLoader-3.0.12-win-64.exe](https://www.virustotal.com/#/file/8e018fa7a00f2639d0409d18adab4cef4caacdd20d54309b62e3fa224659c715)
-- Windows x86: [DeezLoader-3.0.12-win-32.exe](https://www.virustotal.com/#/file/2e89ca5c9ba4e913bee2654bcb73518b0377fad1bf15eb1d5ca7637ee1ae0f2b)
-- Linux x64: [DeezLoader-3.0.12-linux-64.AppImage](https://www.virustotal.com/#/file/ed9596d22a29b6217c7f59b5ab2a0133a2244904dcb918f1445010d16f0a330d)
-- Linux x86: [DeezLoader-3.0.12-linux-32.AppImage](https://www.virustotal.com/#/file/7188b374590a4a8fc29f10d0c35f22972e0ad25c6b9f450cbac78d8e9623da06)
-- Mac x64: [DeezLoader-3.0.12-mac-64.dmg](https://www.virustotal.com/#/file/95c0ddad2dae34e52abc2df5b511cc6831eea70309818dc9d8e1d2a0fe6a128c)
+- Windows installer: [DeezLoader-3.0.13-win-64&32.exe](https://www.virustotal.com/#/file/be6615b5215e686e4df7156e47256a890845f0d0bab316c551e8c46f4656fd35)
+- Linux x64: [DeezLoader-3.0.13-linux-64.AppImage](https://www.virustotal.com/#/file/2576ed9006cf43d0e99315553dab4edbb95aff47daeac896cc508739650f646c)
+- Linux x86: [DeezLoader-3.0.13-linux-32.AppImage](https://www.virustotal.com/#/file/69fb4992639c8c58c6a58d6584b63d469c529df893b52bdfd759acda3eb28d40)
+- Mac x64: [DeezLoader-3.0.13-mac-64.dmg](https://www.virustotal.com/#/file/5b8c9619de12f77b9fcd0ca25c74c753347af4e297c111dc2013b41c45448f41)
 
 # Donations
 - **BTC/BCH:** 1A25gu2vMXLfQBYArYLMBcTpnuwPiKW6vL
@@ -42,7 +42,17 @@ With this software you can download high-qualiy music and enjoy.
 ## How to run on Android
 
 Installing DeezLoader on Android is a little bit complicated but easy.<br/>
-If you did installed DeezLoader and would like to just run it, go to the last step.
+If you did installed DeezLoader and would like to just run it, go to step [5](https://gitlab.com/ExtendLord/DeezLoader-Reborn#5-run).
+
+### How to update on Android
+
+If you would like to update DeezLoader on android you need to first delete the folder
+
+```
+rm -rf DeezLoader-Reborn
+```
+
+Then follow from step [3](https://gitlab.com/ExtendLord/DeezLoader-Reborn#3-download)
 
 ### 1. Install Termux
 In order to have DeezLoader on Android you must install `termux`.
@@ -54,20 +64,19 @@ Run `Termux` and enter those lines in order:
 ```
 pkg update
 pkg upgrade
-pkg install git
-pkg install nodejs
+pkg install git nodejs
 ```
 If it asks you if you want to continue, enter `y`.
 
 ### 3. Download
 
-To download the latest(experimental) version:
+To download the master(latest) version:
 ```
 git clone https://gitlab.com/ExtendLord/DeezLoader-Reborn
 ```
 To download the release version:
 ```
-git clone --branch v3.0.12 https://gitlab.com/ExtendLord/DeezLoader-Reborn
+git clone --branch v3.0.13 https://gitlab.com/ExtendLord/DeezLoader-Reborn
 ```
 Then navigate to the app folder using this command
 ```

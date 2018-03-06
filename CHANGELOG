@@ -1,3 +1,8 @@
+Version 3.0.13
+- Fixed timeout of the download system
+- Fixed images for tracks
+- Fixed and Improved MP3 tags
+- Added %type%(Record type) for album name format
 Version 3.0.12
 - Added request retry, connections will retry if fail
 - Added record type to the search section(Results of Albums and Artists albums)

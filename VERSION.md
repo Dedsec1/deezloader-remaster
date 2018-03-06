@@ -1,2 +1,2 @@
-3.0.12
+3.0.13
 https://gitlab.com/ExtendLord/DeezLoader-Reborn#download-links
