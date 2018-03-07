@@ -285,7 +285,10 @@ Deezer.prototype.getTrack = function(id, callback) {
 			json.format = format;
 			var mediaVersion = parseInt(json["MEDIA_VERSION"]);
 			json.downloadUrl = self.getDownloadUrl(md5Origin, id, format, mediaVersion);
-			callback(json);
+			self.getATrack(id,function(trckjson){
+				json["BPM"] = trckjson["bpm"];
+				callback(json);
+			});
 		} else {
 			callback(new Error("Unable to get Track " + id));
 		}
