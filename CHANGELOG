@@ -1,3 +1,6 @@
+Version 3.0.14
+- Login is required due to Deezer's patch(Crashes when downloading anything)
+- Added BPM tag
 Version 3.0.13
 - Fixed timeout of the download system
 - Fixed images for tracks
