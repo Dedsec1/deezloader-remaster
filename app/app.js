@@ -179,15 +179,7 @@ io.sockets.on('connection', function (socket) {
 		});
 	});
 	socket.on("checkInit", function () {
-		var r = NRrequest.get({url:"https://www.deezer.com/track/99976952"}, function (error, response, body) {
-			if(error){
-				socket.emit("checkInit", "Connection error, trying again.");
-			}else if(response.request.uri.href.includes("track")){
-				socket.emit("checkInit","");
-			}else{
-				socket.emit("checkInit","Requires an Account");
-			}
-		});
+		socket.emit("checkInit","Requires an Account");
 	});
 	socket.on("autologin", function(){
 		fs.readFile(autologinLocation, function(err, data){

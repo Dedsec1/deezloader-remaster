@@ -376,9 +376,8 @@ Deezer.prototype.decryptTrack = function(writePath, track, callback) {
 							const bfDecrypt = crypto.createDecipheriv('bf-cbc', bfKey, '\x00\x01\x02\x03\x04\x05\x06\x07');
 							bfDecrypt.setAutoPadding(false);
 
-							let chunkDec = bfDecrypt.update(chunk.toString('hex'), 'hex', 'hex');
-							chunkDec += bfDecrypt.final('hex');
-							fileStream.write(chunkDec, 'hex');
+							let chunkDec = bfDecrypt.update(chunk.toString('binary'), 'binary', 'binary') + bfDecrypt.final();
+							fileStream.write(chunkDec, 'binary');
 						}
 						i++;
 					}
