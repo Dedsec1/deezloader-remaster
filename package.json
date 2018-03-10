@@ -5,7 +5,7 @@
 		"electron-builder": "latest"
 	},
 	"scripts": {
-		"dist": "electron-builder --ia32 --x64",
+		"dist": "electron-builder",
 		"pack": "electron-builder --dir",
 		"postinstall": "electron-builder install-app-deps"
 	},

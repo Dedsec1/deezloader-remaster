@@ -290,14 +290,14 @@ io.sockets.on('connection', function (socket) {
 				queueDownload(getNextDownload());
 			});
 		} else if (downloading.type == "playlist") {
-			Deezer.getPlaylistTracks(downloading.id, function (tracks, err) {
+			Deezer.getPlaylistTracksAdv(downloading.id, function (tracks, err) {
 				downloading.playlistContent = tracks.data.map((t) => {
-					if(t.alternative){
-						if(t.alternative.id){
-							return [t.id,t.alternative.id];
+					if(t.FALLBACK){
+						if(t.FALLBACK.SNG_ID){
+							return [t.SNG_ID,t.FALLBACK.SNG_ID];
 						}
 					}
-					return [t.id,0];
+					return [t.SNG_ID,0];
 				});
 				downloading.settings.plName = downloading.name;
 				async.eachSeries(downloading.playlistContent, function (id, callback) {
@@ -334,14 +334,14 @@ io.sockets.on('connection', function (socket) {
 				});
 			});
 		} else if (downloading.type == "album") {
-			Deezer.getAlbumTracks(downloading.id, function (tracks, err) {
+			Deezer.getAlbumTracksAdv(downloading.id, function (tracks, err) {
 				downloading.playlistContent = tracks.data.map((t) => {
-					if(t.alternative){
-						if(t.alternative.id){
-							return [t.id,t.alternative.id];
+					if(t.FALLBACK){
+						if(t.FALLBACK.SNG_ID){
+							return [t.SNG_ID,t.FALLBACK.SNG_ID];
 						}
 					}
-					return [t.id,0];
+					return [t.SNG_ID,0];
 				});
 				downloading.settings.tagPosition = true;
 				downloading.settings.albName = downloading.name;
@@ -726,9 +726,8 @@ io.sockets.on('connection', function (socket) {
 				}
 				return;
 			}
-
-			Deezer.getAlbum(track["ALB_ID"], function(res){
-				if(!res){
+			Deezer.getAlbum(track["ALB_ID"], function(res, err){
+				if(err){
 					if(id[1] != 0){
 						downloadTrack([id[1],0], settings, null, function(err){
 							callback(err);
@@ -860,6 +859,9 @@ io.sockets.on('connection', function (socket) {
 						if (0 < parseInt(track["BPM"])) {
 							metadata.bpm = track["BPM"];
 						}
+						if (track["GAIN"]) {
+							metadata.trackgain = track["GAIN"];
+						}
 						if(ajson.genres && ajson.genres.data[0] && ajson.genres.data[0].name){
 							metadata.genre = ajson.genres.data[0].name;
 						}
@@ -966,7 +968,6 @@ io.sockets.on('connection', function (socket) {
 					}
 					function condownload(){
 						var tempPath = writePath+".temp";
-						fs.ensureDirSync(filepath);
 						Deezer.decryptTrack(tempPath,track, function (err) {
 							if (err && err.message == "aborted") {
 								socket.currentItem.cancelFlag = true;
@@ -980,7 +981,7 @@ io.sockets.on('connection', function (socket) {
 										callback(err);
 										return;
 									}
-									downloadTrack([alternative.id,0], settings, metadata, callback);
+									downloadTrack([alternative.SNG_ID,0], settings, metadata, callback);
 								});
 								return;
 							}
@@ -1057,6 +1058,12 @@ io.sockets.on('connection', function (socket) {
 								if(metadata.producer){
 									flacComments.push('PRODUCER=' + metadata.producer);
 								}
+								if(metadata.trackgain){
+									flacComments.push('REPLAYGAIN_TRACK_GAIN=' + metadata.trackgain);
+								}
+								if(metadata.producer){
+									flacComments.push('PRODUCER=' + metadata.producer);
+								}
 								const reader = fs.createReadStream(tempPath);
 								const writer = fs.createWriteStream(writePath);
 								let processor = new mflac.Processor({parseMetaDataBlocks: true});
@@ -1110,59 +1117,60 @@ io.sockets.on('connection', function (socket) {
 									
 								reader.pipe(processor).pipe(writer);
 							}else{
-								if (fs.existsSync(tempPath)) {
-									fs.copy(tempPath, writePath, (err) => {
-										if (err) callback(err);
-										const songBuffer = fs.readFileSync(tempPath);
-										const coverBuffer = fs.readFileSync(metadata.image);
+								const songBuffer = fs.readFileSync(tempPath);
+								const coverBuffer = fs.readFileSync(metadata.image);
 
-										const writer = new ID3Writer(songBuffer);
-										writer.setFrame('TIT2', metadata.title)
-											.setFrame('TPE1', [metadata.artist])
-											.setFrame('TALB', metadata.album)
-											.setFrame('TPE2', metadata.performerInfo)
-											.setFrame('TRCK', metadata.trackNumber)
-											.setFrame('TPOS', metadata.partOfSet)
-											.setFrame('TLEN', metadata.length)
-											.setFrame('TSRC', metadata.ISRC)
-											.setFrame('TXXX', {
-												description: 'BARCODE',
-												value: metadata.BARCODE
-											})
-											.setFrame('APIC', {
-												type: 3,
-												data: coverBuffer,
-												description: 'front cover'
-											});
-										if(metadata.unsynchronisedLyrics){
-											writer.setFrame('USLT', metadata.unsynchronisedLyrics);
-										}
-										if(metadata.publisher){
-											writer.setFrame('TPUB', metadata.publisher);
-										}
-										if(metadata.genre){
-											writer.setFrame('TCON', [metadata.genre]);
-										}
-										if(metadata.copyright){
-											writer.setFrame('TCOP', metadata.copyright);
-										}
-										if (0 < parseInt(metadata.year)) {
-											writer.setFrame('TDAT', metadata.date);
-											writer.setFrame('TYER', metadata.year);
-										}
-										if (0 < parseInt(metadata.bpm)) {
-											writer.setFrame('TBPM', metadata.bpm);
-										}
-										if(metadata.composer){
-											writer.setFrame('TCOM', [metadata.composer]);
-										}
-										writer.addTag();
-
-										const taggedSongBuffer = Buffer.from(writer.arrayBuffer);
-										fs.writeFileSync(tempPath, taggedSongBuffer);
-										fs.renameSync(tempPath, writePath)
+								const writer = new ID3Writer(songBuffer);
+								writer.setFrame('TIT2', metadata.title)
+									.setFrame('TPE1', [metadata.artist])
+									.setFrame('TALB', metadata.album)
+									.setFrame('TPE2', metadata.performerInfo)
+									.setFrame('TRCK', metadata.trackNumber)
+									.setFrame('TPOS', metadata.partOfSet)
+									.setFrame('TLEN', metadata.length)
+									.setFrame('TSRC', metadata.ISRC)
+									.setFrame('TXXX', {
+										description: 'BARCODE',
+										value: metadata.BARCODE
+									})
+									.setFrame('APIC', {
+										type: 3,
+										data: coverBuffer,
+										description: 'front cover'
+									});
+								if(metadata.unsynchronisedLyrics){
+									writer.setFrame('USLT', metadata.unsynchronisedLyrics);
+								}
+								if(metadata.publisher){
+									writer.setFrame('TPUB', metadata.publisher);
+								}
+								if(metadata.genre){
+									writer.setFrame('TCON', [metadata.genre]);
+								}
+								if(metadata.copyright){
+									writer.setFrame('TCOP', metadata.copyright);
+								}
+								if (0 < parseInt(metadata.year)) {
+									writer.setFrame('TDAT', metadata.date);
+									writer.setFrame('TYER', metadata.year);
+								}
+								if (0 < parseInt(metadata.bpm)) {
+									writer.setFrame('TBPM', metadata.bpm);
+								}
+								if(metadata.composer){
+									writer.setFrame('TCOM', [metadata.composer]);
+								}
+								if(metadata.trackgain){
+									writer.setFrame('TXXX', {
+										description: 'REPLAYGAIN_TRACK_GAIN',
+										value: metadata.trackgain
 									});
 								}
+								writer.addTag();
+
+								const taggedSongBuffer = Buffer.from(writer.arrayBuffer);
+								fs.writeFileSync(writePath, taggedSongBuffer);
+								fs.remove(tempPath);
 							}
 
 							callback();

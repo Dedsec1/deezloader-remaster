@@ -167,7 +167,27 @@ Deezer.prototype.getAlbumTracks = function(id, callback) {
 
 }
 
+Deezer.prototype.getAlbumTracksAdv = function(id, callback) {
+	var self = this;
+	request.post({url: self.apiUrl, headers: self.httpHeaders, qs: Object.assign(self.apiQueries,{method:"deezer.pageAlbum"}), body: {alb_id:id,lang:"en",tab:0}, json: true, jar: true}, function(err, res, body) {
+		if (!err && res.statusCode == 200){
+			callback(body.results["SONGS"]);
+		} else {
+			callback(null, res)
+		}
+	});
+}
 
+Deezer.prototype.getPlaylistTracksAdv = function(id, callback) {
+	var self = this;
+	request.post({url: self.apiUrl, headers: self.httpHeaders, qs: Object.assign(self.apiQueries,{method:"deezer.pagePlaylist"}), body: {playlist_id:id.toString(),lang:"en",nb:100000,start:0,tab:0,tags:true,header:true}, json: true, jar: true}, function(err, res, body) {
+		if (!err && res.statusCode == 200){
+			callback(body.results["SONGS"]);
+		} else {
+			callback(null, res)
+		}
+	});
+}
 
 Deezer.prototype.getArtistAlbums = function(id, callback) {
 	getJSON("https://api.deezer.com/artist/" + id + "/albums?limit=-1", function(res){
@@ -318,22 +338,28 @@ Deezer.prototype.search = function(text, type, callback) {
 }
 
 Deezer.prototype.hasTrackAlternative = function(id, callback) {
-	request.get({url: "https://api.deezer.com/track/" + id, headers: this.httpHeaders, jar: true}, function(err, res, body) {
-		if(!err && res.statusCode == 200) {
-			var json = JSON.parse(body);
-			if(json.error) {
-				callback(null, new Error("Wrong track id: " + id));
-				return;
-			}
-			if(!json.alternative) {
-				callback(null, new Error("Issues when downloading: " + id));
-				return;
-			}
-			callback(json.alternative);
-		} else {
-			callback(null, new Error("Unable to reach Deezer API"));
+	var scopedid = id;
+	var self = this;
+	request.get({url: "https://www.deezer.com/track/"+id, headers: this.httpHeaders, jar: true}, (function(err, res, body) {
+		var regex = new RegExp(/<script>window\.__DZR_APP_STATE__ = (.*)<\/script>/g);
+		var rexec = regex.exec(body);
+		var _data;
+		try{
+			_data = rexec[1];
+		}catch(e){
+
 		}
-	});
+		if(!err && res.statusCode == 200 && typeof JSON.parse(_data)["DATA"] != 'undefined') {
+			var json = JSON.parse(_data)["DATA"];
+			if(json.FALLBACK){
+				callback(json.FALLBACK);
+			}else{
+				callback(null, new Error("Unable to get Track " + scopedid));
+			}
+		} else {
+			callback(null, new Error("Unable to get Track " + scopedid));
+		}
+	}).bind(self));
 }
 
 Deezer.prototype.getDownloadUrl = function(md5Origin, id, format, mediaVersion) {
@@ -349,85 +375,60 @@ Deezer.prototype.getDownloadUrl = function(md5Origin, id, format, mediaVersion) 
 }
 
 Deezer.prototype.decryptTrack = function(writePath, track, callback) {
-	var chunkLength = 0;
 	var self = this;
-	var aborted = false;
-	var timeout = false;
-	var error = false;
-	{
-		this.reqStream = https.get(track.downloadUrl, function (response) {
-			if (200 === response.statusCode) {
-				const fileStream = fs.createWriteStream(writePath);
-				let i = 0;
-				let percent = 0;
-
-				response.on('readable', () => {
-					const bfKey = getBlowfishKey(track["SNG_ID"]);
-
-					let chunk;
-					while (chunk = response.read(2048)) {
-						chunkLength += 2048;
-						self.onDownloadProgress(track, chunkLength);
-						if (100 * 2048 * i / response.headers['content-length'] >= percent + 1) {
-							percent++;
-							console.log("%"+percent.toString()+"%");
-						}
-
-						if (i % 3 > 0 || chunk.length < 2048) {
-							fileStream.write(chunk);
-						} else {
-							const bfDecrypt = crypto.createDecipheriv('bf-cbc', bfKey, '\x00\x01\x02\x03\x04\x05\x06\x07');
-							bfDecrypt.setAutoPadding(false);
-
-							let chunkDec = bfDecrypt.update(chunk.toString('binary'), 'binary', 'binary') + bfDecrypt.final();
-							fileStream.write(chunkDec, 'binary');
-						}
-						i++;
-					}
-				});
-
-				response.on('end', () => {
-					fileStream.end();
-					if(!aborted){
-						callback();
-					}
-				});
-
-			} else {
-				console.log("Failed!!!!: ");
-				callback(new Error("Unable to get Track!!!!!!"));
-			}
-
-		}).on("abort", function() {
-			fs.unlink(writePath,function(err){});
-			aborted = true;
-			if(!timeout){
-				console.log("Aborted!!!!: ");
-				callback(new Error("aborted"));
-			}else{
-				console.log("Connection timeout while downloading, trying again.");
-				setTimeout(function(){self.decryptTrack(writePath, track, callback);}, 1000);	
-			}
-			return;
-		}).on("error", function() {
-			fs.unlink(writePath,function(err){});
-			aborted = true;
-			error = true;
-			if(!timeout){
-				console.log("Connection error while downloading, trying again.");
-				setTimeout(function(){self.decryptTrack(writePath, track, callback);}, 1000);	
-			}
-			return;
-		}).setTimeout(8000, function(){
-			if(!error){
-				console.log("timeout");
-				timeout = true;
-				self.reqStream.abort();
-			}
-			return;
-		});
-	};
+	var chunkLength = 0;
+	this.reqStream = request.get({url: track.downloadUrl, headers: this.httpHeaders, jar: true, encoding: null}, function(err, res, body) {
+		if(!err && res.statusCode == 200) {
+			var decryptedSource = decryptDownload(new Buffer(body, 'binary'), track);
+			fs.outputFile(writePath,decryptedSource,function(err){
+				if(err){callback(err);return;}
+				callback();
+			});
+		} else {
+			callback(err || new Error("Can't download the track"));
+		}
+	}).on("data", function(data) {
+		chunkLength += data.length;
+		self.onDownloadProgress(track, chunkLength);
+	}).on("abort", function() {
+		callback(new Error("aborted"));
+	});
 }
+
+function decryptDownload(source, track) {
+	var chunk_size = 2048;
+	var part_size = 0x1800;
+	var blowFishKey = getBlowfishKey(track["SNG_ID"]);
+	var i = 0;
+	var position = 0;
+
+	var destBuffer = new Buffer(source.length);
+	destBuffer.fill(0);
+
+	while(position < source.length) {
+		var chunk;
+		if ((source.length - position) >= 2048) {
+			chunk_size = 2048;
+		} else {
+			chunk_size = source.length - position;
+		}
+		chunk = new Buffer(chunk_size);
+		chunk.fill(0);
+		source.copy(chunk, 0, position, position + chunk_size);
+		if(i % 3 > 0 || chunk_size < 2048){
+			//Do nothing
+		}else{
+			var cipher = crypto.createDecipheriv('bf-cbc', blowFishKey, new Buffer([0, 1, 2, 3, 4, 5, 6, 7]));
+			cipher.setAutoPadding(false);
+			chunk = cipher.update(chunk, 'binary', 'binary') + cipher.final();
+		}
+		destBuffer.write(chunk.toString("binary"), position, 'binary');
+		position += chunk_size
+		i++;
+	}
+	return destBuffer;
+}
+
 
 function getBlowfishKey(trackInfos) {
 	const SECRET = 'g4el58wc0zvf9na1';
