@@ -347,7 +347,7 @@ Deezer.prototype.hasTrackAlternative = function(id, callback) {
 		try{
 			_data = rexec[1];
 		}catch(e){
-
+			callback(null, new Error("Unable to get Track " + scopedid));
 		}
 		if(!err && res.statusCode == 200 && typeof JSON.parse(_data)["DATA"] != 'undefined') {
 			var json = JSON.parse(_data)["DATA"];

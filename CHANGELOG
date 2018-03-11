@@ -1,3 +1,13 @@
+Version 3.0.15
+- Added replaygain tag
+- Added logout option
+- Added signup option
+- Added multi url support, seperated by ';'
+- Fixed incomplete audio files
+- Fixed track fallback(alternative property)(Deezer's API update)
+- Improved logging system
+- Improved pad numbers
+- Removed init page since it is not used anymore
 Version 3.0.14
 - Login is required due to Deezer's patch(Crashes when downloading anything)
 - Added BPM tag
