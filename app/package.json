@@ -16,7 +16,6 @@
 		"package.json": "latest",
 		"request": "latest",
 		"socket.io": "latest",
-		"winston": "latest",
 		"requestretry": "latest"
 	}
 }
