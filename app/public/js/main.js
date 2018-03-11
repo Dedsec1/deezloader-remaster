@@ -209,21 +209,25 @@ $('#tab_url_form_url').submit(function (ev) {
 
 	ev.preventDefault();
 
-	var url = $("#song_url").val();
+	var urls = $("#song_url").val().split(";");
+	console.log(urls);
+	for(var i = 0; i < urls.length; i++){
+		console.log(url);
+		var url = urls[i];
 
-	//Validate URL
-	if (url.indexOf('deezer.com/') < 0) {
-		message('Wrong URL', 'The URL seems to be wrong. Please check it and try it again.');
+		//Validate URL
+		if (url.indexOf('deezer.com/') < 0) {
+			message('Wrong URL', 'The URL seems to be wrong. Please check it and try it again.');
 
-		return false;
+			return false;
+		}
+
+		if (url.indexOf('?') > -1) {
+			url = url.substring(0, url.indexOf("?"));
+		}
+
+		addToQueue(url);
 	}
-
-	if (url.indexOf('?') > -1) {
-		url = url.substring(0, url.indexOf("?"));
-	}
-
-	addToQueue(url);
-
 });
 
 //#############################################TAB_SEARCH#############################################\\

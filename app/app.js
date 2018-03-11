@@ -1341,6 +1341,7 @@ function magicInterval(success, delay, repetitions) {
 // Show crash error in console for debugging
 process.on('uncaughtException', function (err) {
 	logs('Error',err.stack);
+	process.exit(1);
 });
 
 // Exporting vars
