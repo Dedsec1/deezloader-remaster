@@ -26,7 +26,7 @@
 <!--*****************************************INITIALIZING-SCREEN****************************************-->
 <!--****************************************************************************************************-->
 <div id="initializing" class="center indigo valign-wrapper">
-	<div class="modal-content" id="login-page" style="display:none;">
+	<div class="modal-content" id="login-page">
 		<div class="row">
 			<h4 class="white-text">Login page</h4>
 			<h5 class="white-text">Please login to your deezer account.</h5>
@@ -46,37 +46,21 @@
 		</div>
 		<div class="row">
 			<a href="#" class="modal-close waves-effect waves-light btn" id="modal_login_btn_login">Log in</a>
+			<a href="#" class="modal-close waves-effect waves-light btn" id="modal_login_btn_signup">Sign up</a>
 			<span style="right:25%;position:fixed;">
 				<input class="white-text" type="checkbox" id="modal_login_input_autologin"/>
 				<label class="white-text" for="modal_login_input_autologin">Auto login</label>
 			</span>
 		</div>
 
-	<footer class="page-footer hide-on-small-and-down" style="width: 100%;bottom:0;position: fixed;left: 0;height: 50px;">
-		<div class="footer-copyright">
-			<div class="container">
-				&copy; Deezloader original code by <a class="white-text" href="https://boerse.to/members/zzmtv.3378614/">ZzMTV</a>.
-				Currently maintained by <a class="white-text" href="https://www.reddit.com/user/ExtendLord/">ExtendLord</a>.
-			</div>
-		</div>
-	</footer>
-	</div>
-	<div class="center-align" id="loading-page">
-		<h1 class="white-text" id="init-text">Initializing...</h1>
-
-		<div class="preloader-wrapper big active" id="init-preloader">
-			<div class="spinner-layer">
-				<div class="circle-clipper left">
-					<div class="circle"></div>
-				</div>
-				<div class="gap-patch">
-					<div class="circle"></div>
-				</div>
-				<div class="circle-clipper right">
-					<div class="circle"></div>
+		<footer class="page-footer hide-on-small-and-down" style="width: 100%;bottom:0;position: fixed;left: 0;height: 50px;">
+			<div class="footer-copyright">
+				<div class="container">
+					&copy; Deezloader original code by <a class="white-text" href="https://boerse.to/members/zzmtv.3378614/">ZzMTV</a>.
+					Currently maintained by <a class="white-text" href="https://www.reddit.com/user/ExtendLord/">ExtendLord</a>.
 				</div>
 			</div>
-		</div>
+		</footer>
 	</div>
 </div>
 
@@ -90,6 +74,7 @@
 		<div class="row">
 			<h4 class="col s12">Settings</h4>
 		</div>
+		<p>You are logged in as <b id="modal_settings_username"></b> <a href="#" class="modal-close waves-effect waves-light btn" id="modal_settings_btn_logout">Logout</a></p>
 		<div class="row">
 			<div class="input-field col s12">
 				<i class="material-icons prefix">label</i>

@@ -8,6 +8,7 @@ if(typeof mainApp !== "undefined"){
 	var defaultDownloadLocation = mainApp.defaultDownloadDir;
 }
 let userSettings = [];
+let Username = "";
 
 //Update alert
 socket.on("newupdate", function(ver, dllink){
@@ -23,28 +24,7 @@ socket.on("newupdate", function(ver, dllink){
 		};
 	}
 });
-socket.emit("checkInit");
-socket.on("checkInit", function(errmsg){
-	if(errmsg == "Requires an Account"){
-		$('#login-page').css('display','block');
-		$('#loading-page').css('display','none');
-		socket.emit("autologin");
-	}else if(errmsg != ""){
-		$('#init-text').text(errmsg);
-		setTimeout(function(){
-			socket.emit("checkInit");
-			$('#init-text').text("Initializing...");
-		},1000);
-	}else{
-		$('#initializing').addClass('animated fadeOut').on('webkitAnimationEnd', function () {
-			$(this).css('display', 'none');
-		});
-		
-		// Load top charts list for countries
-		socket.emit("getChartsCountryList", {selected: startingChartCountry});
-		socket.emit("getChartsTrackListByCountry", {country: startingChartCountry});
-	}
-});
+socket.emit("autologin");
 //Login button
 $('#modal_login_btn_login').click(function () {
 	$('#modal_login_btn_login').attr("disabled", true);
@@ -53,6 +33,7 @@ $('#modal_login_btn_login').click(function () {
 	var password = $('#modal_login_input_password').val();
 	var autologin = $('#modal_login_input_autologin').prop("checked");
 	//Send to the software
+	Username = username;
 	socket.emit('login', username, password,autologin);
 });
 
@@ -60,13 +41,16 @@ socket.on("autologin",function(username,password){
 	$('#modal_login_btn_login').attr("disabled", true);
 	$('#modal_login_btn_login').html("Logging in...");
 	$('#modal_login_input_username').val(username);
+	Username = username;
 	$('#modal_login_input_password').val(password);
 	socket.emit('login', username, password,false);
 });
 socket.on("login", function (errmsg) {
 	if (errmsg == "none") {
+		$("#modal_settings_username").html(Username);
 		$('#initializing').addClass('animated fadeOut').on('webkitAnimationEnd', function () {
 			$(this).css('display', 'none');
+			$(this).removeClass('animated fadeOut');
 		});
 		
 	// Load top charts list for countries
@@ -164,6 +148,26 @@ $('#modal_settings_btn_defaultSettings').click(function () {
 		defaultUserSettings.downloadLocation = defaultDownloadLocation;
 		fillSettingsModal(defaultUserSettings);
 	}
+});
+
+$('#modal_login_btn_signup').click(function(){
+	if(typeof shell != 'undefined'){
+		shell.openExternal("https://www.deezer.com/register");
+	}else{
+		window.open("https://www.deezer.com/register");
+	}
+});
+
+$('#modal_settings_btn_logout').click(function () {
+		$('#initializing').css('display', 'block');
+		$('#initializing').addClass('animated fadeIn').on('webkitAnimationEnd', function () {
+			$(this).removeClass('animated fadeIn');
+			$(this).css('display', 'block');
+		});
+		socket.emit('logout');
+		$('#modal_login_input_username').val("");
+		$('#modal_login_input_password').val("");
+		$('#modal_login_input_autologin').prop("checked",false);
 });
 
 // Populate settings fields

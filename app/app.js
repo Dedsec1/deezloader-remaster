@@ -131,8 +131,9 @@ function aldecrypt(encoded) {
 }
 
 function logs(level, message){
-	var str = "["+level+"]"+message+"\n";
-	fs.outputFile(logsLocation, str, function(){
+	var str = "["+level+"]"+message;
+	fs.ensureDirSync(userdata);
+	fs.appendFile(logsLocation, str+"\n", function(){
 		console.log(str);
 	});
 }
@@ -168,15 +169,17 @@ io.sockets.on('connection', function (socket) {
 				if(autologin){
 					var data = username + "\n" + password;
 					fs.outputFile(autologinLocation, alencrypt(data) , function(){
+						if(!err){
+							logs('Info',"Added autologin successfully");
+						}else{
+							logs('Info',"Failed to add autologin file");
+						}
 					});
 				}
 				socket.emit("login", "none");
 				logs('Info',"Logged in successfully");
 			}
 		});
-	});
-	socket.on("checkInit", function () {
-		socket.emit("checkInit","Requires an Account");
 	});
 	socket.on("autologin", function(){
 		fs.readFile(autologinLocation, function(err, data){
@@ -196,6 +199,13 @@ io.sockets.on('connection', function (socket) {
 			fdata = fdata.split('\n');
 			socket.emit("autologin",fdata[0],fdata[1]);
 		});
+	});
+
+	socket.on("logout", function(){
+		logs('Info',"Logged out");
+		fs.unlink(autologinLocation,function(){
+		});
+		return;
 	});
 
 	Deezer.onDownloadProgress = function (track, progress) {
@@ -1255,7 +1265,7 @@ function settingsRegex(metadata, filename, playlist) {
 	filename = filename.replace(/%artist%/g, metadata.artist);
 	filename = filename.replace(/%year%/g, metadata.year);
 	if(typeof metadata.trackNumber != 'undefined'){
-		if(playlist && configFile.userDefined.padtrck){
+		if(configFile.userDefined.padtrck){
 			 filename = filename.replace(/%number%/g, pad(splitNumber(metadata.trackNumber, false), splitNumber(metadata.trackNumber, true)));
 		}else{
 			filename = filename.replace(/%number%/g, splitNumber(metadata.trackNumber, false));
@@ -1289,7 +1299,7 @@ function settingsRegexAlbum(metadata, foldername, artist, album) {
 function pad(str, max) {
 	str = str.toString();
 	max = max.toString();
-	return str.length < max.length ? pad("0" + str, max) : str;
+	return str.length < max.length || str.length == 1 ? pad("0" + str, max) : str;
 }
 
 /**
@@ -1330,7 +1340,7 @@ function magicInterval(success, delay, repetitions) {
 
 // Show crash error in console for debugging
 process.on('uncaughtException', function (err) {
-	logs('Error',err.toString());
+	logs('Error',err.stack);
 });
 
 // Exporting vars
