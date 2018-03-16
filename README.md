@@ -74,9 +74,6 @@ If it asks you if you want to continue, enter `y`.
 ### 3. Download
 
 
-### 3. Download
-
-
 To download the release version:
 ```
 git clone --branch v3.0.15 https://github.com/Deezloader/DeezLoader-Reborn
