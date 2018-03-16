@@ -5,8 +5,9 @@ With this software you can download high-qualiy music and enjoy.
 **DeezLoader Reborn is no longer maintained due to DMCA**<br/>
 **3.1.0 is the last update, no more updates will be made**
 
-Source code - https://github.com/Deezloader/DeezLoader-Reborn
-Telegram Channel - t.me/DeezLoader
+Source code - https://github.com/Deezloader/DeezLoader-Reborn<br/>
+
+Telegram Channel - https://t.me/joinchat/AAAAAFCRjRpUr-IF96RV3g
 
 # Features
 - Download FLAC/MP3-320 music content from Deezer(FLAC needs to be turned on in the settings 'turn on HIFI')
@@ -18,7 +19,7 @@ Telegram Channel - t.me/DeezLoader
 - Simple and user friendly
 
 # Download Links
-- Source code: [DeezLoader-3.1.0-src.zip]()
+- Source code: [DeezLoader-3.1.0-src.zip](https://github.com/Deezloader/DeezLoader-Reborn)
 - Windows installer: [DeezLoader-3.1.0-win-64&32-installer.exe](https://mega.nz/#!MB8GUBja!oJgeF_Jr9Gjhld5igzjnsgCJf2VE7rZCVr5mz8AwAYI)
 - Windows x64 portable: [DeezLoader-3.1.0-win-64-portable.7z](https://mega.nz/#!pY901bLB!vS32Rb5PfrbQ5129neEP91uSCbAoyhpUm3NmSRFrWO0)
 - Windows x86 portable: [DeezLoader-3.1.0-win-32-portable.7z](https://mega.nz/#!ZA1wRDbK!_-kHWiweRrkGxR4r5ZVb_vxNOogCingxC-rdAtFj2OE)
@@ -40,6 +41,75 @@ Telegram Channel - t.me/DeezLoader
 # How to run
 - Download the installer and run it.
 - Run DeezLoader.
+
+## How to run on Android
+
+Installing DeezLoader on Android is a little bit complicated but easy.<br/>
+If you did installed DeezLoader and would like to just run it, go to step [5](https://github.com/Deezloader/DeezLoader-Reborn#5-run).
+
+### How to update on Android
+
+If you would like to update DeezLoader on android you need to first delete the folder
+
+```
+rm -rf DeezLoader-Reborn
+```
+
+Then follow from step [3](https://github.com/Deezloader/DeezLoader-Reborn#3-download)
+
+### 1. Install Termux
+In order to have DeezLoader on Android you must install `termux`.
+- Play Store: [link](https://play.google.com/store/apps/details?id=com.termux)
+- Apk Mirror: [link](https://www.apkmirror.com/apk/fredrik-fornwall/termux)
+
+### 2. Install dependencies
+Run `Termux` and enter those lines in order:
+```
+pkg update
+pkg upgrade
+pkg install git nodejs
+```
+If it asks you if you want to continue, enter `y`.
+
+### 3. Download
+
+
+```
+To download the release version:
+```
+git clone --branch v3.0.15 https://github.com/Deezloader/DeezLoader-Reborn
+```
+Then navigate to the app folder using this command
+```
+cd DeezLoader-Reborn/app
+```
+
+### 4. Install
+
+Now lets install what we have downloaded
+```
+npm install
+```
+In order for DeezLoader to work we need to setup storage for termux
+```
+termux-setup-storage
+```
+
+### 5. Run
+
+In order to run make sure that you are in DeezLoader-Reborn/app folder run
+```
+cd DeezLoader-Reborn/app
+```
+
+Run the server side script
+```
+node app.js
+```
+
+And then go to your browser and enter to this site
+
+[http://localhost:1730](http://localhost:1730)
 
 # How to compile
 - Download Node JS latest version
