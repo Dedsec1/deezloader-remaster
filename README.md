@@ -320,13 +320,15 @@ the cover art, so please update to v6 if you can)
 # Credits
 ## Original Developer
 [ZzMTV](https://boerse.to/members/zzmtv.3378614/)
-
+[DeezLoader](https://t.me/joinchat/AAAAAFCRjRpUr-IF96RV3g)
 ## Former Maintainers
 [ExtendLord](https://github.com/ExtendLord)<br/>
 [ParadoxalManiak](https://github.com/ParadoxalManiak)<br/>
 [snwflake](https://github.com/snwflake)
+[DeezLoader](https://t.me/joinchat/AAAAAFCRjRpUr-IF96RV3g)
 
 **No longer maintained by ExtendLord**
+[DeezLoader](https://t.me/joinchat/AAAAAFCRjRpUr-IF96RV3g)
 
 # Disclaimer
 - I am not responsible for the usage of this program by other people.
