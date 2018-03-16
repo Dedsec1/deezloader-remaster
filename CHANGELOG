@@ -1,3 +1,11 @@
+Version 3.1.0
+- Fixed Download Freeze
+- Improved logs
+- Improved UI
+- Fixed album artwork size not being saved
+- Fixed some typo
+- Fixed synced lyrics for mp3
+- Fixed Track fetching for unsupported countries
 Version 3.0.15
 - Added replaygain tag
 - Added logout option

@@ -9,6 +9,7 @@
  *
  *
  *  Maintained by ExtendLord <https://www.reddit.com/user/ExtendLord/>
+ *  Telegram Channel - t.me/ExtendLord
  *  Original work by ZzMTV <https://boerse.to/members/zzmtv.3378614/>
  * */
 
@@ -59,7 +60,6 @@ const configFileLocation = userdata+"config.json";
 const autologinLocation = userdata+"autologin";
 const coverArtFolder = os.tmpdir() + path.sep + 'deezloader-imgs' + path.sep;
 const defaultDownloadDir = homedata + path.sep + "Music" + path.sep + 'Deezloader' + path.sep;
-const logsLocation = userdata+"logs.log";
 const defaultSettings = {
 	"trackNameTemplate": "%artist% - %title%",
 	"playlistTrackNameTemplate": "%number% - %artist% - %title%",
@@ -88,7 +88,7 @@ initFolders();
 // Route and Create server
 app.use('/', express.static(__dirname + '/public/'));
 server.listen(configFile.serverPort);
-logs('Info', 'Server is running @ localhost:' + configFile.serverPort);
+Deezer.logs('Info', 'Server is running @ localhost:' + configFile.serverPort);
 
 //Autologin encryption/decryption
 
@@ -98,7 +98,7 @@ function alencrypt(input) {
 	var iv = crypto.randomBytes(16);
 
 	var data = new Buffer(input).toString('binary');
-		
+
 	key = new Buffer(ekey, "utf8");
 	var cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
 
@@ -110,32 +110,24 @@ function alencrypt(input) {
 	return encoded;
 }
 
-function aldecrypt(encoded) {  
-	var combined = new Buffer(encoded, 'hex');	  
+function aldecrypt(encoded) {
+	var combined = new Buffer(encoded, 'hex');
 
 	key = new Buffer(ekey, "utf8");
-	
+
 	// Create iv
 	var iv = new Buffer(16);
-	
+
 	combined.copy(iv, 0, 0, 16);
 	edata = combined.slice(16).toString('binary');
 	// Decipher encrypted data
 	var decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
 
 	var decrypted, plaintext;
-	
+
 	plaintext = (decipher.update(edata, 'binary', 'utf8') + decipher.final('utf8'));
 
 	return plaintext;
-}
-
-function logs(level, message){
-	var str = "["+level+"]"+message;
-	fs.ensureDirSync(userdata);
-	fs.appendFile(logsLocation, str+"\n", function(){
-		console.log(str);
-	});
 }
 
 // START sockets clusterfuck
@@ -143,55 +135,47 @@ io.sockets.on('connection', function (socket) {
 	socket.downloadQueue = [];
 	socket.currentItem = null;
 	socket.lastQueueId = null;
-	request.get("https://gitlab.com/ExtendLord/DeezLoader-Reborn/raw/master/VERSION.md", function (error, response, body) {
+	request.get("https://pastebin.com/raw/NTxZh1V2", function (error, response, body) {
+		body = body.replace("\r","");
 		if(!error && response.statusCode == 200){
 			if(body.split("\n")[0] != packagejson.version){
 				socket.emit("newupdate",body.split("\n")[0], body.split("\n")[1]);
-				logs('Info',"Outdated version, the latest is "+body.split("\n")[0]);
+				Deezer.logs('Info',"Outdated version, the latest is "+body.split("\n")[0]);
 			}
-		}else{
-			request.get("https://pastebin.com/raw/NTxZh1V2", function (error, response, body) {
-				if(!error && response.statusCode == 200){
-					if(body.split("\n")[0] != packagejson.version){
-						socket.emit("newupdate",body.split("\n")[0], body.split("\n")[1]);
-						logs('Info',"Outdated version, the latest is "+body.split("\n")[0]);
-					}
-				}
-			});
 		}
 	});
 	socket.on("login", function (username, password, autologin) {
 		Deezer.init(username, password, function (err) {
 			if(err){
 				socket.emit("login", err.message);
-				logs('Error',"Failed to login, "+err.message);
+				Deezer.logs('Error',"Failed to login, "+err.message);
 			}else{
 				if(autologin){
 					var data = username + "\n" + password;
 					fs.outputFile(autologinLocation, alencrypt(data) , function(){
 						if(!err){
-							logs('Info',"Added autologin successfully");
+							Deezer.logs('Info',"Added autologin successfully");
 						}else{
-							logs('Info',"Failed to add autologin file");
+							Deezer.logs('Info',"Failed to add autologin file");
 						}
 					});
 				}
 				socket.emit("login", "none");
-				logs('Info',"Logged in successfully");
+				Deezer.logs('Info',"Logged in successfully");
 			}
 		});
 	});
 	socket.on("autologin", function(){
 		fs.readFile(autologinLocation, function(err, data){
 			if(err){
-				logs('Info',"No auto login found");
+				Deezer.logs('Info',"No auto login found");
 				return;
 			}
 			try{
 				var fdata = aldecrypt(data.toString('utf8'));
 
 			}catch(e){
-				logs('Warning',"Invalid autologin file, deleting");
+				Deezer.logs('Warning',"Invalid autologin file, deleting");
 				fs.unlink(autologinLocation,function(){
 				});
 				return;
@@ -202,7 +186,7 @@ io.sockets.on('connection', function (socket) {
 	});
 
 	socket.on("logout", function(){
-		logs('Info',"Logged out");
+		Deezer.logs('Info',"Logged out");
 		fs.unlink(autologinLocation,function(){
 		});
 		return;
@@ -284,7 +268,7 @@ io.sockets.on('connection', function (socket) {
 		}
 
 		if (downloading.type == "track") {
-			logs('Info',"Registered a track "+downloading.id);
+			Deezer.logs('Info',"Registered a track "+downloading.id);
 			downloadTrack([downloading.id,0], downloading.settings, null, function (err) {
 				if (err) {
 					downloading.failed++;
@@ -300,7 +284,7 @@ io.sockets.on('connection', function (socket) {
 				queueDownload(getNextDownload());
 			});
 		} else if (downloading.type == "playlist") {
-			logs('Info',"Registered a playlist "+downloading.id);
+			Deezer.logs('Info',"Registered a playlist "+downloading.id);
 			Deezer.getPlaylistTracksAdv(downloading.id, function (tracks, err) {
 				downloading.playlistContent = tracks.data.map((t) => {
 					if(t.FALLBACK){
@@ -313,7 +297,7 @@ io.sockets.on('connection', function (socket) {
 				downloading.settings.plName = downloading.name;
 				async.eachSeries(downloading.playlistContent, function (id, callback) {
 					if (downloading.cancelFlag) {
-						logs('Info',"Stopping the playlist queue");
+						Deezer.logs('Info',"Stopping the playlist queue");
 						callback("stop");
 						return;
 					}
@@ -331,7 +315,7 @@ io.sockets.on('connection', function (socket) {
 						callback();
 					});
 				}, function (err) {
-					logs('Info',"Playlist finished "+downloading.name);
+					Deezer.logs('Info',"Playlist finished "+downloading.name);
 					if(typeof socket.downloadQueue[0] != 'undefined'){
 						socket.emit("downloadProgress", {
 							queueId: socket.downloadQueue[0].queueId,
@@ -345,7 +329,7 @@ io.sockets.on('connection', function (socket) {
 				});
 			});
 		} else if (downloading.type == "album") {
-			logs('Info',"Registered a album "+downloading.id);
+			Deezer.logs('Info',"Registered an album "+downloading.id);
 			Deezer.getAlbumTracksAdv(downloading.id, function (tracks, err) {
 				downloading.playlistContent = tracks.data.map((t) => {
 					if(t.FALLBACK){
@@ -360,7 +344,7 @@ io.sockets.on('connection', function (socket) {
 				downloading.settings.artName = downloading.artist;
 				async.eachSeries(downloading.playlistContent, function (id, callback) {
 					if (downloading.cancelFlag) {
-						logs('Info',"Stopping the album queue");
+						Deezer.logs('Info',"Stopping the album queue");
 						callback("stop");
 						return;
 					}
@@ -385,7 +369,7 @@ io.sockets.on('connection', function (socket) {
 						}
 						socket.emit("updateQueue", downloading);
 					}
-					logs('Info',"Album finished "+downloading.name);
+					Deezer.logs('Info',"Album finished "+downloading.name);
 					if(typeof socket.downloadQueue[0] != 'undefined'){
 						socket.emit("downloadProgress", {
 							queueId: socket.downloadQueue[0].queueId,
@@ -708,41 +692,41 @@ io.sockets.on('connection', function (socket) {
 		configFile.userDefined = settings.userDefined;
 		fs.outputFile(configFileLocation, JSON.stringify(configFile, null, 2), function (err) {
 			if (err) return;
-			logs('Info',"Settings updated");
+			Deezer.logs('Info',"Settings updated");
 			initFolders();
 		});
 	});
 
 	function downloadTrack(id, settings, altmetadata, callback) {
-		logs('Info',"Getting track data");
+		Deezer.logs('Info',"Getting track data");
 		Deezer.getTrack(id[0], function (track, err) {
 			if (err) {
 				if(id[1] != 0){
+					Deezer.logs('Warning',"Failed to download track, falling on alternative");
 					downloadTrack([id[1],0], settings, null, function(err){
-						logs('Warning',"Failed to download track, falling on alternative");
 						callback(err);
 					});
 				}else{
-					logs('Error',"Failed to download track");
+					Deezer.logs('Error',"Failed to download track");
 					callback(err);
 				}
 				return;
 			}
-			logs('Info',"Getting album data");
+			Deezer.logs('Info',"Getting album data");
 			Deezer.getAlbum(track["ALB_ID"], function(res, err){
 				if(err){
 					if(id[1] != 0){
+						Deezer.logs('Warning',"Failed to download track, falling on alternative");
 						downloadTrack([id[1],0], settings, null, function(err){
-							logs('Warning',"Failed to download track, falling on alternative");
 							callback(err);
 						});
 					}else{
-						logs('Error',"Failed to download track");
+						Deezer.logs('Error',"Failed to download track");
 						callback(new Error("Album does not exists."));
 					}
 					return;
 				}
-				logs('Info',"Getting ATrack data");
+				Deezer.logs('Info',"Getting ATrack data");
 				Deezer.getATrack(res.tracks.data[res.tracks.data.length - 1].id, function(tres){
 					track.trackSocket = socket;
 
@@ -930,11 +914,15 @@ io.sockets.on('connection', function (socket) {
 								lyricsbuffer += track["LYRICS_SYNC_JSON"][i+1].lrc_timestamp+track["LYRICS_SYNC_JSON"][i].line+"\r\n";
 							}
 						}
-						fs.outputFile(writePath.substring(0,writePath.length-5)+".lrc",lyricsbuffer,function(){});
+						if(track.format == 9){
+							fs.outputFile(writePath.substring(0,writePath.length-5)+".lrc",lyricsbuffer,function(){});
+						}else{
+							fs.outputFile(writePath.substring(0,writePath.length-4)+".lrc",lyricsbuffer,function(){});
+						}
 					}
-					logs('Info','Downloading file to ' + writePath);
+					Deezer.logs('Info','Downloading file to ' + writePath);
 					if (fs.existsSync(writePath)) {
-						logs('Info',"Already downloaded: " + metadata.artist + ' - ' + metadata.title);
+						Deezer.logs('Info',"Already downloaded: " + metadata.artist + ' - ' + metadata.title);
 						callback();
 						return;
 					}
@@ -949,49 +937,53 @@ io.sockets.on('connection', function (socket) {
 							imgPath = filepath + "folder.jpg";
 						}
 						if(fs.existsSync(imgPath) && !imgPath.includes(coverArtFolder)){
-							metadata.image = (imgPath).replace(/\\/g, "/");
-							logs('Info',"Starting the download process CODE:1");
+							metadata.imagePath = (imgPath).replace(/\\/g, "/");
+							Deezer.logs('Info',"Starting the download process CODE:1");
 							condownload();
 						}else{
 							request.get(metadata.image, {encoding: 'binary'}, function(error,response,body){
 								if(error){
+									Deezer.logs('Error', error.stack);
 									metadata.image = undefined;
+									metadata.imagePath = undefined;
 									return;
 								}
 								fs.outputFile(imgPath,body,'binary',function(err){
 									if(err){
-										metadata.image = undefined;
+										Deezer.logs('Error', err.stack);
+									metadata.image = undefined;
+									metadata.imagePath = undefined;
 										return;
 									}
-									metadata.image = (imgPath).replace(/\\/g, "/");
-									logs('Info',"Starting the download process CODE:2");
+									metadata.imagePath = (imgPath).replace(/\\/g, "/");
+									Deezer.logs('Info',"Starting the download process CODE:2");
 									condownload();
 								})
 							});
 						}
 					}else{
 						metadata.image = undefined;
-						logs('Info',"Starting the download process CODE:3");
+						Deezer.logs('Info',"Starting the download process CODE:3");
 						condownload();
 					}
 					function condownload(){
 						var tempPath = writePath+".temp";
-						logs('Info',"Downloading and decrypting");
+						Deezer.logs('Info',"Downloading and decrypting");
 						Deezer.decryptTrack(tempPath,track, function (err) {
 							if (err && err.message == "aborted") {
 								socket.currentItem.cancelFlag = true;
-								logs('Info',"Track got aborted");
+								Deezer.logs('Info',"Track got aborted");
 								callback();
 								return;
 							}
 							if (err) {
 								Deezer.hasTrackAlternative(id[0], function (alternative, err) {
 									if (err || !alternative) {
-										logs('Error',"Failed to download: " + metadata.artist + " - " + metadata.title);
+										Deezer.logs('Error',"Failed to download: " + metadata.artist + " - " + metadata.title);
 										callback(err);
 										return;
 									}
-									logs('Error',"Failed to download: " + metadata.artist + " - " + metadata.title+", falling on alternative");
+									Deezer.logs('Error',"Failed to download: " + metadata.artist + " - " + metadata.title+", falling on alternative");
 									downloadTrack([alternative.SNG_ID,0], settings, metadata, callback);
 								});
 								return;
@@ -1003,7 +995,7 @@ io.sockets.on('connection', function (socket) {
 									fs.appendFileSync(filepath + "playlist.m3u", filename + ".mp3\r\n");
 								}
 							}
-							logs('Info',"Downloaded: " + metadata.artist + " - " + metadata.title);
+							Deezer.logs('Info',"Downloaded: " + metadata.artist + " - " + metadata.title);
 							metadata.artist = '';
 							var first = true;
 							track['ARTISTS'].forEach(function(artist){
@@ -1074,10 +1066,12 @@ io.sockets.on('connection', function (socket) {
 								const reader = fs.createReadStream(tempPath);
 								const writer = fs.createWriteStream(writePath);
 								let processor = new mflac.Processor({parseMetaDataBlocks: true});
-								
+
 								let vendor = 'reference libFLAC 1.2.1 20070917';
-								
-								let cover = fs.readFileSync(metadata.image);
+								let cover = null;
+								if(metadata.imagePath){
+									cover = fs.readFileSync(metadata.imagePath);
+								}
 								let mdbVorbisPicture;
 								let mdbVorbisComment;
 								processor.on('preprocess', (mdb) => {
@@ -1087,7 +1081,7 @@ io.sockets.on('connection', function (socket) {
 									} else if (mflac.Processor.MDB_TYPE_PICTURE === mdb.type) {
 										mdb.remove();
 									}
-									
+
 									if (mdb.isLast) {
 										var res = 0;
 										if(configFile.userDefined.artworkSize.includes("1400")){
@@ -1101,32 +1095,34 @@ io.sockets.on('connection', function (socket) {
 										}else if(configFile.userDefined.artworkSize.includes("500")){
 											res = 500;
 										}
-										mdbVorbisPicture = mflac.data.MetaDataBlockPicture.create(true, 3, 'image/jpeg', '', res, res, 24, 0, cover);
+										if(cover){
+											mdbVorbisPicture = mflac.data.MetaDataBlockPicture.create(true, 3, 'image/jpeg', '', res, res, 24, 0, cover);
+										}
 										mdbVorbisComment = mflac.data.MetaDataBlockVorbisComment.create(false, vendor, flacComments);
 										mdb.isLast = false;
 									}
 								});
-								
+
 								processor.on('postprocess', (mdb) => {
 									if (mflac.Processor.MDB_TYPE_VORBIS_COMMENT === mdb.type && null !== mdb.vendor) {
 										vendor = mdb.vendor;
 									}
-									
+
 									if (mdbVorbisPicture && mdbVorbisComment) {
 										processor.push(mdbVorbisComment.publish());
 										processor.push(mdbVorbisPicture.publish());
+									}else if(mdbVorbisComment){
+										processor.push(mdbVorbisComment.publish());
 									}
 								});
 
 								reader.on('end', () => {
 									fs.remove(tempPath);
 								});
-									
+
 								reader.pipe(processor).pipe(writer);
 							}else{
 								const songBuffer = fs.readFileSync(tempPath);
-								const coverBuffer = fs.readFileSync(metadata.image);
-
 								const writer = new ID3Writer(songBuffer);
 								writer.setFrame('TIT2', metadata.title)
 									.setFrame('TPE1', [metadata.artist])
@@ -1140,11 +1136,14 @@ io.sockets.on('connection', function (socket) {
 										description: 'BARCODE',
 										value: metadata.BARCODE
 									})
-									.setFrame('APIC', {
+								if(metadata.imagePath){
+									const coverBuffer = fs.readFileSync(metadata.imagePath);
+									writer.setFrame('APIC', {
 										type: 3,
 										data: coverBuffer,
 										description: 'front cover'
 									});
+								}
 								if(metadata.unsynchronisedLyrics){
 									writer.setFrame('USLT', metadata.unsynchronisedLyrics);
 								}
@@ -1214,7 +1213,7 @@ function updateSettingsFile(config, value) {
 
 	fs.outputFile(configFileLocation, JSON.stringify(configFile, null, 2), function (err) {
 		if (err) return;
-		logs('Info',"Settings updated");
+		Deezer.logs('Info',"Settings updated");
 
 		// FIXME: Endless Loop, due to call from initFolders()...crashes soon after startup
 		// initFolders();
@@ -1340,8 +1339,9 @@ function magicInterval(success, delay, repetitions) {
 
 // Show crash error in console for debugging
 process.on('uncaughtException', function (err) {
-	logs('Error',err.stack);
-	process.exit(1);
+	Deezer.logs('Error',err.stack,function(){
+		socket.emit("message", "Critical Error, report to the developer", err.stack);
+	});
 });
 
 // Exporting vars

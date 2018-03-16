@@ -25,35 +25,32 @@
 <!--****************************************************************************************************-->
 <!--*****************************************INITIALIZING-SCREEN****************************************-->
 <!--****************************************************************************************************-->
-<div id="initializing" class="center indigo valign-wrapper">
-	<div class="modal-content" id="login-page">
-		<div class="row">
-			<h4 class="white-text">Login page</h4>
-			<h5 class="white-text">Please login to your deezer account.</h5>
-			<h6 class="red-text" id="login-res-text"></h6> 
-		</div>
-		<div class="row">
+<div id="initializing" class="indigo valign-wrapper">
+	<div class="modal-content container" id="login-page">
+		<div class="card">
+			<div class="card-content">
+				<span class="card-title">Please login to your deezer account.</span>
+				<h6 class="red-text" id="login-res-text"></h6>
 				<div class="input-field col s12">
-					<input class="white-text" type="text" id="modal_login_input_username"/>
+					<input class="black-text" type="text" id="modal_login_input_username"/>
 					<label for="modal_login_input_username">Email</label>
 				</div>
-		</div>
-		<div class="row">
 				<div class="input-field col s12">
-					<input class="white-text" type="password" id="modal_login_input_password"/>
+					<input class="black-text" type="password" id="modal_login_input_password"/>
 					<label for="modal_login_input_password">Password</label>
 				</div>
-		</div>
-		<div class="row">
-			<a href="#" class="modal-close waves-effect waves-light btn" id="modal_login_btn_login">Log in</a>
-			<a href="#" class="modal-close waves-effect waves-light btn" id="modal_login_btn_signup">Sign up</a>
-			<span style="right:25%;position:fixed;">
-				<input class="white-text" type="checkbox" id="modal_login_input_autologin"/>
-				<label class="white-text" for="modal_login_input_autologin">Auto login</label>
-			</span>
+			</div>
+			<div class="card-action">
+				<a href="#" class="modal-close waves-effect waves-light btn" id="modal_login_btn_login">Log in</a>
+				<a href="#" class="modal-close waves-effect waves-light btn" id="modal_login_btn_signup">Sign up</a>
+				<div style="float: right;">
+					<input class="black-text" type="checkbox" id="modal_login_input_autologin"/>
+					<label class="black-text" for="modal_login_input_autologin">Remember me</label>
+				</div>
+			</div>
 		</div>
 
-		<footer class="page-footer hide-on-small-and-down" style="width: 100%;bottom:0;position: fixed;left: 0;height: 50px;">
+		<footer class="center page-footer hide-on-small-and-down" style="width: 100%;bottom:0;position: fixed;left: 0;height: 50px;">
 			<div class="footer-copyright">
 				<div class="container">
 					&copy; Deezloader original code by <a class="white-text" href="https://boerse.to/members/zzmtv.3378614/">ZzMTV</a>.
@@ -74,7 +71,6 @@
 		<div class="row">
 			<h4 class="col s12">Settings</h4>
 		</div>
-		<p>You are logged in as <b id="modal_settings_username"></b> <a href="#" class="modal-close waves-effect waves-light btn" id="modal_settings_btn_logout">Logout</a></p>
 		<div class="row">
 			<div class="input-field col s12">
 				<i class="material-icons prefix">label</i>
@@ -146,6 +142,12 @@
 				<label for="modal_settings_cbox_numplaylistbyalbum">Number playlists by album</label>
 			</div>
 		</div>
+		<div class="row">
+			<div class="center input-field col s12">
+				<p>You are logged in as <b id="modal_settings_username"></b></p>
+				<a href="#" class="modal-close waves-effect waves-light btn" id="modal_settings_btn_logout">Logout</a>
+			</div>
+		</div>
 	</div>
 	<div class="modal-footer">
 		<a href="#" class="modal-close waves-effect waves-light btn" id="modal_settings_btn_saveSettings"><i
@@ -167,10 +169,12 @@
 					<div class="collapsible-header waves-effect"><i class="material-icons">info</i>About</div>
 					<div class="collapsible-body">
 						<p>
-							<b>Version:</b> 3.0.15<br/>
+							<b>Version:</b> 3.1.0<br/>
+							<b>telegram Channel:</b> <a href="https://t.me/joinchat/AAAAAFCRjRpUr-IF96RV3g">DeezLoader-Reborn</a><br>
 							<b>Original Programmer:</b> <a href="https://boerse.to/members/zzmtv.3378614/">ZzMTV</a><br/>
 							<b>Former Maintainers:</b> <a href="https://www.reddit.com/user/ParadoxalManiak/">ParadoxalManiak</a>, <a href="https://www.reddit.com/user/_snwflake/">snwflake</a><br>
 							<b>Currently Maintained By:</b> <a href="https://www.reddit.com/user/ExtendLord/">ExtendLord</a><br>
+							<b>telegram Channel:</b> <a href="https://t.me/joinchat/AAAAAFCRjRpUr-IF96RV3g">DeezLoader-Reborn</a><br>
 							<b>Interface:</b> <a href="http://materializecss.com/">materializecss</a><br/>
 						</p>
 					</div>
@@ -179,7 +183,8 @@
 					<div class="collapsible-header waves-effect"><i class="material-icons">feedback</i>Feedback</div>
 					<div class="collapsible-body">
 						<p>
-							Do you have some feedback or want to ask for some new features? The official gitlab page is <a target="_blank" href="https://gitlab.com/ExtendLord/DeezLoader-Reborn">/ExtendLord/DeezLoader-Reborn</a>.
+							<!--Do you have some feedback or want to ask for some new features? The official gitlab page is <a target="_blank" href="https://gitlab.com/ExtendLord/DeezLoader-Reborn">/ExtendLord/DeezLoader-Reborn</a>.-->
+							This software is not maintained anymore
 						</p>
 					</div>
 				</li>
@@ -187,8 +192,9 @@
 					<div class="collapsible-header waves-effect"><i class="material-icons">bug_report</i>Bugs</div>
 					<div class="collapsible-body">
 						<p>
-							If you experience any bugs, please open a new issue in <a href="https://gitlab.com/ExtendLord/DeezLoader-Reborn">this
-							repository</a>.
+							<!--If you experience any bugs, please open a new issue in <a href="https://gitlab.com/ExtendLord/DeezLoader-Reborn">this
+							repository</a>.-->
+							This software is not maintained anymore
 						</p>
 					</div>
 				</li>
@@ -206,6 +212,14 @@
 					<div class="collapsible-header waves-effect"><i class="material-icons">history</i>Changelog</div>
 					<div class="collapsible-body">
 						<p>
+							<b>Version 3.1.0</b><br/>
+							- Fixed Download Freeze<br/>
+							- Improved logs<br/>
+							- Improved UI<br/>
+							- Fixed album artwork size not being saved<br/>
+							- Fixed some typo<br/>
+							- Fixed synced lyrics for mp3<br/>
+							- Fixed Track fetching for unsupported countries<br/>
 							<b>Version 3.0.15</b><br/>
 							- Added replaygain tag<br/>
 							- Added logout option<br/>
@@ -291,7 +305,7 @@
 							- Improved tags<br/>
 							- Changed album cover dir to the albums folder<br/>
 							- Changed settings style<br/>
-							- Fixed login crash when there is no connection<br/> 
+							- Fixed login crash when there is no connection<br/>
 							<b>Version 3.0.3</b><br/>
 							- Added auto login<br/>
 							- Added MP3 Fallback<br/>
@@ -390,6 +404,7 @@
 							<a href="https://www.reddit.com/user/Blind-Mute">Blind-Mute</a> <br>
 							<a href="https://gitlab.com/Persei08">Persei08</a> <br>
 							<a href="https://github.com/Uukrull">Uukrull</a> <br>
+							<a href="https://github.com/Tognee">Tognee</a> <br>
 						</p>
 					</div>
 				</li>
@@ -551,7 +566,7 @@
 		<div class="jumbotron">
 			<div class="container">
 				<div class="clear-nav">
-					<div class="logo"><a href="#">Deezloader <sup>3.0.15</sup></a></div>
+					<div class="logo"><a href="#">Deezloader <sup>3.1.0</sup></a></div>
 					<div class="navigation">
 						<ul class="right">
 							<li>
@@ -730,7 +745,7 @@
 		<div id="tab_url">
 			<form id="tab_url_form_url" class="row">
 				<div class="inline-input-group">
-					<input type="text" id="song_url" class="input" placeholder="Song/Playlist/Album/Artist URL, seperated by ';'">
+					<input type="text" id="song_url" class="input" placeholder="Song/Playlist/Album/Artist URL, separated by ';'">
 					<button class="btn btn-large btn-flat indigo white-text">Download</button>
 				</div>
 			</form>

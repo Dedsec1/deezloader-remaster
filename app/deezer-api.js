@@ -21,6 +21,8 @@ if(process.env.APPDATA){
 	userdata = homedata + '/.config/Deezloader/';
 }
 
+const logsLocation = userdata+"logs.log";
+
 if(!fs.existsSync(userdata+"config.json")){
 	fs.outputFileSync(userdata+"config.json",fs.readFileSync(__dirname+path.sep+"default.json",'utf8'));
 }
@@ -169,7 +171,7 @@ Deezer.prototype.getAlbumTracks = function(id, callback) {
 
 Deezer.prototype.getAlbumTracksAdv = function(id, callback) {
 	var self = this;
-	request.post({url: self.apiUrl, headers: self.httpHeaders, qs: Object.assign(self.apiQueries,{method:"deezer.pageAlbum"}), body: {alb_id:id,lang:"en",tab:0}, json: true, jar: true}, function(err, res, body) {
+	request.post({url: self.apiUrl, headers: self.httpHeaders, qs: Object.assign({method:"deezer.pageAlbum"},self.apiQueries), body: {alb_id:id,lang:"en",tab:0}, json: true, jar: true}, function(err, res, body) {
 		if (!err && res.statusCode == 200){
 			callback(body.results["SONGS"]);
 		} else {
@@ -180,7 +182,7 @@ Deezer.prototype.getAlbumTracksAdv = function(id, callback) {
 
 Deezer.prototype.getPlaylistTracksAdv = function(id, callback) {
 	var self = this;
-	request.post({url: self.apiUrl, headers: self.httpHeaders, qs: Object.assign(self.apiQueries,{method:"deezer.pagePlaylist"}), body: {playlist_id:id.toString(),lang:"en",nb:100000,start:0,tab:0,tags:true,header:true}, json: true, jar: true}, function(err, res, body) {
+	request.post({url: self.apiUrl, headers: self.httpHeaders, qs: Object.assign({method:"deezer.pagePlaylist"},self.apiQueries), body: {playlist_id:id.toString(),lang:"en",nb:100000,start:0,tab:0,tags:true,header:true}, json: true, jar: true}, function(err, res, body) {
 		if (!err && res.statusCode == 200){
 			callback(body.results["SONGS"]);
 		} else {
@@ -385,12 +387,14 @@ Deezer.prototype.decryptTrack = function(writePath, track, callback) {
 				callback();
 			});
 		} else {
+			logs("Error","Decryption error");
 			callback(err || new Error("Can't download the track"));
 		}
 	}).on("data", function(data) {
 		chunkLength += data.length;
 		self.onDownloadProgress(track, chunkLength);
 	}).on("abort", function() {
+		logs("Error","Decryption aborted");
 		callback(new Error("aborted"));
 	});
 }
@@ -460,12 +464,12 @@ Deezer.prototype.onDownloadProgress = function(track, progress) {
 function getJSON(url, callback){
 	request.get({url: url, headers: this.httpHeaders, jar: true}, function(err, res, body) {
 		if(err || res.statusCode != 200 || !body) {
-			console.log("Unable to initialize Deezer API");
+			logs("Error","Unable to initialize Deezer API");
 			callback(new Error());
 		} else {
 			var json = JSON.parse(body);
 			if (json.error) {
-				console.log("Wrong id");
+				logs("Error","Wrong id");
 				callback(new Error());
 				return;
 			}
@@ -473,3 +477,12 @@ function getJSON(url, callback){
 		}
 	});
 }
+
+function logs(level, message, callback){
+	var str = "["+level+"]"+message;
+	console.log(str);
+	fs.appendFileSync(logsLocation, str+"\n");
+	return;
+}
+
+module.exports.logs = logs;
