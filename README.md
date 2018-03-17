@@ -20,12 +20,12 @@ Telegram Channel - https://t.me/joinchat/AAAAAFCRjRpUr-IF96RV3g
 
 # Download Links
 - Source code: [DeezLoader-3.1.0-src.zip](https://github.com/Deezloader/DeezLoader-Reborn)
-- Windows installer: [DeezLoader-3.1.0-win-64&32-installer.exe](https://mega.nz/#!MB8GUBja!oJgeF_Jr9Gjhld5igzjnsgCJf2VE7rZCVr5mz8AwAYI)
-- Windows x64 portable: [DeezLoader-3.1.0-win-64-portable.7z](https://mega.nz/#!pY901bLB!vS32Rb5PfrbQ5129neEP91uSCbAoyhpUm3NmSRFrWO0)
-- Windows x86 portable: [DeezLoader-3.1.0-win-32-portable.7z](https://mega.nz/#!ZA1wRDbK!_-kHWiweRrkGxR4r5ZVb_vxNOogCingxC-rdAtFj2OE)
-- Linux x64: [DeezLoader-3.1.0-linux-64.AppImage](https://mega.nz/#!Vd93XBRD!ySrAinQtlkD3qpSCtwOzSsxWVgfoMMhlNgaAijkUrVU)
-- Linux x86: [DeezLoader-3.1.0-linux-32.AppImage](https://mega.nz/#!RQ8k0CoJ!JGOsiFN8mMZloNL8DnKppSMF6BQMj7fwdGETlMMbWHo)
-- Mac x64: [DeezLoader-3.1.0-mac-64.dmg](https://mega.nz/#!QMM1HQRD!3kA7w2SR48DzQQgNu305owBpeOJKzHLRntIAA71XsW0)
+- Windows installer: [DeezLoader-3.1.0-win-64&32-installer.exe](https://mega.nz/#!qbgVCSIa!Lu4LgCGCe_BJsos__-eJ30JzpQh5v24KwI--9PBkGiQ)
+- Windows x64 portable: [DeezLoader-3.1.0-win-64-portable.7z](https://mega.nz/#!SfYGVAgJ!tC4hP2k_3_uB1dSp19ro2wwLlw_vUoMeUhThFgLi2cc)
+- Windows x86 portable: [DeezLoader-3.1.0-win-32-portable.7z](https://mega.nz/#!TChHWZJb!uqTi8nrKCnd9e1YAEJx6fftstTlBJMvlYfKINFBPwKA)
+- Linux x64: [DeezLoader-3.1.0-linux-64.AppImage](https://mega.nz/#!qOIXmbZQ!d-6K5Lzgu23RHv5sA7-gKBGeNf70FbXIPNSQjiCZJPE)
+- Linux x86: [DeezLoader-3.1.0-linux-32.AppImage](https://mega.nz/#!WOozwBTK!YxJdrxzlbY-IiTtKq3RIEfYX14d7CtQwsUrELBMoOUM)
+- Mac x64: [DeezLoader-3.1.0-mac-64.dmg](https://mega.nz/#!LCpDlaQL!gcBFUhoG0XTigQGsfFDgWbBHYHC39LJtYVO8d3mL_qU)
 
 # Virus total
 - Windows installer: [DeezLoader-3.1.0-win-64&32-installer.exe](https://www.virustotal.com/#/file/5328d5b2a9e367c6db1d32d3649ea0b5ef6f36ece52d03efefb2afa2e0d323a1)
