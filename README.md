@@ -76,7 +76,7 @@ If it asks you if you want to continue, enter `y`.
 
 To download the release version:
 ```
-git clone --branch v3.0.15 https://github.com/Deezloader/DeezLoader-Reborn
+git clone  https://github.com/Deezloader/DeezLoader-Reborn
 ```
 Then navigate to the app folder using this command
 ```
