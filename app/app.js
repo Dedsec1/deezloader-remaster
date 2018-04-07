@@ -570,6 +570,14 @@ io.sockets.on('connection', function (socket) {
 		});
 	});
 
+	// PLAYLISTS
+	socket.on('my_playlists', function () {
+		Deezer.getMyPlaylists(function (searchObject) {
+			socket.emit('my_playlists', searchObject.data);
+		});
+	});
+	// END PLAYLISTS
+
 	socket.on("search", function (data) {
 		data.type = data.type || "track";
 		if (["track", "playlist", "album", "artist"].indexOf(data.type) == -1) {

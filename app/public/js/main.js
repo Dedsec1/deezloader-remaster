@@ -13,12 +13,12 @@ let Username = "";
 //Update alert
 socket.on("newupdate", function(ver, dllink){
 	if(typeof shell != 'undefined'){
-		if (window.confirm("You are using an outdated version, the newest is "+ver+".\nClick OK to redirect to the download page or Cancel to close.")) 
+		if (window.confirm("You are using an outdated version, the newest is "+ver+".\nClick OK to redirect to the download page or Cancel to close."))
 		{
 			shell.openExternal(dllink);
 		};
 	}else{
-		if (window.confirm("You are using an outdated version, the newest is "+ver+".\nClick OK to redirect to the download page or Cancel to close.")) 
+		if (window.confirm("You are using an outdated version, the newest is "+ver+".\nClick OK to redirect to the download page or Cancel to close."))
 		{
 			window.open(dllink);
 		};
@@ -55,10 +55,13 @@ socket.on("login", function (errmsg) {
 			$(this).css('display', 'none');
 			$(this).removeClass('animated fadeOut');
 		});
-		
-	// Load top charts list for countries
-	socket.emit("getChartsCountryList", {selected: startingChartCountry});
-	socket.emit("getChartsTrackListByCountry", {country: startingChartCountry});
+
+		// Load top charts list for countries
+		socket.emit("getChartsCountryList", {selected: startingChartCountry});
+		socket.emit("getChartsTrackListByCountry", {country: startingChartCountry});
+
+		// Load my playlists
+		socket.emit('my_playlists');
 	}
 	else{
 			$('#login-res-text').text(errmsg);
@@ -206,6 +209,16 @@ function message(title, message) {
 //****************************************************************************************************\\
 //************************************************TABS************************************************\\
 //****************************************************************************************************\\
+
+//###############################################TAB_PLAYLISTS##############################################\\
+
+$('#myPlaylistsRefresh').on('click', function () {
+	socket.emit('my_playlists');
+});
+
+socket.on('my_playlists', function (playlists) {
+	showResults_table_playlist(playlists, 'my_playlists');
+});
 
 //###############################################TAB_URL##############################################\\
 $('#tab_url_form_url').submit(function (ev) {
@@ -368,13 +381,13 @@ function showResults_table_artist(artists) {
 
 }
 
-function showResults_table_playlist(playlists) {
+function showResults_table_playlist(playlists, tab = 'search') {
 
-	var tableBody = $('#tab_search_table_results_tbody_results');
+	var tableBody = $(`#tab_${tab}_table_results_tbody_results`);
 
 	$(tableBody).html('');
 
-	$('#tab_search_table_results_thead_playlist').removeClass('hide');
+	$(`#tab_${tab}_table_results_thead_playlist`).removeClass('hide');
 
 	for (var i = 0; i < playlists.length; i++) {
 
