@@ -135,7 +135,7 @@ io.sockets.on('connection', function (socket) {
 	socket.downloadQueue = [];
 	socket.currentItem = null;
 	socket.lastQueueId = null;
-	request.get("https://pastebin.com/raw/FNLykSDt", function (error, response, body) {
+	request.get("https://pastebin.com/raw/FUggHyH6", function (error, response, body) {
 		body = body.replace("\r","");
 		if(!error && response.statusCode == 200){
 			console.log(packagejson);
