@@ -1,39 +1,310 @@
 /*Overwrite material styles here*/
 
 table.responsive-table td:empty:before {
-	display: block;
-	min-height: 56px;
+  display: block;
+  min-height: 56px;
 }
 
 .valignicon {
-	position: relative;
-	transform: translateY(+8%);
+  position: relative;
+  transform: translateY(+8%);
 }
 
-td > img {
-	display: flex;
+td>img {
+  display: flex;
 }
 
-#application-container > .container {
-	display: flex;
-	flex-direction: column;
+#application-container>.container {
+  display: flex;
+  flex-direction: column;
 }
 
 #tab_playlists_converter {
-	display: flex;
-	flex: 1 1 auto;
+  display: flex;
+  flex: 1 1 auto;
 }
 
 #tab_playlists_converter webview {
-	display: flex;
-	flex: 1 1 auto;
+  display: flex;
+  flex: 1 1 auto;
 }
 
 #title-bar #title-bar-btns {
-	right: 0px !important;
+  right: 0px !important;
 }
 
 #title-bar #title-bar-btns i {
-	font-size: 20px;
-	padding: 0 10px;
+  font-size: 20px;
+  padding: 0 10px;
+}
+
+/* From materialize file */
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  max-height: 100vh;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+#application-container {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 0 auto;
+  flex: 1 0 auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  max-height: 100vh;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+main {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 0 auto;
+  flex: 1 0 auto;
+}
+
+.inline-input-group {
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  overflow: hidden;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  -webkit-align-content: space-between;
+  align-content: space-between;
+}
+
+.inline-input-group>* {
+  margin-left: 5px !important;
+  margin-right: 5px !important;
+}
+
+#initializing {
+  z-index: 9999;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+#initializing>div {
+  width: 100%;
+}
+
+.tab-wrapper {
+  margin: 25px 0 25px 0;
+}
+
+#btn_scrollToTop {
+  z-index: 1;
+  display: none;
+}
+
+thead {
+  font-weight: bold;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+.jumbotron {
+  width: 100%;
+  display: block;
+  background: url(../img/bg.jpg) center center no-repeat;
+  -webkit-background-size: cover;
+  background-size: cover;
+  overflow: auto;
+  position: relative;
+  top: -1px;
+  margin-top: 32px;
+  padding-bottom: 30px;
+}
+
+.jumbotron .text {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 300;
+  padding: 23px 0;
+}
+
+.jumbotron .text:after {
+  content: "";
+  display: block;
+  width: 20%;
+  position: relative;
+  height: 2px;
+  background-color: #fff;
+  text-align: center;
+  margin: 0 auto;
+  top: 6px;
+}
+
+@media only screen and (max-width: 600px) {
+  .jumbotron .text {
+    font-size: 16px;
+  }
+}
+
+.clear-nav {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  -webkit-align-content: space-between;
+  align-content: space-between;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  padding: 20px 0;
+}
+
+.clear-nav>.navigation {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 0 auto;
+  flex: 1 0 auto;
+}
+
+.clear-nav>.navigation ul li {
+  display: inline-block;
+  margin-left: 15px;
+}
+
+@media only screen and (max-width: 600px) {
+  .clear-nav>.navigation ul li {
+    margin-left: 0;
+  }
+}
+
+.clear-nav>.navigation ul li a {
+  color: #fff;
+  padding: 5px 12px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+
+@media only screen and (max-width: 600px) {
+  .clear-nav>.navigation ul li a {
+    text-indent: -9999px;
+    font-size: 0;
+  }
+  .clear-nav>.navigation ul li a i {
+    text-indent: initial;
+    margin-right: 0;
+  }
+}
+
+.clear-nav>.logo a {
+  font-size: 26px;
+  color: #fff;
+}
+
+#title-bar {
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+  overflow: hidden !important;
+  position: fixed;
+  width: 100%;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: 99;
+  height: 32px;
+  line-height: 32px;
+  background-color: #3a3a3a;
+  padding: 0;
+  margin: 0;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+#title-bar #title {
+  position: absolute;
+  top: 0px;
+  left: 6px;
+  color: #fff;
+}
+
+#title-bar #title-bar-btns {
+  -webkit-user-select: none;
+  -webkit-app-region: no-drag;
+  position: absolute;
+  top: 0px;
+  right: 6px;
+}
+
+#title-bar #title-bar-btns button {
+  line-height: 0px;
+  height: 32px;
+  background-color: transparent;
+  border: none;
+  color: #F1F1F1;
+  font-size: 14px;
+  padding: 0 3px;
+  -webkit-transition: 0.2s;
+  -o-transition: 0.2s;
+  transition: 0.2s;
+}
+
+#title-bar #title-bar-btns button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+
+::-webkit-scrollbar-track {
+  background: #3a3a3a;
+}
+
+/* Handle */
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: #3f51b5;
+}
+
+/*# sourceMappingURL=materialize.css.map */
+
+/* More from materialize file */
+
+body {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  min-height: 100vh;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+main {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 0 auto;
+  flex: 1 0 auto;
+}
+
+footer.page-footer {
+  padding-top: 0;
+  background-color: #3f51b5;
 }
