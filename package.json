@@ -5,6 +5,7 @@
 		"electron-builder": "latest"
 	},
 	"scripts": {
+		"start": "electron ./app",
 		"dist": "electron-builder --ia32 --x64",
 		"pack": "electron-builder --dir",
 		"postinstall": "electron-builder install-app-deps"
@@ -14,13 +15,13 @@
 		"productName": "DeezLoader",
 		"copyright": "Copyright © 2017 ExtendLord",
 		"asar": false,
-		"win":{
+		"win": {
 			"icon": "res/icon.ico"
 		},
-		"linux":{
+		"linux": {
 			"target": "AppImage"
 		},
-		"mac":{
+		"mac": {
 			"icon": "res/icon.icns"
 		},
 		"nsis": {
