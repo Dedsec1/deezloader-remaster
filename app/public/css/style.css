@@ -14,7 +14,7 @@ td > img {
 	display: flex;
 }
 
-#application-container .container {
+#application-container > .container {
 	display: flex;
 	flex-direction: column;
 }
