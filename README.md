@@ -1,9 +1,6 @@
-# DeezLoader Reborn V3.1.0 final
+# DeezLoader Reborn V3.3.0 final
 DeezLoader Reborn is here to replace the old DeezLoader V2.3.1.<br/>
 With this software you can download high-qualiy music and enjoy.
-
-**DeezLoader Reborn is no longer maintained due to DMCA**<br/>
-**3.1.0 is the last update, no more updates will be made**
 
 Source code - https://github.com/Deezloader/DeezLoader-Reborn<br/>
 
@@ -18,7 +15,7 @@ Telegram Channel - https://t.me/joinchat/AAAAAFCRjRpUr-IF96RV3g
 - Tagging system on MP3-320 and FLAC
 - Simple and user friendly
 
-# Download Links
+# Download Links (Old Versions)
 - Source code: [DeezLoader-3.1.0-src.zip](https://github.com/Deezloader/DeezLoader-Reborn)
 - Windows installer: [DeezLoader-3.1.0-win-64&32-installer.exe](https://mega.nz/#!qbgVCSIa!Lu4LgCGCe_BJsos__-eJ30JzpQh5v24KwI--9PBkGiQ)
 - Windows x64 portable: [DeezLoader-3.1.0-win-64-portable.7z](https://mega.nz/#!SfYGVAgJ!tC4hP2k_3_uB1dSp19ro2wwLlw_vUoMeUhThFgLi2cc)
@@ -34,9 +31,10 @@ Telegram Channel - https://t.me/joinchat/AAAAAFCRjRpUr-IF96RV3g
 - Mac x64: [DeezLoader-3.1.0-mac-64.dmg](https://www.virustotal.com/#/file/4ec7c4ac72ea7016fd920c69dfb7db5c4b35563ab77f0a5f6ab0adac8a7cdfb8)
 
 # Donations
-- **BTC/BCH:** 1A25gu2vMXLfQBYArYLMBcTpnuwPiKW6vL
-- **LTC:** LbrVLYkmJ3k2woXACMKshg8KqbMqt1yhAz
-- **Paypal:** extendlord@gmail.com
+- **BTC:** 3DVsShXt4GpPax6hSqatTFRJxM2VQ7jnpa
+- **BTH:** 1KqvH7E2e1amABmLVt1bM9q11TmaMeioed
+- **ETH:** 0x2140A5126aa2F85A4a98862E573A6214EA49325B
+- **Paypal:** ivandelabeldad@gmail.com
 
 # How to run
 - Download the installer and run it.
@@ -130,6 +128,10 @@ And then go to your browser and enter to this site
 
 # Changelogs
 ```
+Version 3.3.0
+- Add playlist converter by soundiiz
+Version 3.2.0
+- Add my playlists tab with the user public playlists
 Version 3.1.0
 -New repo on github
 - Fixed Download Freeze

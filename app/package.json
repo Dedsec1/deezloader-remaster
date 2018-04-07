@@ -4,7 +4,7 @@
 	"version": "3.3.0",
 	"description": "Download music from Deezer",
 	"main": "main.js",
-	"author": "Rackian",
+	"author": "Ivan de la Beldad Fernandez <ivandelabeldad@gmail.com>",
 	"license": "CC-BY-NC-SA-4.0",
 	"dependencies": {
 		"async": "latest",
