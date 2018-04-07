@@ -11,9 +11,9 @@
 		"postinstall": "electron-builder install-app-deps"
 	},
 	"build": {
-		"appId": "extlrd.DeezLoader",
-		"productName": "DeezLoader",
-		"copyright": "Copyright © 2017 ExtendLord",
+		"appId": "com.rackian.DeezLoaderRemaster",
+		"productName": "DeezLoader Remaster",
+		"copyright": "Copyright © 2018 Ivan de la Beldad",
 		"asar": false,
 		"win": {
 			"icon": "res/icon.ico"
