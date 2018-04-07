@@ -37,6 +37,7 @@ if(typeof configFile.userDefined.numplaylistbyalbum != "boolean" || typeof confi
 module.exports = new Deezer();
 
 function Deezer() {
+	this.userId = null;
 	this.apiUrl = "http://www.deezer.com/ajax/gw-light.php";
 	this.apiQueries = {
 		api_version: "1.0",
@@ -68,6 +69,12 @@ Deezer.prototype.init = function(username, password, callback) {
 					if(_token instanceof Array && _token[1]) {
 						self.apiQueries.api_token = _token[1];
 						callback(null, null);
+
+						// GET USER ID
+						const userRegex = new RegExp(/{"USER_ID":([^,]*)/g);
+						const userId = userRegex.exec(body)[1];
+						self.userId = userId;
+
 					} else {
 						callback(new Error("Unable to initialize Deezer API"));
 					}
