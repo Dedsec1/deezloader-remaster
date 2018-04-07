@@ -88,7 +88,19 @@ Deezer.prototype.init = function(username, password, callback) {
 	}));
 }
 
-
+// GET USER PLAYLISTS
+Deezer.prototype.getMyPlaylists = function(callback) {
+	var self = this;
+	getJSON(`https://api.deezer.com/user/${self.userId}/playlists`, function(res){
+		if (!(res instanceof Error)){
+			callback(res);
+			console.log(res);
+		} else {
+			callback(null, res)
+		}
+	})
+}
+// END GET USER PLAYLISTS
 
 Deezer.prototype.getPlaylist = function(id, callback) {
 	getJSON("https://api.deezer.com/playlist/" + id, function(res){
