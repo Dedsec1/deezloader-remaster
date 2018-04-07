@@ -1,7 +1,16 @@
+Version 4.0.0
+- Change project name to DeezLoader Remaster
+- Refactor css and js code and added cdns
+- Update maintainers information
+- Improved title bar
+- Change pastebin version check
+
 Version 3.3.0
-- Add playlist converter by soundiiz
+- Added playlist converter by soundiiz
+
 Version 3.2.0
-- Add my playlists tab with the user public playlists
+- added my playlists tab with the user public playlists
+
 Version 3.1.0
 - Fixed Download Freeze
 - Improved logs
@@ -10,6 +19,7 @@ Version 3.1.0
 - Fixed some typo
 - Fixed synced lyrics for mp3
 - Fixed Track fetching for unsupported countries
+
 Version 3.0.15
 - Added replaygain tag
 - Added logout option
@@ -20,14 +30,17 @@ Version 3.0.15
 - Improved logging system
 - Improved pad numbers
 - Removed init page since it is not used anymore
+
 Version 3.0.14
 - Login is required due to Deezer's patch(Crashes when downloading anything)
 - Added BPM tag
+
 Version 3.0.13
 - Fixed timeout of the download system
 - Fixed images for tracks
 - Fixed and Improved MP3 tags
 - Added %type%(Record type) for album name format
+
 Version 3.0.12
 - Added request retry, connections will retry if fail
 - Added record type to the search section(Results of Albums and Artists albums)
@@ -35,6 +48,7 @@ Version 3.0.12
 - Fixed download freezes (metadata image issues)
 - Removed the title bar from the web GUI
 - Improved download speed and decryption system
+
 Version 3.0.11
 - Fixed artwork duplicate for two tracks with the same name
 - Added tags: mixer, author, writer, engineer and producer
@@ -43,6 +57,7 @@ Version 3.0.11
 - Removed label tag and changed from track date to album/ep/single date tag
 - Restored decrypting system due to mp3 being corrupt
 - Fixed crash when downloading a track with album folder enabled
+
 Version 3.0.10
 - Improved downloading and decrypting system
 - Improved update notifier
@@ -59,6 +74,7 @@ Version 3.0.10
 - Fixed ENOENT crashes caused by queues
 - Fixed a minor bug in the alternative track code
 - Added a backup server for update notifier
+
 Version 3.0.9
 - Added synced and unsynced lyrics, album name option and number playlist by album option
 - Added pad track number(01,02)
@@ -68,6 +84,7 @@ Version 3.0.9
 - Changed license to GNU GPL 3.0
 - Changed all spaces in the JS code to tabs
 - Improved update notifier, it will redirect you to the download page
+
 Version 3.0.8
 - Fixed initializing stuck
 - Removed Diacritics remover
@@ -76,18 +93,22 @@ Version 3.0.8
 - Added support for Android
 - Added web server http://localhost:1730
 - Updated libraries
+
 Version 3.0.7
 - Fixed crash when composer or publisher tag is not available
 - Added version to the update notifier
+
 Version 3.0.6
 - Login page will only appear for those who need it
 - Added composer, publisher and copyright tag
 - Fixed the issue that only the first album would be clickable from an artist
 - Fixed crash when no internet in the login page
+
 Version 3.0.5
 - Changed repo from github to gitlab
 - Fixed Login error for Deezer Family Accounts
 - Fixed composer tag
+
 Version 3.0.4
 - Fixed download crashes
 - Fixed failed tracks when downloading some albums and playlists
@@ -96,11 +117,13 @@ Version 3.0.4
 - Changed album cover dir to the albums folder
 - Changed settings style
 - Fixed login crash when there is no connection
+
 Version 3.0.3
 - Added auto login
 - Added MP3 Fallback
 - Added auto update
 - Fixed login error not being triggered sometimes
+
 Version 3.0.2
 - Fixed crashes when songs could not be downloaded
 - Added bpm tag
@@ -109,10 +132,12 @@ Version 3.0.2
 - Added %year%
 - Fixed dots at end
 - Fixed undefined genre
+
 Version 3.0.1
 - Added a couple of tags
 - Fixed minor bugs
 - Removed tag libs, a moudle is used instead
+
 Version 3.0.0
 - Added Vorbis comments(To support FLAC tagging)
 - Added HIFI(FLAC) quality (Opt-IN in settings)
@@ -123,6 +148,7 @@ Version 3.0.0
 - Fixed artist duplicate in tagging
 - Changed the default artwork size to 1200p
 - Changed config location to UserData folder(Appdata)
+
 Version 2.3.1
 - Fixed the %number% variable to only list the current track
 - Fixed the resolution for users with a screensize less than 1400x900p
