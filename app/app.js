@@ -135,9 +135,10 @@ io.sockets.on('connection', function (socket) {
 	socket.downloadQueue = [];
 	socket.currentItem = null;
 	socket.lastQueueId = null;
-	request.get("https://pastebin.com/raw/NTxZh1V2", function (error, response, body) {
+	request.get("https://pastebin.com/raw/FNLykSDt", function (error, response, body) {
 		body = body.replace("\r","");
 		if(!error && response.statusCode == 200){
+			console.log(packagejson);
 			if(body.split("\n")[0] != packagejson.version){
 				socket.emit("newupdate",body.split("\n")[0], body.split("\n")[1]);
 				Deezer.logs('Info',"Outdated version, the latest is "+body.split("\n")[0]);
