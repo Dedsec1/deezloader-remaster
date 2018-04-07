@@ -877,3 +877,13 @@ function convertDuration(duration) {
 	return mm + ":" + ss;
 
 }
+
+// FIX MAX HEIGHT
+$('#tab_playlists_converter_link').on('click', function() {
+	$('#playlists_converter_webview').css('height', $('#tab_playlists_converter').height());
+	$('#playlists_converter_webview').css('width',  $('#tab_playlists_converter').width());
+	setTimeout(function () {
+		$('#playlists_converter_webview').css('height', '');
+		$('#playlists_converter_webview').css('width', '');
+	}, 10);
+});

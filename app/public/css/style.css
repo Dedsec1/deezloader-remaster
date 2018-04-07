@@ -13,3 +13,18 @@ table.responsive-table td:empty:before {
 td > img {
 	display: flex;
 }
+
+#application-container .container {
+	display: flex;
+	flex-direction: column;
+}
+
+#tab_playlists_converter {
+	display: flex;
+	flex: 1 1 auto;
+}
+
+#tab_playlists_converter webview {
+	display: flex;
+	flex: 1 1 auto;
+}

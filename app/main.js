@@ -66,7 +66,8 @@ function createWindow () {
 		icon: __dirname + "/icon.png"
 	});
 
-	mainWindow.setMenu(null);
+	// TEMP
+	// mainWindow.setMenu(null);
 
 	// and load the index.html of the app.
 	mainWindow.loadURL('http://localhost:' + appConfig.serverPort);
