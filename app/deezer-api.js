@@ -64,17 +64,19 @@ Deezer.prototype.init = function(username, password, callback) {
 		}else if(body.indexOf("success") > -1){
 			request.get({url: "https://www.deezer.com/", headers: this.httpHeaders, jar: true}, (function(err, res, body) {
 				if(!err && res.statusCode == 200) {
-					var regex = new RegExp(/checkForm\s*=\s*[\"|'](.*)[\"|']/g);
-					var _token = regex.exec(body);
+					// var regex = new RegExp(/checkForm\s*=\s*[\"|'](.*)[\"|']/g);
+					// var _token = regex.exec(body);
+					var _token = ["", " "]
+
 					if(_token instanceof Array && _token[1]) {
 						self.apiQueries.api_token = _token[1];
-						callback(null, null);
 
 						// GET USER ID
-						const userRegex = new RegExp(/{"USER_ID":([^,]*)/g);
+						const userRegex = new RegExp(/{"USER_ID":"([^",]*)/g);
 						const userId = userRegex.exec(body)[1];
 						self.userId = userId;
 
+						callback(null, null);
 					} else {
 						callback(new Error("Unable to initialize Deezer API"));
 					}
@@ -487,6 +489,7 @@ function getJSON(url, callback){
 		} else {
 			var json = JSON.parse(body);
 			if (json.error) {
+				console.log(json)
 				logs("Error","Wrong id");
 				callback(new Error());
 				return;

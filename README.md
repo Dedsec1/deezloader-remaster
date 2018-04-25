@@ -128,6 +128,10 @@ And then go to your browser and enter to this site
 
 # Changelogs
 ```
+Version 4.0.1
+- Update regex to get user id
+- Disable invalid API token
+
 Version 4.0.0
 - Change project name to DeezLoader Remaster
 - Refactor css and js code and added cdns
