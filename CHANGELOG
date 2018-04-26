@@ -1,3 +1,6 @@
+Version 4.0.2
+- Re-enable and fix API token
+
 Version 4.0.1
 - Update regex to get user id
 - Disable invalid API token

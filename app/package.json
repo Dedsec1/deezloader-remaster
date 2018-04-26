@@ -1,11 +1,11 @@
 {
 	"name": "deezloader-remaster",
 	"productName": "Deezloader Remaster",
-	"version": "4.0.1",
+	"version": "4.0.2",
 	"description": "Download music from Deezer",
 	"main": "main.js",
 	"author": "Ivan de la Beldad Fernandez <ivandelabeldad@gmail.com>",
-	"license": "GNU3",
+	"license": "GPL3",
 	"dependencies": {
 		"async": "latest",
 		"electron-context-menu": "latest",
