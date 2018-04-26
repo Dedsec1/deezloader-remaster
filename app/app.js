@@ -286,14 +286,14 @@ io.sockets.on('connection', function (socket) {
 			});
 		} else if (downloading.type == "playlist") {
 			Deezer.logs('Info',"Registered a playlist "+downloading.id);
-			Deezer.getPlaylistTracksAdv(downloading.id, function (tracks, err) {
+			Deezer.getPlaylistTracks(downloading.id, function (tracks, err) {
 				downloading.playlistContent = tracks.data.map((t) => {
 					if(t.FALLBACK){
 						if(t.FALLBACK.SNG_ID){
-							return [t.SNG_ID,t.FALLBACK.SNG_ID];
+							return [t.id,t.FALLBACK.SNG_ID];
 						}
 					}
-					return [t.SNG_ID,0];
+					return [t.id,0];
 				});
 				downloading.settings.plName = downloading.name;
 				async.eachSeries(downloading.playlistContent, function (id, callback) {
@@ -331,14 +331,14 @@ io.sockets.on('connection', function (socket) {
 			});
 		} else if (downloading.type == "album") {
 			Deezer.logs('Info',"Registered an album "+downloading.id);
-			Deezer.getAlbumTracksAdv(downloading.id, function (tracks, err) {
+			Deezer.getAlbumTracks(downloading.id, function (tracks, err) {
 				downloading.playlistContent = tracks.data.map((t) => {
 					if(t.FALLBACK){
 						if(t.FALLBACK.SNG_ID){
-							return [t.SNG_ID,t.FALLBACK.SNG_ID];
+							return [t.id,t.FALLBACK.SNG_ID];
 						}
 					}
-					return [t.SNG_ID,0];
+					return [t.id,0];
 				});
 				downloading.settings.tagPosition = true;
 				downloading.settings.albName = downloading.name;
