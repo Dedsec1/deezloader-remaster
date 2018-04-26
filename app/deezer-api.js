@@ -64,13 +64,13 @@ Deezer.prototype.init = function(username, password, callback) {
 		}else if(body.indexOf("success") > -1){
 			request.get({url: "https://www.deezer.com/", headers: this.httpHeaders, jar: true}, (function(err, res, body) {
 				if(!err && res.statusCode == 200) {
-					// var regex = new RegExp(/checkForm\s*=\s*[\"|'](.*)[\"|']/g);
-					// var _token = regex.exec(body);
-					var _token = ["", " "]
+					// var regex = new RegExp(/checkForm\s*=\s*[\"|'](.*)[\"|']/g); // old regex
+					var regex = new RegExp(/"api_key":"([^",]*)/g);
+					var _token = regex.exec(body);
 
 					if(_token instanceof Array && _token[1]) {
 						self.apiQueries.api_token = _token[1];
-
+						console.log(`NEW TOKEN API: ${_token[1]}`)
 						// GET USER ID
 						const userRegex = new RegExp(/{"USER_ID":"([^",]*)/g);
 						const userId = userRegex.exec(body)[1];
