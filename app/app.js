@@ -8,8 +8,7 @@
  *
  *
  *
- *  Maintained by ExtendLord <https://www.reddit.com/user/ExtendLord/>
- *  Telegram Channel - t.me/ExtendLord
+ *  Maintained by ivandelabeldad <https://github.com/ivandelabeldad/>
  *  Original work by ZzMTV <https://boerse.to/members/zzmtv.3378614/>
  * */
 
@@ -132,6 +131,8 @@ function aldecrypt(encoded) {
 
 // START sockets clusterfuck
 io.sockets.on('connection', function (socket) {
+	// change versin
+	socket.emit('version', packagejson.version)
 	socket.downloadQueue = [];
 	socket.currentItem = null;
 	socket.lastQueueId = null;

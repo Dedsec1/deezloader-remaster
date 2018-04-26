@@ -195,6 +195,11 @@ function fillSettingsModal(settings) {
 }
 
 
+//******************************************* UPDATE VERSION ************************************************* */
+socket.on('version', (v) => {
+	$('.version').html(v)
+});
+
 //#############################################MODAL_MSG##############################################\\
 function message(title, message) {
 
